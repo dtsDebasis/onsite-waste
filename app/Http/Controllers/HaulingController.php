@@ -53,7 +53,7 @@ class HaulingController extends Controller
         $srch_params['with'] = ['branch_details.addressdata','package_details'];
         $this->_data['pageHeading'] = $this->_module;
         $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset);
-        
+
         $this->_data['orderBy']         = $this->_model->orderBy;
         $this->_data['filters']         = null;
 
@@ -127,8 +127,9 @@ class HaulingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($kw_category_id = 0, $id)
+    public function destroy($kw_category_id = 0, $id = null)
     {
+        $id = $id??$kw_category_id;
         $data = $this->_model->getListing(['id'=> $id]);
         if (!$data) {
             return redirect()->back()->with('error','Not a valid data');
@@ -269,7 +270,7 @@ class HaulingController extends Controller
                     if($val->user){
                         $maildata['name'] = $val->user->full_name;
                         $fullName = $val->user->full_name;
-				        \App\Models\SiteTemplate::sendMail($val->user->email, $fullName, $maildata, 'hauling_mail'); 
+				        \App\Models\SiteTemplate::sendMail($val->user->email, $fullName, $maildata, 'hauling_mail');
                     }
                 }
                 return true;
@@ -292,7 +293,7 @@ class HaulingController extends Controller
             else{
                 $haulingDetails = app('App\Models\CompanyHauling')->getListing(['id'=>$input['hauling_id'],'with' => ['branch_details.addressdata']]);
                 $manifest = app('App\Models\Manifest')->getListing(['hauling_id'=>$input['hauling_id'],'single_record' => true ]);
-                
+
                 $view = view("admin.pickups.manifest",['haulingDetails'=>$haulingDetails,'manifest'=>$manifest])->render();
                 return Response::json(['success'=>true,'msg'=>'List generate success fully','html'=>$view]);
             }
@@ -313,7 +314,7 @@ class HaulingController extends Controller
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
             }
-            else{                
+            else{
                 $manifest = app('App\Models\Manifest')->getListing(['hauling_id'=>$input['hauling_id'],'single_record' => true ]);
                 if($manifest){
                     $manifest->update($input);

@@ -13,13 +13,13 @@ class AddPackageeIdNomberOfBoxOfCompanyHaulingTable extends Migration
      */
     public function up()
     {
-        Schema::table('company_haulings', function (Blueprint $table) {            
+        Schema::table('company_haulings', function (Blueprint $table) {
             $table->dropColumn('status');
         });
         Schema::table('company_haulings', function (Blueprint $table) {
             $table->bigInteger('package_id')->nullable()->after('branch_id');
-            $table->bigInteger('number_of_boxes')->nullable()->after('package_id')->default(0);
-            $table->unsignedTinyInteger('status')->default(0)->comment('0: Not Confirmed, 1: Confirmed, 2: Pickup Done, 3: Completed, 4: Declined')->after('description'); 
+            // $table->bigInteger('number_of_boxes')->nullable()->after('package_id')->default(0);
+            $table->unsignedTinyInteger('status')->default(0)->comment('0: Not Confirmed, 1: Confirmed, 2: Pickup Done, 3: Completed, 4: Declined')->after('description');
         });
     }
 

@@ -21,6 +21,7 @@ class CompanyHauling extends Model
         'driver_name',
         'date',
         'user_id',
+        'number_of_boxes',
         'is_additional',
         'status',
         'created_at'
@@ -43,7 +44,7 @@ class CompanyHauling extends Model
         $with_det = [];
         if(isset($srch_params['with'])){
             $with_det = $srch_params['with'];
-        } 
+        }
         $select = '*';
         if(isset($srch_params['select'])){
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
@@ -56,7 +57,7 @@ class CompanyHauling extends Model
                 return $q->whereHas('branch_details', function($q) use ($srch_params){
                     return $q->where("addressdata_id", "=", $srch_params['addressdata_id']);
                 });
-                
+
             })
             ->when(isset($srch_params['branch_id']), function($q) use($srch_params){
                 if(is_array($srch_params['branch_id'])){
@@ -65,14 +66,14 @@ class CompanyHauling extends Model
                 else{
                     return $q->where($this->table.".branch_id", "=", $srch_params['branch_id']);
                 }
-            }) 
+            })
             ->when(isset($srch_params['date']), function($q) use($srch_params){
                 return $q->whereDate($this->table.".date", "=", $srch_params['date']);
             })
             ->when((isset($srch_params['start_date']) && isset($srch_params['end_date'])), function($q) use($srch_params){
                 return $q->whereDate($this->table.".date", ">=", $srch_params['start_date'])
                             ->whereDate($this->table.".date", "<=", $srch_params['end_date']);
-            })            
+            })
             ->when(isset($srch_params['status']), function($q) use($srch_params){
                 if(is_array($srch_params['status'])){
                     return $q->whereIn($this->table.".status", $srch_params['status']);
@@ -89,7 +90,7 @@ class CompanyHauling extends Model
                                     return $q->where("addressline1","LIKE","%{$srch_params['search']}%")
                                             ->orWhere("locality","LIKE","%{$srch_params['search']}%")
                                             ->orWhere("state","LIKE","%{$srch_params['search']}%");
-                                
+
                         })
                         ->orWhere("driver_name","LIKE","%{$srch_params['search']}%")
                         ->orWhereHas('package_details', function($q) use ($srch_params){
@@ -107,7 +108,7 @@ class CompanyHauling extends Model
             }
             if(isset($srch_params['count'])){
                 return $listing->count();
-            }                        
+            }
             if($offset){
                 $listing = $listing->orderBy($this->table .'.id', 'DESC')
                                 ->paginate($offset);
@@ -117,6 +118,6 @@ class CompanyHauling extends Model
                                 ->get();
             }
         return $listing;
-            
+
     }
 }

@@ -33,7 +33,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Company ID *</label>
-                            <input id="company_number" type="text" class="form-control" name="company_number" value="{{ $company->company_number ?? '' }}" >
+                            <input id="company_number" type="text" class="form-control" name="company_number" value="{{ $company->company_number ?? '' }}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -50,7 +50,7 @@
                             <input type="text" class="form-control" name="email" value="{{ $company_email }}">
                         </div>
                     </div>--}}
-                    
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Website Link</label>
@@ -65,7 +65,7 @@
                                 data-placeholder="Choose ..." name="specilty[]">
                                 @if(!empty($specilities))
                                     @foreach($specilities as $specility)
-                                    <option 
+                                    <option
                                         value="{{ $specility->id  ?? '' }}"
                                         @if( in_array($specility->id, $company_speciality))  selected   @endif
                                     >
@@ -102,8 +102,8 @@
 
                 </div>
 
-                <div class="row">                   
-                    
+                <div class="row">
+
                     @include('includes.address-auto-fill')
 
                 </div>
@@ -141,7 +141,7 @@
                 </div>
                 @php($key = 0)
                 @if($id)
-                    
+
                     <div class="row">
                         <div class="col-sm-12">
                             <h3 class="custom-heading">Corporate Contacts</h3>
@@ -163,7 +163,7 @@
                         <input type="hidden" id="contact_person_last_row" value="{{$key}}">
                         <div class="col-lg-12 mb-3 mt-3">
                             <a href="javascript:;" id="add_contact_person" class="btn btn-primary w-md" data-target=".bs-example-modal-center"><i class="bx bx-plus"></i>Add</a>
-                            
+
                         </div>
                     </div>
                 @elseif(Request::get('guest') && $contacts_list)
@@ -172,11 +172,11 @@
                             <h3 class="custom-heading">Corporate Contacts</h3>
                         </div>
                         <div class="col-md-12" id="multiple_contact_person_div">
-                                @php($selectedUserId = $contacts_list->id)                                
+                                @php($selectedUserId = $contacts_list->id)
                                 @php($selectedUserEmail = isset($contacts_list->email)?$contacts_list->email:null)
-                                @php($selectedUserPhone = isset($contacts_list->phone)?$contacts_list->phone:null)  
-                                @php($enable_cross = false) 
-                                @php($selectedCompanyContactUsers = isset($contacts_list->full_name)?[$selectedUserId=>$contacts_list->full_name]:null)                             
+                                @php($selectedUserPhone = isset($contacts_list->phone)?$contacts_list->phone:null)
+                                @php($enable_cross = false)
+                                @php($selectedCompanyContactUsers = isset($contacts_list->full_name)?[$selectedUserId=>$contacts_list->full_name]:null)
                                 @include('admin.customer.create.tab1.corporate-contacts')
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                 <br/>
 
 
-                {{-- 
+                {{--
                 <div class="row">
                     <div class="col-sm-12">
                         <h3 class="custom-heading">Branch Details</h3>
@@ -247,7 +247,7 @@
                     <button type="submit" class="btn btn-primary w-md">Save Company</a>
                 @else
                     <button type="submit" class="btn btn-primary w-md">Update Company</a>
-                @endif      
+                @endif
                 </div>
             </div>
         </form>
@@ -314,7 +314,7 @@ $(document).ready(function () {
                         $('#multiple_contact_person_div').append(data.html);
                         $('.select2').select2();
                         $('#contact_person_last_row').val(last_row);
-                    } 
+                    }
                     else {
                         alert(data.msg);
                     }
@@ -348,8 +348,8 @@ $(document).ready(function () {
                         $('#contact_person_email_'+row_no).val(data.data.email);
                         $('#contact_person_phone_'+row_no).val(data.data.phone);
                         $('#contact_person_div_'+row_no).addClass('pointer-none');
-                        
-                    } 
+
+                    }
                     else {
                         $(this).val('');
                         $('.select2').select2();

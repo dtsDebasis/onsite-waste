@@ -32,10 +32,10 @@ class CustomerManagementController extends Controller {
 		$this->_module      = 'Customers';
 		$this->_routePrefix = 'customer';
 		$this->_model       = new Company();
-		
+
 	}
 
-	
+
 	public function index(Request $request){
 		$this->initIndex();
 		$srch_params             = $request->all();
@@ -64,7 +64,7 @@ class CustomerManagementController extends Controller {
 		if ($validator->fails()) {
 			return redirect()->back()->with('error',$validator->errors()->first());
 		}
-		else{ 
+		else{
 			$extension = $request->file('import_file')->getClientOriginalExtension();
 			// dd($extension);
 			if (strtolower($extension) != 'csv') {
@@ -112,7 +112,7 @@ class CustomerManagementController extends Controller {
 						self::createDefaultTranctionalPackage($company->id);
 						$associate_id = $val[0];
 						$specialities = explode(',',$val[9]);
-						foreach($specialities as $key=>$spval){						
+						foreach($specialities as $key=>$spval){
 							$existing = \App\Models\Speciality::where(['name' => $spval])->first();
 							if(!$existing){
 								$existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
@@ -149,7 +149,7 @@ class CustomerManagementController extends Controller {
 					$companyBranch = CompanyBranch::create($company_data);
 					$specialities = explode(',',$val[9]);
 					foreach($specialities as $key=>$spval){
-						
+
 						$existing = \App\Models\Speciality::where(['name' => $spval])->first();
 						if(!$existing){
 							$existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
@@ -175,7 +175,7 @@ class CustomerManagementController extends Controller {
 
 	#1
 	public function create(Request $request,$id) {
-		$this->initIndex();		
+		$this->initIndex();
 		$this->_data['breadcrumb']['#'] = 'General Information';
 		$input = $request->all();
 		// if id = 0, company
@@ -204,7 +204,7 @@ class CustomerManagementController extends Controller {
 				'addressline1' => 'required',
 				//'website' => 'required|unique:company,website,' . $id . ',id'
 			]);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()
 							->withErrors($validator)
@@ -231,15 +231,15 @@ class CustomerManagementController extends Controller {
 				$company->owner = request('owner');
 				$company->website = request('website');
 				$company->addressdata_id = $addressdata->id;
-				$company->lead_source = request('leadsource_1');  
-				$company->leadsource_2 = request('leadsource_2'); 
+				$company->lead_source = request('leadsource_1');
+				$company->leadsource_2 = request('leadsource_2');
 				$company->save();
 
 				//companyspeciality save
 				if($company->id){
 					#delete old  for update   companyspeciality
 					CompanySpeciality::where('company_id', '=',  $company->id)->delete();
-					
+
 					$specialitie = request('specialities');
 					if( is_array($specialitie) ){
 						foreach ($specialitie as $s ){
@@ -250,7 +250,7 @@ class CustomerManagementController extends Controller {
 						}
 					}
 					\App\Models\CompanyCorporateContacts::where('company_id',$company->id)->delete();
-					if(isset($input['contact_person_ids']) && is_array($input['contact_person_ids'])){						
+					if(isset($input['contact_person_ids']) && is_array($input['contact_person_ids'])){
 						foreach($input['contact_person_ids'] as $key=>$val){
 							\App\Models\CompanyCorporateContacts::create([
 								'company_id' => $company->id,
@@ -266,14 +266,14 @@ class CustomerManagementController extends Controller {
 
 				return redirect(route('customers.create.contact',  $company->id ));
 			}
-		
+
 		}
 		//post end
 		$this->_data["id"] = $id;
 		$this->_data["navlink_isactive"] = true;
 		$this->_data["specilities"] =  Speciality::where('status', '=', 'y' )->get();
 		$this->_data["states"] = DB::table('location_states')->get();
-		
+
 		$this->_data["company"] = $company;
 		$this->_data['addressdata'] = $addressdata;
 		$contacts_list = ($id)?\App\Models\CompanyCorporateContacts::with(['user'=>function($q){return $q->select('id','email','phone');}])->where('company_id', '=', $id )->get()->toArray():[];
@@ -281,7 +281,7 @@ class CustomerManagementController extends Controller {
 			$contacts_list = app('App\Models\User')->getListing(['id'=>$input['guest']]);
 		}
 		$this->_data['contacts_list'] = $contacts_list;
-		
+
 		return view('admin.customer.create.tab1.home-1',$this->_data);
 	}
 
@@ -307,13 +307,13 @@ class CustomerManagementController extends Controller {
 				});
 		$contact_list = $query->get();
 		// dd($contact_list);
-		$user = new User();			
+		$user = new User();
 		if($request->isMethod('post')){
 			if( request("user_id") ){
 				$user = User::where('id', '=', request("user_id") )->first();
 				//dd($_REQUEST);
 			}
-			
+
 			$user_id = ($user)?$user->id:0;
 			$status = ($user && $user->status)?$user->status:0;
 
@@ -327,7 +327,7 @@ class CustomerManagementController extends Controller {
 				'permission_level' => 'required'
 
 			]);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()
 							->withErrors($validator)
@@ -350,7 +350,7 @@ class CustomerManagementController extends Controller {
 			//relationship pending
 			$user->save();
 			if($user && !$user_id){
-				$role                      = \App\Models\Role::where('slug', 'guest-user')->first();		
+				$role                      = \App\Models\Role::where('slug', 'guest-user')->first();
 				if($role){
 					$input['user_id']          = $user->id;
 					$input['role_id']          = $role->id;
@@ -363,7 +363,7 @@ class CustomerManagementController extends Controller {
 				];
 				$fullName = $user->full_name;
 				\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'register'); //register_provider from db site_template table template_name field
-		
+
 			}
 			return redirect(route('customers.create.contact',  $company->id ));
 
@@ -422,7 +422,7 @@ class CustomerManagementController extends Controller {
 			'company_id' => 'required',
 			'user_id' => 'required',
 			'branch_ids' => 'required',
-		]);			
+		]);
 		if ($validator->fails()) {
 			return redirect()->back()
 						->withErrors($validator)
@@ -449,7 +449,7 @@ class CustomerManagementController extends Controller {
 			'company_id' => 'required',
 			'user_ids' => 'required',
 			'branch_id' => 'required',
-		]);			
+		]);
 		if ($validator->fails()) {
 			return redirect()->back()
 						->withErrors($validator)
@@ -487,7 +487,7 @@ class CustomerManagementController extends Controller {
 	public function package(Request $request, $id) {
 		$this->initIndex();
 		$this->_data['breadcrumb']['#'] = 'Packages';
-		
+
 		// if id = 0, company
 		$input = $request->all();
 		$company = null;
@@ -508,7 +508,7 @@ class CustomerManagementController extends Controller {
 				"company_id" => "1"
 				*/
 
-				
+
 				$companypackages_old = CompanyPackages::select('*')
 				->where([
 					['package_id', '=',  request("packageid") ],
@@ -534,7 +534,7 @@ class CustomerManagementController extends Controller {
 			}
 			if( request("task") == 'assign-branch' && request("companypackage_id") && request("branchid")  ){
 
-			
+
 
 				$companypackage  = CompanyPackages::where('id', '=', request("companypackage_id") )->first();
 
@@ -563,7 +563,7 @@ class CustomerManagementController extends Controller {
 		if(isset($input['fnc']) && $input['fnc']=="create"){
 			$this->_data['editPackage'] = null;
 		}
-		
+
 		$this->_data["id"] = $id;
 		$this->_data["navlink_isactive"] = true;
 		$this->_data['transactionalpackages'] = \App\Models\TransactionalPackage::where('company_id',$id)->first();
@@ -620,7 +620,7 @@ class CustomerManagementController extends Controller {
 		$validator = Validator::make($request->all(), [
 			'company_id' => 'required',
 			'package_id' => 'required'
-		]);			
+		]);
 		if ($validator->fails()) {
 			return redirect()->back()
 						->withErrors($validator)
@@ -651,7 +651,7 @@ class CustomerManagementController extends Controller {
 
 	/**
 	 * Create default Transaction package
-	 * 
+	 *
 	 */
 	public static function createDefaultTranctionalPackage($company_id, $branch_id=0){
 		$transactionPackageDetails = \App\Models\TransactionalPackage::where(['company_id' => $company_id,'branch_id' => $branch_id])->first();
@@ -671,7 +671,7 @@ class CustomerManagementController extends Controller {
 	public function location(Request $request, $id) {
 		$this->initIndex();
 		$this->_data['breadcrumb']['#']      = 'Locations';
-		
+
 		// if id = 0, company
 		$this->_data["id"] = $id;
 		$company = Company::where('id', '=', $id)->first();
@@ -689,14 +689,14 @@ class CustomerManagementController extends Controller {
 			else{
 				$companybranch = new CompanyBranch();
 			}
-			if(isset($companybranch->addressdata) && $companybranch->addressdata){			
+			if(isset($companybranch->addressdata) && $companybranch->addressdata){
 				$addressdata = $companybranch->addressdata;
 			}
 			else{
 				$addressdata = new AddressData();
 			}
 			$this->_data['addressdata'] = $addressdata;
-			
+
 			$this->_data['companybranch'] = $companybranch;
 			$this->_data["contact_list"] = User::where('company_id', '=', $company->id )->get();
 			return view('admin.customer.create.tab4.location', $this->_data);
@@ -708,7 +708,7 @@ class CustomerManagementController extends Controller {
 	public function branchDetails(Request $request, $id){
 		$this->initIndex();
 		$this->_data['breadcrumb']['#']      = 'Locations';
-		
+
 		// if id = 0, company
 		$this->_data["id"] = $id;
 		$company = Company::where('id', '=', $id)->first();
@@ -720,7 +720,7 @@ class CustomerManagementController extends Controller {
 			$viewPage = '';
 			$this->_data['pageHeading'] = 'LOCATIONS LISTING';
 			return view('admin.components.general' . $viewPage, $this->_data);
-			
+
 		}
 		else{
 			return redirect()->back()->with('error','Details not found');
@@ -738,7 +738,7 @@ class CustomerManagementController extends Controller {
 		$companyBrancObject = new CompanyBranch();
 		$companybranch = $companyBrancObject->getListing(['company_id'=>$company_id,'id'=>$id,'with'=>['addressdata','branchspecialty.speciality_details']]);
 		if($company && $companybranch){
-			$this->_data['company'] = $company;			
+			$this->_data['company'] = $company;
 			$this->_data["companybranch"] = $companybranch;
 			$this->_data['breadcrumb'][route('customers.branches',$company->id)]      = 'Locations';
 			$this->_data['breadcrumb']['#']      = 'Location Info';
@@ -776,14 +776,14 @@ class CustomerManagementController extends Controller {
 				];
 				// $accounts = $client->listAccounts($options);
 				// foreach($accounts as $account) {
-				// 	//echo 'Account code: ' . $account->getCode() . PHP_EOL;					
+				// 	//echo 'Account code: ' . $account->getCode() . PHP_EOL;
 				// 	$accountdetails[] = $account->getId();//
-				
-					
+
+
 					if($companybranch->recurring_id){
 						$account = $client->getAccount($companybranch->recurring_id);
 						$invoices = $client->listAccountInvoices($account->getId(),$options);
-						$key = 0;						
+						$key = 0;
 						foreach($invoices as $invoice) {
 							// dd($invoice);
 							$invData[$key]['branch_name'] = $companybranch->name;
@@ -809,7 +809,7 @@ class CustomerManagementController extends Controller {
 						}
 					}
 					// dd($invData);
-				//}	
+				//}
 				$this->_data["invoices"] = $invData;
 			}
 			if($srch_params['tab'] == 'inventory'){
@@ -817,7 +817,7 @@ class CustomerManagementController extends Controller {
 				$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
 				$containerInventory = json_decode($containerInventory, true);
 				$this->_data['containerInventory'] = $containerInventory;
-				
+
 				$url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/device.json';
 				$te5000 = \App\Helpers\Helper::callAPI('GET',$url,[]);
 				$te5000 = json_decode($te5000, true);
@@ -825,9 +825,9 @@ class CustomerManagementController extends Controller {
 			}
 			$this->_data['srch_params'] = $srch_params;
 			$this->_data['pageHeading'] = 'Location Info';
-			
+
 			return view('admin.components.general' . $viewPage, $this->_data);
-			
+
 		}
 		else{
 			return redirect()->back()->with('error','Details not found');
@@ -838,7 +838,7 @@ class CustomerManagementController extends Controller {
 			$input = $request->all();
 			//\App\Helpers\Helper::messageSendToSlack('text');
 			return Response::json(['success'=>true,'msg'=>'Re-order successfully']);
-		
+
 		} catch (Exception $e) {
 			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
 		}
@@ -848,7 +848,7 @@ class CustomerManagementController extends Controller {
 			$input = $request->all();
 			//\App\Helpers\Helper::messageSendToSlack('text');
 			return Response::json(['success'=>true,'msg'=>'Changes has been saved successfully']);
-		
+
 		} catch (Exception $e) {
 			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
 		}
@@ -868,7 +868,7 @@ class CustomerManagementController extends Controller {
 				$data['endDateTime'] = \App\Helpers\Helper::showdate($data['endDateTime'],true,'m-d-Y h:i A');
 			}
 			return Response::json(['success' => true,'msg' => 'Details fetch successfully','data' => $data]);
-		
+
 		} catch (Exception $e) {
 			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
 		}
@@ -878,7 +878,7 @@ class CustomerManagementController extends Controller {
 			$input = $request->all();
 			//\App\Helpers\Helper::messageSendToSlack('text');
 			return Response::json(['success'=>true,'msg'=>'Machine ping successfully']);
-		
+
 		} catch (Exception $e) {
 			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
 		}
@@ -892,7 +892,7 @@ class CustomerManagementController extends Controller {
 			$id = (isset($input['id']) && $input['id']) ? $input['id'] : 0;
 			$input['uniq_id'] = \App\Helpers\Helper::getOnlyIntegerValue($input['uniq_id']);
 			$validator = Validator::make($input, [
-				'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id',	
+				'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id',
 			]);
 			if ($validator->fails()) {
 				return redirect()->back()
@@ -945,8 +945,8 @@ class CustomerManagementController extends Controller {
 						$branchspecialty->save();
 					}
 				}
-	
-				// save  branch_users  
+
+				// save  branch_users
 				$branch_users = request('branch_users') ?  request('branch_users') : array()  ;
 				#delete old  for update  branchusers
 				$branchusers_old = BranchUser::where(['companybranch_id' => $data->id,'company_id' => $company->id])->delete();
@@ -986,12 +986,12 @@ class CustomerManagementController extends Controller {
 					$third_party['contact_email'] = ($userDetails) ? $userDetails->email : null;
 					$third_party['contact_role'] = ($userDetails) ? $role->name : null;
 					$third_party['contact_id'] = ($userDetails) ? $userDetails->id : null;
-					
-					
+
+
 					/**
 					 * Call Api
 					 * */
-					
+
 					try {
 						$hubspotRes = \App\Helpers\HubSpot::createUser($third_party);
 						$zendeskRes = \App\Helpers\ZenDesk::createUser($third_party);
@@ -1005,9 +1005,9 @@ class CustomerManagementController extends Controller {
 							$branchData->save();
 						}
 					} catch (Exception $e) {
-						
+
 					}
-					
+
 
 				}
 				if(isset($input['package_id']) && !empty($input['package_id'])){
@@ -1055,7 +1055,7 @@ class CustomerManagementController extends Controller {
 			else{
 				return redirect()->back()->with('error', 'Invalid data');
 			}
-			
+
 		}
 		else{
 			return redirect()->route('customers.index')->with('error','Details not found');
@@ -1072,7 +1072,7 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1099,7 +1099,7 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1137,7 +1137,7 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1162,19 +1162,19 @@ class CustomerManagementController extends Controller {
 						if(count($packages)){
 							$view = view("admin.customer.create.tab4.package-listing",['packages'=>$packages,'input' => $input])->render();
 							return Response::json(['success'=>true,'msg'=>'Details fetched successfully','html'=>$view,'mod_head_content'=>'Package List']);
-							
+
 						}
 						else{
 							throw new Exception('Packages not found',200);
 						}
 					}
-				}		
+				}
 				else{
 					$packages = $packageModel->getListing($query);
 					if(count($packages)){
 						$view = view("admin.customer.create.tab4.package-listing",['packages'=>$packages,'input' => $input])->render();
 						return Response::json(['success'=>true,'msg'=>'Details fetched successfully','html'=>$view,'mod_head_content'=>'Package List']);
-						
+
 					}
 					else{
 						throw new Exception('Packages not found',200);
@@ -1197,7 +1197,7 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1242,13 +1242,13 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
             }
             else{
-				$packageModel = new \App\Models\Package();				
+				$packageModel = new \App\Models\Package();
 				$query = [
 					'company_id' => $input['company_id'],
 					'branch_id'  => $input['branch_id'],
@@ -1283,13 +1283,13 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
             }
             else{
-				$packageModel = new \App\Models\Package();				
+				$packageModel = new \App\Models\Package();
 				$query = [
 					'company_id' => $input['company_id'],
 					'branch_id'  => $input['branch_id'],
@@ -1308,7 +1308,7 @@ class CustomerManagementController extends Controller {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
         }
 	}
-	
+
 	public function branchPackageUpdate(Request $request){
 		$input = $request->all();
 		try{
@@ -1320,13 +1320,13 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
             }
             else{
-				$packageModel = new \App\Models\Package();				
+				$packageModel = new \App\Models\Package();
 				$query = [
 					'company_id' => $input['company_id'],
 					'branch_id'  => $input['branch_id'],
@@ -1387,7 +1387,7 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing ',
 				'branch_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1403,18 +1403,18 @@ class CustomerManagementController extends Controller {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
         }
 	}
-	
-	
+
+
 
 
 	//inventory
 	public function inventory(Request $request, $id) {
-		
+
 		$this->_data["id"] = $id;
 		$this->_data["navlink_isactive"] = true;
 		return view('admin.customer.create.tab5.inventory', $this->_data);
 	}
-	
+
 	//hauling
 	public function haulingList(Request $request, $id) {
 
@@ -1433,13 +1433,13 @@ class CustomerManagementController extends Controller {
 			}
 			$this->_data["hauling"] = $hauling;
 			$this->_data["hauling_list"] = app('App\Models\CompanyHauling')->getListing(['company_id' => $id,'with' => ['branch_details.addressdata','package_details']]);
-			$this->_data['pageHeading'] = 'Pickup';			
+			$this->_data['pageHeading'] = 'Pickup';
 			return view('admin.customer.create.tab6.hauling', $this->_data);
 		}
 		else{
 			return redirect()->back()->with('error','Details not found');
 		}
-		
+
 	}
 
 	public function haulingStoreUpdate(Request $request,$id){
@@ -1454,7 +1454,7 @@ class CustomerManagementController extends Controller {
 					->withErrors($validator)
 					->withInput();
 			}
-			else{				
+			else{
 				$results = app('App\Http\Controllers\HaulingController')->storeUpdate($input,$hauling_id);
 				if(isset($results['status']) && $results['status'] == 200){
 					return redirect()->route('customers.create.hauling',$id)->with('success',$results['message']);
@@ -1471,7 +1471,7 @@ class CustomerManagementController extends Controller {
 			return redirect()->back()->with('error','Details not found');
 		}
 	}
-	
+
 	//document
 	public function document(Request $request, $id) {
 
@@ -1479,7 +1479,7 @@ class CustomerManagementController extends Controller {
 		$this->_data["navlink_isactive"] = true;
 		return view('admin.customer.create.tab7.document', $this->_data);
 	}
-	
+
 	//invoices
 	public function invoices(Request $request, $id) {
 
@@ -1508,7 +1508,7 @@ class CustomerManagementController extends Controller {
 			$data = [];
 			$accountdetails = [];
 			$api_key = \Config::get('settings.RECURLY_KEY');
-			
+
 			$client = new \Recurly\Client($api_key);
 			$options = [
 				'params' => [
@@ -1520,12 +1520,12 @@ class CustomerManagementController extends Controller {
 			$accounts = $client->listAccounts($options);
 			foreach($accounts as $account) {
 				//echo 'Account code: ' . $account->getCode() . PHP_EOL;
-				
+
 				$accountdetails[$account->getCode()] = $client->getAccount($account->getId());
 				$invoices = $client->listAccountInvoices($account->getId());
 				foreach($invoices as $invoice) {
 					//$data[$account->getId()] = $invoice;
-					
+
 					$data[$account->getId()]['code'] = $account->getCode();
 					$data[$account->getId()]['id'] = $invoice->getId();
 					$data[$account->getId()]['company'] = $invoice->getAddress()->getCompany();
@@ -1536,7 +1536,7 @@ class CustomerManagementController extends Controller {
 						$data[$account->getId()]['line_items'][] = $line->getDescription();
 					}
 				}
-			}	
+			}
 			$this->_data['invoices'] = $data;
 			return view('admin.customer.create.tab8.invoices', $this->_data);
 		}
@@ -1555,7 +1555,7 @@ class CustomerManagementController extends Controller {
             $messages = [
                 'last_row.required' => 'Sorry! some data is missing ',
 				'id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1579,7 +1579,7 @@ class CustomerManagementController extends Controller {
             ];
             $messages = [
                 'user_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1606,7 +1606,7 @@ class CustomerManagementController extends Controller {
             ];
             $messages = [
                 'company_id.required' => 'Sorry! some data is missing '
-            ];            
+            ];
             $validator = \Validator::make($request->all(), $validations,$messages);
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
@@ -1619,5 +1619,5 @@ class CustomerManagementController extends Controller {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
         }
 	}
-	
+
 }
