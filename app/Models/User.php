@@ -301,7 +301,7 @@ class User extends Authenticatable
 
 		return $listing;
 	}
-	
+
 	public function myRoleMinLevel($user_id)
 	{
 		$levels = $this->myRoles([
@@ -392,7 +392,7 @@ class User extends Authenticatable
 		}
 
 		$this->uploadAvatar($data, $id, $request);
-		
+
 		if(isset($input['delete_files'])) {
 			$entityType = isset(File::$fileType['user_avatar']['type']) ? File::$fileType['user_avatar']['type'] : 0;
 			\App\Models\File::deleteFiles([
@@ -402,7 +402,7 @@ class User extends Authenticatable
 			], true);
 		}
 
-		
+
 
 		//
 		// if not owner changing their profile
@@ -463,7 +463,7 @@ class User extends Authenticatable
 		$data->delete();
 
 		return \App\Helpers\Helper::resp('Record has been successfully deleted.', 200, $data);
-	}	
+	}
 
 
 	public function BranchUsers()
@@ -478,5 +478,5 @@ class User extends Authenticatable
 		//->where('companybranch_id', $companybranch_id);
 		;
 	}
-	
+
 }

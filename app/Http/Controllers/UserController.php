@@ -1,14 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Models\User;
-use Auth;
 use DB;
+use Auth;
 use Validator;
+use App\Models\User;
+use App\Helpers\Helper;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller {
@@ -49,9 +50,20 @@ class UserController extends Controller {
 	// 	return $this->__formUiGeneration($request);
 	// }
 	public function index(Request $request){
-		$this->data["users"] = DB::table('users')
-								->where('user_type','admin')						
-								->paginate(25);
+        $columnsToSearch = ['first_name', 'last_name', 'email','phone'];
+        $users = DB::table('users');
+        $users = $users->where('user_type','admin');
+        if ($request->search) {
+            $searchQuery = '%' . $request->search . '%';
+            $users = $users->where('id', 'LIKE', $searchQuery);;
+            foreach($columnsToSearch as $column) {
+                $users = $users->orWhere($column, 'LIKE', $searchQuery);
+            }
+        }
+
+		$this->data["users"] =$users->paginate(10);
+        $this->data["search"] = $request->search;
+
 		$this->data['pageHeading'] = 'EMPLOYEE LISTING';
 		return view('admin.users.index',$this->data);
 	}
@@ -77,7 +89,7 @@ class UserController extends Controller {
 				'first_name' => 'required',
 				'last_name' => 'required'
 			]);
-	
+
 			if ($validator->fails()) {
 				return redirect(route('users.create'))
 							->withErrors($validator)
@@ -114,6 +126,44 @@ class UserController extends Controller {
 
 		}
 	}
+
+    public function user_update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'first_name' => 'required',
+            'last_name' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('users.update',$request->id))
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $usrTblData = [
+            "first_name" => $request->first_name,
+            "last_name" => $request->last_name,
+            "email" => $request->email,
+            "phone" => $request->phone,
+            "designation" => $request->designation,
+            "status" => (!empty($request->status))?1:2,
+            "user_type" => 'admin'
+        ];
+
+        $user = User::find($request->id);
+        if ($user->update($usrTblData)) {
+            if(!empty($request->role)){
+                $role = UserRole::where('user_id',$request->id)->delete();
+                $userRoleTblData = [
+                    "user_id" => $request->id,
+                    "role_id" => $request->role
+                ];
+                DB::table('user_roles')->insertGetId($userRoleTblData);
+            }
+
+            return redirect(route('users.index'));
+        }
+    }
 
 	/**
 	 * Display the specified resource.
@@ -190,7 +240,16 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Request $request, $id) {
-		return $this->__formUiGeneration($request, $id);
+        $this->data['id'] = $id;
+        $this->data['roles'] = DB::table('roles')->get();
+        $user = User::find($id);
+        $role = $user->roles->first();
+        $role_id = $role ? $role->id : 0;
+
+        $this->data['user'] = $user;
+        $this->data['role_id'] = $role_id;
+		return view('admin.users.edit',$this->data);
+		//return $this->__formUiGeneration($request, $id);
 	}
 
 	/**

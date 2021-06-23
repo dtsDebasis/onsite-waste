@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::any('/create/location/{id}', 'App\Http\Controllers\CustomerManagementController@location')->name('customers.create.location');
 		Route::post('/branch-assign-to-contact','App\Http\Controllers\CustomerManagementController@branchAssignToContact')->name('customers.branch-assign-to-contact');
 		Route::any('/create/inventory/{id}', 'App\Http\Controllers\CustomerManagementController@inventory')->name('customers.create.inventory');
-		
+
 		Route::any('/create/document/{id}', 'App\Http\Controllers\CustomerManagementController@document')->name('customers.create.document');
 		Route::any('/create/invoices/{id}', 'App\Http\Controllers\CustomerManagementController@invoices')->name('customers.create.invoices');
 		Route::post('clone-package','App\Http\Controllers\CustomerManagementController@clonePackage')->name('cutomers.clone-package');
@@ -59,7 +59,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::patch('ajax-update-branch-package-details','App\Http\Controllers\CustomerManagementController@branchPackageUpdate')->name('customers.branch-package-update');
 		Route::get('/branches/{id}','App\Http\Controllers\CustomerManagementController@branchDetails')->name('customers.branches');
 		Route::get('/branch-info-details/{company_id}/{id}','App\Http\Controllers\CustomerManagementController@branchInfoDetails')->name('customers.branche-info-details');
-		
+
 		Route::get('/create/hauling/{id}', 'App\Http\Controllers\CustomerManagementController@haulingList')->name('customers.create.hauling');
 		Route::match(['post','patch'],'hauling-store-upadte/{company_id}','App\Http\Controllers\CustomerManagementController@haulingStoreUpdate')->name('customers.hauling-store-upadte');
 		Route::post('ajax-post-inventory-reorder','App\Http\Controllers\CustomerManagementController@branchInventoryReorder')->name('customers.branch.inventory-re-order');
@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 	Route::get('inventory/cycling-details','App\Http\Controllers\InventoryController@getCyclingDetails')->name('inventories.cycling-details');
 	Route::post('inventory/update-cycling-details','App\Http\Controllers\InventoryController@updateCyclingDetails')->name('inventories.update-cycling-details');
 	Route::get('te-500-info-details','App\Http\Controllers\BranchTe500Controller@infoDetails')->name('te-5000-informations.info-details');
+	Route::post('user_update','App\Http\Controllers\UserController@user_update')->name('user_update');
 	Route::resources([
 		'users'       => 'App\Http\Controllers\UserController',
 		'roles'       => 'App\Http\Controllers\RoleController',
@@ -148,7 +149,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::patch('update/{id}', 'App\Http\Controllers\KnowledgeCategoryController@update')->name('knowledgecategories.update');
 		Route::delete('destroy/{kw_category_id}/{id}', 'App\Http\Controllers\KnowledgeCategoryController@destroy')->name('knowledgecategories.destroy');
 	});
-	
+
 
 	Route::group(['prefix' => 'knowledgewizard'], function () {
 		Route::get('index', 'App\Http\Controllers\KnowledgeWizardController@index')->name('knowledgewizard.index');
@@ -241,7 +242,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 	Route::get('ajax-get-add-contact-person-template','App\Http\Controllers\CustomerManagementController@getAjaxContactPersonTemplate');
 	Route::get('ajax-get-add-contact-person-details','App\Http\Controllers\CustomerManagementController@getAjaxContactPersonDetails');
 	Route::get('ajax-get-branch-list','App\Http\Controllers\CustomerManagementController@getAjaxBranchList');
-	
+
 });
 
 Auth::routes(['verify' => true]);
