@@ -1,0 +1,1645 @@
+{
+	"info": {
+		"_postman_id": "9ceedd17-03da-4d6c-80ba-cbc4ef5edde6",
+		"name": "Laravel-6 (Somnath)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "Initialization",
+					"item": [
+						{
+							"name": "Init",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Init",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{HOST}}init",
+											"host": [
+												"{{HOST}}init"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 08 May 2020 09:43:34 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 08 May 2020 09:43:34 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"admins@yopmail.com\",\n\t\"password\": \"Host123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}login",
+									"host": [
+										"{{HOST}}login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"admins@yopmail.com\",\n\t\"password\": \"Host123456\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}login",
+											"host": [
+												"{{HOST}}login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:26:09 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:26:09 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.6-1+ubuntu19.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Login Successful\",\n    \"data\": {\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiN2ZmNDMwYWU5ZjdkY2U4MjhiYTI4MjBkNGU1YTMyZjI1NGI2YTVjZTYxZTczMTU4NGI0NTM1YTRkYmQ5NDI0ZTY4ZTlhNjE1MGFmNzNkYTYiLCJpYXQiOjE1ODcyMDE5NjksIm5iZiI6MTU4NzIwMTk2OSwiZXhwIjoxNjE4NzM3OTY5LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.ID2OYRhXTt6d_ttAv0P00CCJfwlqh3Tw6xe_U9jPgjQewIp74HY3gATahyiDsavp2uHn-VnxlGkg1M1evVTCu3E7Nr3DMr3KT3SZbYMTREi4d71TX-YG9rwcwPsFHUv4E-6oPPjALAwr4pqT8lw9CFpKYPQ2N_-mnCC9IMtKe0QUSH2YjTu3mDyHBnT7n4PHt0nuFHBu_Gg4DouJdlpBxQtMsGpURy5B5rhXq1FtygvQswdSF5FZGsEYGa5VcW0yVe9Cm1dOeCVfHivnQf_wYSK9DPUYtIz4gJtnlmd_3hQsIWjbvmOWWsauJW0FYVq1qg0g-u4EQ-99XfQH3AhXyAV_nEayeixKNUUnwz-QYmOaO-fIu9CO0s4f0w-N2KEWiJf3Ryp4l_gNpWNgKyNyWLt4fzQmtqoEEa9KE34x2ZXAhIOZUT9gJbwtQCiSKPOnVc9E-_Xp0rutxgg1uK1sdP2fV-CMEmfIFzCwMxhceg018oi5w1359E9ct7UnqaiBVK0eR-Ulax4UKujfV8Tzyy1Qg3zMlIDq2XBcL98WXfqrMOWixvILDTmJmxxNweBa0BoeMJcs1vhj7PgIZ2F-IkwgYTH8hXPmnuSM7lUm9eo7XgI1-LOM-a84zrbcTwFItq94F5L-lkKyDVRlwjuL075iYT0pWDojvydrutOY-1w\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}auth/logout",
+									"host": [
+										"{{HOST}}auth"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Logout",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}auth/logout",
+											"host": [
+												"{{HOST}}auth"
+											],
+											"path": [
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:26:54 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:26:54 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.6-1+ubuntu19.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Logout Successful\",\n    \"data\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "Forget Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\":\"ari_1@yopmail.com\"\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}forgot-password",
+									"host": [
+										"{{HOST}}forgot-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Forget Password",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\":\"ari_1@yopmail.com\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}forgot-password",
+											"host": [
+												"{{HOST}}forgot-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:27:40 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:27:40 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.6-1+ubuntu19.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Password recovery email has been sent to you.\",\n    \"data\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "Set Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"token\":\"alF42x3w5tLqUQx1\",\n\t\"password\":\"Admin123@\",\n\t\"c_password\":\"Admin123@\"\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}set-password",
+									"host": [
+										"{{HOST}}set-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Set Password",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"token\":\"CrkEHaGNlzM5tRx\",\n\t\"password\":\"Admin123@\",\n\t\"c_password\":\"Admin123@\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}set-password",
+											"host": [
+												"{{HOST}}set-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:28:01 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:28:01 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.6-1+ubuntu19.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"New password configured successfully.\",\n    \"data\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "Verify Email",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"token\":\"alF42x3w5tLqUQx\"\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}verify-email",
+									"host": [
+										"{{HOST}}verify-email"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Verify Email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"token\":\"alF42x3w5tLqUQx\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}verify-email",
+											"host": [
+												"{{HOST}}verify-email"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:29:08 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 18 Apr 2020 09:29:08 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.6-1+ubuntu19.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Email verified successfully.\",\n    \"data\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "Resend Verification Email",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}resend-verification-email",
+									"host": [
+										"{{HOST}}resend-verification-email"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resend Verification Email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}resend-verification-email",
+											"host": [
+												"{{HOST}}resend-verification-email"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 02 May 2020 09:57:48 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 02 May 2020 09:57:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/7.3.6-1+ubuntu19.04.1+deb.sury.org+1"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Content-Type,Authorization,reportProgress,observe"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Verification email sent.\",\n    \"data\": {}\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Listing",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}users",
+							"host": [
+								"{{HOST}}users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}users/1",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}users/7",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"7"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"test\",\r\n    \"last_name\": \"user\",\r\n    \"username\": \"user3\",\r\n    \"email\": \"email3@email.com\",\r\n    \"phone\": \"111111113\",\r\n    \"role_id\": 3,\r\n    \"password\": \"Host123456\",\r\n    \"confirm-password\": \"Host123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}users",
+							"host": [
+								"{{HOST}}users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload an Avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/G:/My Pictures/Downloaded/Titanic/vasilije-ristovic-rms-titanic-by-waskogm-thumb.jpg"
+								},
+								{
+									"key": "user_id",
+									"value": "",
+									"description": "Optional Field, default is logged in user",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}users/avatar",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"avatar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\" : \"Host123456\",\r\n    \"password\": \"Host@123456\",\r\n    \"confirm-password\": \"Host@123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}users/password",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"dummy\",\r\n    \"last_name\": \"user\",\r\n    \"username\": \"user3\",\r\n    \"email\": \"email3@email.com\",\r\n    \"phone\": \"111111113\",\r\n    \"role_id\": 3,\r\n    \"password\": \"Host123456\",\r\n    \"confirm-password\": \"Host123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}users/7",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"7"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Init",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}init",
+									"host": [
+										"{{HOST}}init"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 May 2020 09:43:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.8-1+ubuntu18.04.1+deb.sury.org+1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,PATCH,OPTIONS,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,reportProgress,observe"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record found\",\n    \"data\": {\n        \"user\": {\n            \"uid\": \"4gU9hVWK4VWNra9\",\n            \"first_name\": \"Patient\",\n            \"last_name\": \"User\",\n            \"email\": \"patient@yopmail.com\",\n            \"phone\": \"9589856985\",\n            \"created_at\": \"2020-04-07 12:48:25\",\n            \"verified\": 1,\n            \"timezone\": null,\n            \"role_slug\": \"patient\",\n            \"role_title\": \"Patient\",\n            \"patient\": {\n                \"user_id\": 3,\n                \"language_id\": 1,\n                \"gender\": 1,\n                \"payment_method\": 1,\n                \"date_of_birth\": \"1991-11-11\",\n                \"insurance_id\": \"6\",\n                \"uhc_member_id\": \"123-654-987\",\n                \"p_id\": null,\n                \"address\": [],\n                \"insurance\": {\n                    \"name\": \"ACB Insurance\"\n                },\n                \"avatar\": {\n                    \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                    \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n                },\n                \"age\": 28\n            },\n            \"permissions\": [\n                {\n                    \"p_type\": \"billing_info_list\"\n                },\n                {\n                    \"p_type\": \"billing_info_add\"\n                },\n                {\n                    \"p_type\": \"billing_info_edit\"\n                },\n                {\n                    \"p_type\": \"billing_info_delete\"\n                }\n            ],\n            \"avatar\": {\n                \"original\": \"http://127.0.0.1:8000/img/no-image.png\",\n                \"thumb\": \"http://127.0.0.1:8000/img/no-image.png\"\n            }\n        },\n        \"site\": [\n            {\n                \"key\": \"company_name\",\n                \"val\": \"Live Docs Inc\",\n                \"field_label\": \"Company Name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"title\",\n                \"val\": \"LivDocs Test\",\n                \"field_label\": \"Site Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_title\",\n                \"val\": \"Meta Title\",\n                \"field_label\": \"Meta Title\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_key\",\n                \"val\": \"online hospital medical\",\n                \"field_label\": \"Meta Keyword\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"meta_desc\",\n                \"val\": \"meta descripiton\",\n                \"field_label\": \"Meta Description\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"support_mail\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"Support Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"contact_mail\",\n                \"val\": \"somnath.mukherjee@dreamztech.com\",\n                \"field_label\": \"Contact Mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"date_format\",\n                \"val\": \"d-m-Y\",\n                \"field_label\": \"Date format\",\n                \"field_type\": 5,\n                \"field_type_details\": \"select\"\n            },\n            {\n                \"key\": \"reply_to_mail\",\n                \"val\": \"donotreply@laravel.com\",\n                \"field_label\": \"Reply to mail\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"reply_to_mail_name\",\n                \"val\": \"Do not reply\",\n                \"field_label\": \"Reply to mail name\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_host\",\n                \"val\": \"ssl://smtp.gmail.com\",\n                \"field_label\": \"SMTP Host\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_port\",\n                \"val\": \"587\",\n                \"field_label\": \"SMTP Port\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_user\",\n                \"val\": \"dts.proloy@gmail.com\",\n                \"field_label\": \"SMTP User\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"smtp_pass\",\n                \"val\": \"Host$123456\",\n                \"field_label\": \"SMTP Password\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"per_page_record\",\n                \"val\": \"30\",\n                \"field_label\": \"Per Page Record\",\n                \"field_type\": 4,\n                \"field_type_details\": \"number\"\n            },\n            {\n                \"key\": \"frontend_url\",\n                \"val\": \"http://59.162.178.98:4200/\",\n                \"field_label\": \"Frontend URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            },\n            {\n                \"key\": \"api_url\",\n                \"val\": \"http://59.162.178.98/livedocapi/public/api/v1/\",\n                \"field_label\": \"Api URL\",\n                \"field_type\": 1,\n                \"field_type_details\": \"text\"\n            }\n        ],\n        \"languages\": [\n            {\n                \"id\": 2,\n                \"language\": \"English (United Kingdom)\",\n                \"language_code\": \"en-gb\"\n            },\n            {\n                \"id\": 1,\n                \"language\": \"English (United States)\",\n                \"language_code\": \"en-us\"\n            }\n        ],\n        \"appointment_medium_types\": [\n            \"Audio\",\n            \"Video\"\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

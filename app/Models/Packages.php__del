@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Packages extends Model
+{
+    use HasFactory;
+
+    protected $table = 'packages';
+
+    protected $fillable = [
+        'name',
+        'price',
+        'haul',
+        'frequency',
+        'waste_type',
+        'container_type',
+        'reorder',
+        'is_active'
+    ];
+
+    public $orderBy = [];
+}
+
+
+/*
+1. amount
+2. frequency (type and number)
+3. boxes_included
+4. includes_te(boolean)
+5. includes_compliance(boolean)
+6. te_monthly_rate
+7. container_monthly_rate
+8. duration  (type and number)
+*/

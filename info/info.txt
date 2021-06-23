@@ -1,0 +1,21 @@
+﻿ADMIN CREDENTIAL
+=================================================================
+Admin
+-----------------------------------------------------------------
+Username					: admins@yopmail.com
+Password					: Host123456
+
+Super admin
+-----------------------------------------------------------------
+Username					: superadmin@yopmail.com
+Password					: Host123456
+
+
+After install this folder. Run the following commands
+1. composer update
+2. php artisan config:clear
+3. php artisan config:cache
+4. php artisan migrate
+5. php artisan db:seed
+6. php artisan passport:install
+7. php artisan storage:link

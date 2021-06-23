@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class TransactionalPackage extends Model
+{
+    use HasFactory;
+
+    protected $table = 'transactional_packages';
+
+    protected $fillable = [
+        'name',
+        'waste_type',
+        'box_size',
+        'price',
+
+        'add_trip_cost',
+        'add_box_cost',
+        'container_rate',
+        'shipping_charge',
+        'setup_charge',
+        'complaince_training',
+
+        'company_id',
+        'branch_id',
+
+        'is_active',
+    ];
+
+    public $orderBy = [];
+}
+
+/*
+TRANSACTIONAL PRICING (single row):
+1. add_trip_cost (branch_level)
+2. add_box_cost (branch_level)
+3. container_rate
+4. shipping_charge
+5. setup_charge
+6. complaince_training
+7. other(dropdown) what is the source of dropdown?
+8. other (price)
+ com id 
+branch id
+*/

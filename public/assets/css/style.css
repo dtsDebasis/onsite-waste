@@ -1,0 +1,119 @@
+.f_sec{
+    width: 100%;
+}
+.f_sec .inner_flex{
+    display: flex;
+}
+.f_sec span{
+    font-size: 13px;
+    font-style: italic;
+    line-height: 35px;
+}
+.add_fr{
+    margin-bottom: 15px;
+}
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #0AB1AD;
+    border-color: #0AB1AD;
+}
+.df_1{
+    padding: 12px;
+    border-radius: 25px;
+    color: #000;
+    font-weight: 700;
+    background-color: rgba(52,195,143,.18);
+    margin-left: 15px;
+    cursor: pointer;
+}
+.inner_ch{
+    display: flex;
+}
+.inner_ch input{
+    width: 15px;
+    height: 15px;
+    margin-right: 15px;
+}
+.inner_ch label{
+    margin-right: 15px;
+}
+ 
+.all_col li{
+    margin: 0 5px;
+    list-style: none;
+    display: inline-block;
+    width: 18%;
+}
+.all_col{
+    padding-left: 0;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: left;
+}
+.all_tabs .nav-tabs-custom li a span{
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.f2 img{
+    margin: 0 auto;
+}
+.f2 textarea{
+    width: 100%;
+    display: block;
+}
+.f2 .w-md1{
+    margin-top: 18%;
+    margin-bottom: 0;
+}
+.custom-heading{
+    width: 100%;
+}
+.nav-tabs-custom .nav-item .nav-link.active {
+    color: #0AB1AD;
+    font-weight: 600;
+}
+.nav-tabs-custom .nav-item .nav-link::after {
+    background: #0AB1AD;
+    height: 3px;
+}
+.w-100{
+    width: 100%;
+}
+.tr_ser{
+  display: contents;
+    position: relative;
+}
+.tr_ser input{
+    padding-left: 35px;
+}
+.tr_ser span::before{
+    position: absolute;
+    content: "\eb2d";
+    color: #74788d;
+    font-size: 16px;
+    line-height: 38px;
+    left: 23px;
+    top: 28px;
+}
+.map_sec p{
+    font-size: 14px;
+    margin-top: 10px;
+}
+.map_sec .text-bg p{
+    margin-top: 0;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.f_sec{
+    padding-bottom: 25px;
+    margin-bottom: 0px;
+    border-bottom: 2px solid #eee;
+}
+
+.bootstrap-tagsinput {
+    color: #555;
+    width: 100%;
+    line-height: 25px;
+}
