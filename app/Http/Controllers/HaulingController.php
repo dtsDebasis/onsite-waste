@@ -16,6 +16,7 @@ class HaulingController extends Controller
     {
         parent::__construct($parameters);
 
+        $this->title      = 'Pickup Management';
         $this->_module      = 'Pickup Management';
         $this->_routePrefix = 'pickups';
         $this->_model       = new CompanyHauling;
@@ -51,14 +52,15 @@ class HaulingController extends Controller
             $srch_params['status'] = [3];
         }
         $srch_params['with'] = ['branch_details.addressdata','package_details'];
-        $this->_data['pageHeading'] = $this->_module;
+        $this->_data['pageHeading'] = $this->title;
+
         $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset);
 
         $this->_data['orderBy']         = $this->_model->orderBy;
         $this->_data['filters']         = null;
 
         $this->_data['breadcrumb'] = [
-            '#'        => $this->_module,
+            '#'        => $this->title,
         ];
         return view('admin.' . $this->_routePrefix . '.index', $this->_data)
             ->with('i', ($request->input('page', 1) - 1) * $this->_offset);

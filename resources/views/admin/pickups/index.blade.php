@@ -13,13 +13,13 @@
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{($tab == 'active')?'active':''}}" href="{{route('pickups.index',['tab' => 'active'])}}"  aria-selected="true">
                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                    <span class="d-none d-sm-block">Active</span> 
+                    <span class="d-none d-sm-block">Active</span>
                 </a>
             </li>
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{($tab == 'completed')?'active':''}}" href="{{route('pickups.index',['tab' => 'completed'])}}"  aria-selected="false">
                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                    <span class="d-none d-sm-block">Completed</span> 
+                    <span class="d-none d-sm-block">Completed</span>
                 </a>
             </li>
         </ul>
@@ -27,24 +27,24 @@
             @if($tab == 'active')
             <div class="tab-pane {{($tab == 'active')?'active':''}}" id="home-1" role="tabpanel">
                 <div class="card">
-                    <div class="card-body">                       
+                    <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div class="col-md-9">                            
+                            <div class="col-md-9">
                                 {!! Form::open(['method' => 'GET','route' => 'pickups.index','id' => 'srch-form']) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <div class="row">
-                                    <div class="col-md-6">                    
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="search" value="{{Request::get('search')?Request::get('search'):null}}" placeholder="Search" aria-label="Search">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">                    
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             @php($stch_st = Request::get('status')?Request::get('status'):null)
                                             {!! Form::select('status',$status_arr,$stch_st,['class'=>'form-control select2','placeholder'=> 'Choose ...','id'=>'srch_status',]) !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-3">                    
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             @php($stch_dt = Request::get('date')?Request::get('date'):null)
                                             {!! Form::date('date',$stch_dt,['class'=>'form-control','placeholder'=> 'select date','id'=>'srch_date',]) !!}
@@ -57,7 +57,7 @@
                                 </div>
                                 {!! Form::close() !!}
                             </div>
-                            <div class="col-md-9"> 
+                            <div class="col-md-9">
                                 <a href="{{route('pickups.create')}}"  class="btn btn-primary w-md">Add Pick Up Schedule</a>
                             </div>
                         </div>
@@ -77,26 +77,26 @@
                                         </thead>
                                         <tbody>
                                             @if(count($data))
-                                                @foreach($data as $hkey => $hval) 
+                                                @foreach($data as $hkey => $hval)
                                                     <tr class="">
-                                                        
+
                                                         @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
                                                         <td> <span class="color-b">{{$hval->branch_details->addressdata->locality}} {{$hval->branch_details->addressdata->state}}</span> <br> <i class="bx bx-map"></i> {{$hval->branch_details->addressdata->addressline1}} </td>
                                                         @else
                                                             <td> NA </td>
                                                         @endif
                                                         <td>{{($hval->driver_name)?$hval->driver_name:'NA'}}</td>
-                                                        
+
                                                         @if(isset($hval->package_details) && $hval->package_details)
-                                                        <td> {{$hval->package_details->name}}</td>                                                        
+                                                        <td> {{$hval->package_details->name}}</td>
                                                         @else
                                                             <td> NA </td>
                                                         @endif
-                                                        
+
                                                         <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
                                                         <td><a href="javascript:;" data-id="{{$hval->id}}" data-status="{{$hval->status}}" data-driver_name="{{$hval->driver_name}}" class="change-status"><span class="badge badge-pill badge-soft-success">{{$status_arr[$hval->status]}}</span></a></td>
                                                         <td>
-                                                            
+
                                                             <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
                                                                 <i class="bx bx-plus-medical"></i>
                                                             </a>
@@ -108,9 +108,9 @@
                                                             {!! Form::open([
                                                                 'method' => 'DELETE',
                                                                 'route' => [
-                                                                'pickups.destroy',[$hval->id] 
-                                                                ], 
-                                                                'style'=>'display:inline', 
+                                                                'pickups.destroy',[$hval->id]
+                                                                ],
+                                                                'style'=>'display:inline',
                                                                 'id' => 'delete-form-' . $hval->id
                                                                 ]) !!}
                                                             {!! Form::close() !!}
@@ -119,7 +119,7 @@
                                                 @endforeach
                                             @else
                                             <tr class="">
-                                                <td colspan="25">No Record found</td>                                        
+                                                <td colspan="25">No Record found</td>
                                             </tr>
                                             @endif
                                         </tbody>
@@ -129,7 +129,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                {{ $data->appends(request()->input())->links() }}
+                                {{-- {{ $data->appends(request()->input())->links() }} --}}
                             </div>
                         </div>
                          <!-- end table-responsive -->
@@ -140,24 +140,24 @@
             @if($tab == 'completed')
             <div class="tab-pane {{($tab == 'completed')?'active':''}}" id="profile-1" role="tabpanel">
                 <div class="card">
-                    <div class="card-body">                        
+                    <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div class="col-md-9">                            
+                            <div class="col-md-9">
                                 {!! Form::open(['method' => 'GET','route' => 'pickups.index','id' => 'srch-form']) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <div class="row">
-                                    <div class="col-md-5">                    
+                                    <div class="col-md-5">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="search" value="{{Request::get('search')?Request::get('search'):null}}" placeholder="Search" aria-label="Search">
                                         </div>
-                                    </div>                                    
-                                    <div class="col-md-3">                    
+                                    </div>
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             @php($stch_dt = Request::get('date')?Request::get('date'):null)
                                             {!! Form::date('date',$stch_dt,['class'=>'form-control','placeholder'=> 'select date','id'=>'srch_date',]) !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-4"> 
+                                    <div class="col-md-4">
                                         <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                                         <a class="btn btn-danger" href="{{route($routePrefix.'.index',['tab'=>$tab])}}">Reset</a>
                                         <a class="btn btn-info" href="{{route($routePrefix.'.generate-excel',$srch_params)}}">Export</a>
@@ -165,7 +165,7 @@
                                 </div>
                                 {!! Form::close() !!}
                             </div>
-                            
+
                         </div>
                         <div class="tab-content mt-3 text-muted">
                             <div class="tab-pane active" id="home1" role="tabpanel">
@@ -185,7 +185,7 @@
                                         </thead>
                                         <tbody>
                                             @if(count($data))
-                                                @foreach($data as $hkey => $hval) 
+                                                @foreach($data as $hkey => $hval)
                                                     <tr class="">
                                                         <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td>
                                                         @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
@@ -196,14 +196,14 @@
                                                         <td>{{($hval->driver_name)?$hval->driver_name:'NA'}}</td>
                                                         <td> {{($hval->number_of_boxes)?$hval->number_of_boxes.' Box':'NA'}}</td>
                                                         @if(isset($hval->package_details) && $hval->package_details)
-                                                        <td> {{$hval->package_details->name}}</td>                                                        
+                                                        <td> {{$hval->package_details->name}}</td>
                                                         @else
                                                             <td> NA </td>
                                                         @endif
-                                                        
+
                                                         <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
                                                         <td><span class="badge badge-pill badge-soft-success">Completed</span></td>
-                                                        <td>                                                            
+                                                        <td>
                                                             <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
                                                                 <i class="bx bx-plus-medical"></i>
                                                             </a>
@@ -212,7 +212,7 @@
                                                 @endforeach
                                             @else
                                             <tr class="">
-                                                <td colspan="25">No Record found</td>                                        
+                                                <td colspan="25">No Record found</td>
                                             </tr>
                                             @endif
                                         </tbody>
@@ -225,7 +225,7 @@
                                 {{ $data->appends(request()->input())->links() }}
                             </div>
                         </div>
-                        
+
                         <!-- end table-responsive -->
                     </div>
                 </div>
@@ -244,11 +244,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card">  
-                    {!! Form::open(array('route' => $routePrefix.'.status-update','method'=>'POST', 'enctype'=>'multipart/form-data','id'=>'reply-form')) !!}     
+                <div class="card">
+                    {!! Form::open(array('route' => $routePrefix.'.status-update','method'=>'POST', 'enctype'=>'multipart/form-data','id'=>'reply-form')) !!}
                     <input type="hidden" name="id" value="" id="hoauling_id">
-                    <div class="card-body mb-4"> 
-                        <div class="row">            
+                    <div class="card-body mb-4">
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     @php($newStAr = $status_arr)
@@ -270,13 +270,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="card-footer text-right">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                        <button type="submit" class="btn btn-success" id="reply_submit">Submit</button>                         
-                    </div> 
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" id="reply_submit">Submit</button>
+                    </div>
                     {!! Form::close() !!}
-                </div>                               
+                </div>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -293,7 +293,7 @@
                 </button>
             </div>
             <div class="modal-body" id="manifesstBody">
-                                              
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -306,7 +306,7 @@
 @push('pagejs')
 <script>
 $(document).ready(function () {
-    
+
     $('body').on('click','.change-status',function(){
         var id = $(this).attr('data-id');
         $('#all_status_update_modal').find('#hoauling_id').val(id);
@@ -329,15 +329,15 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#manifesstBody').html(data.html);
                     $('#all_manifest_modal').modal('show');
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -346,7 +346,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Manifest Details",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -371,14 +371,14 @@ $(document).ready(function () {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
-                } 
+                }
                 else {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -387,7 +387,7 @@ $(document).ready(function () {
                     bootbox.alert({
                     title:"Manifest Assign",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });

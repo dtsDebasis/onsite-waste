@@ -19,13 +19,17 @@ use App\Models\Package;
 class PackageController extends Controller {
 	public function __construct($parameters = array()) {
 		parent::__construct($parameters);
+		$this->title      = 'Product Management';
 		$this->_module      = 'Product Management';
         $this->_routePrefix = 'packages';
 	}
-	
+
 	public function index(Request $request){
 		$this->initIndex();
-		$this->_data['pageHeading'] = $this->_module;
+		$this->_data['pageHeading'] = $this->title;
+        $this->_data['breadcrumb'] = [
+            '#'        => $this->title,
+        ];
 		$this->_data["transactionalpackages"] =  TransactionalPackage::where('company_id',0)->first();
 		$this->_data["packages"] = Package::where(['is_active' => 1,'company_id' => 0,'branch_id' => 0 ])->get();
 		return view('admin.' . $this->_routePrefix . '.index',$this->_data);
@@ -41,14 +45,14 @@ class PackageController extends Controller {
 				'setup_additional_cost' => 'required',
 				'compliance_training_cost' => 'required',
 				'quarterly_review_cost' => 'required'
-			]);			
+			]);
 			if ($validator->fails()) {
 				return redirect()->back()
 							->withErrors($validator)
 							->withInput();
 			}
 			$input = $request->all();
-			
+
 			$transactionalpackage = null;
 			if($input['id']){
 				$transactionalpackage = TransactionalPackage::where('id', '=', $input['id'] )->first();
@@ -77,9 +81,9 @@ class PackageController extends Controller {
         return $this->__formPost($request, $id);
     }
 	protected function __formPost(Request $request, $id = 0)
-    {        
-        $input = $request->all();  
-		
+    {
+        $input = $request->all();
+
 		$validator = Validator::make($request->all(), [
 			'name' => 'required|max:250',
 			'monthly_rate' => 'required',
@@ -116,7 +120,7 @@ class PackageController extends Controller {
 			$package = Package::create($input);
 		}
 		return redirect()->route( $this->_routePrefix.'.index' )->with('success',$msg);
-		
+
 	}
 
 	public function edit(Request $request, $id){
@@ -126,7 +130,7 @@ class PackageController extends Controller {
 			return redirect()->route('package.index')->with('error','Package Details not found');
 		}
 		$this->_data['package'] = $package;
-		$this->_data['pageHeading'] = $this->_module;
+		$this->_data['pageHeading'] = $this->title;
 		$this->_data["transactionalpackages"] =  TransactionalPackage::first();
 		$this->_data["packages"] =  Package::where('is_active', '=', '1' )->get();
 		return view('admin.' . $this->_routePrefix . '.index',$this->_data);
@@ -142,5 +146,5 @@ class PackageController extends Controller {
 			return redirect()->back()->with('error','Package Details not found');
 		}
 	}
-	
+
 }
