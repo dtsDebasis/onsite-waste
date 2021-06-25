@@ -26,11 +26,11 @@
         </div>
         @endif
         <div class="card">
-            <div class="card-body mb-4">                
+            <div class="card-body mb-4">
                 @if($transactionalpackages)
                     {!! Form::model($transactionalpackages, [
                     'method' => 'PATCH',
-                    'route' => $routePrefix.'.transaction-package', 
+                    'route' => $routePrefix.'.transaction-package',
                     'class' => 'form-horizontal ',
                     'id'=>'transactional-form',
                     'enctype'=>'multipart/form-data'
@@ -46,7 +46,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('te_5000_rental_cost', 'TE-5000 Rental <span class="span-req">*</span>:',array('class'=>'','for'=>'te_5000_rental_cost'),false) !!}
-                                {!! Form::number('te_5000_rental_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'te_5000_rental_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('te_5000_rental_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'te_5000_rental_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('te_5000_rental_cost'))
                                     <span class="help-block">{{ $errors->first('te_5000_rental_cost') }}</span>
                                 @endif
@@ -55,7 +55,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('te_5000_purchase_cost', 'TE-5000 Purchase <span class="span-req">*</span>:',array('class'=>'','for'=>'te_5000_purchase_cost'),false) !!}
-                                {!! Form::number('te_5000_purchase_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'te_5000_purchase_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('te_5000_purchase_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'te_5000_purchase_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('te_5000_purchase_cost'))
                                     <span class="help-block">{{ $errors->first('te_5000_purchase_cost') }}</span>
                                 @endif
@@ -64,27 +64,27 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('containers_cost', 'Containers <span class="span-req">*</span>:',array('class'=>'','for'=>'containers_cost'),false) !!}
-                                {!! Form::number('containers_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'containers_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('containers_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'containers_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('containers_cost'))
                                     <span class="help-block">{{ $errors->first('containers_cost') }}</span>
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('shipping_cost', 'Shipping <span class="span-req">*</span>:',array('class'=>'','for'=>'shipping_cost'),false) !!}
-                                {!! Form::number('shipping_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'shipping_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('shipping_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'shipping_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('shipping_cost'))
                                     <span class="help-block">{{ $errors->first('shipping_cost') }}</span>
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('setup_initial_cost', 'Setup-Initial <span class="span-req">*</span>:',array('class'=>'','for'=>'setup_initial_cost'),false) !!}
-                                {!! Form::number('setup_initial_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'setup_initial_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('setup_initial_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'setup_initial_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('setup_initial_cost'))
                                     <span class="help-block">{{ $errors->first('setup_initial_cost') }}</span>
                                 @endif
@@ -93,7 +93,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('setup_additional_cost', 'Setup-Additional <span class="span-req">*</span>:',array('class'=>'','for'=>'setup_additional_cost'),false) !!}
-                                {!! Form::number('setup_additional_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'setup_additional_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('setup_additional_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'setup_additional_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('setup_additional_cost'))
                                     <span class="help-block">{{ $errors->first('setup_additional_cost') }}</span>
                                 @endif
@@ -102,16 +102,16 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('compliance_training_cost', 'Compliance Training <span class="span-req">*</span>:',array('class'=>'','for'=>'compliance_training_cost'),false) !!}
-                                {!! Form::number('compliance_training_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'compliance_training_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('compliance_training_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'compliance_training_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('compliance_training_cost'))
                                     <span class="help-block">{{ $errors->first('compliance_training_cost') }}</span>
                                 @endif
                             </div>
-                        </div>                        
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('quarterly_review_cost', 'Quarterly Volume Analysis <span class="span-req">*</span>:',array('class'=>'','for'=>'quarterly_review_cost'),false) !!}
-                                {!! Form::number('quarterly_review_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'quarterly_review_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('quarterly_review_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'quarterly_review_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('quarterly_review_cost'))
                                     <span class="help-block">{{ $errors->first('quarterly_review_cost') }}</span>
                                 @endif
@@ -120,7 +120,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('container_brackets_cost ', 'Container Brackets <span class="span-req">*</span>:',array('class'=>'','for'=>'container_brackets_cost'),false) !!}
-                                {!! Form::number('container_brackets_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'container_brackets_cost','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('container_brackets_cost',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'container_brackets_cost','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('container_brackets_cost'))
                                     <span class="help-block">{{ $errors->first('container_brackets_cost') }}</span>
                                 @endif
@@ -129,7 +129,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('pharmaceutical_containers_rate', 'Pharmaceutical Containers <span class="span-req">*</span>:',array('class'=>'','for'=>'pharmaceutical_containers_rate'),false) !!}
-                                {!! Form::number('pharmaceutical_containers_rate',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'pharmaceutical_containers_rate','required'=>'required','step'=>'0.01']) !!}
+                                {!! Form::number('pharmaceutical_containers_rate',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'pharmaceutical_containers_rate','required'=>'required','step'=>'0.01','min'=>'1']) !!}
                                 @if ($errors->has('pharmaceutical_containers_rate'))
                                     <span class="help-block">{{ $errors->first('pharmaceutical_containers_rate') }}</span>
                                 @endif
@@ -139,7 +139,7 @@
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary w-md">Save</button>
                     </div>
-                {!! Form::close() !!}                
+                {!! Form::close() !!}
             </div>
         </div>
         @php($frequency_types = ['1'=>'Daily','2'=>'Weekly','3'=>'Monthly','4'=>'Yearly'])
@@ -149,7 +149,7 @@
                 @if((isset($package) && $package))
                     {!! Form::model($package, [
                     'method' => 'PATCH',
-                    'route' => [$routePrefix.'.update',$package->id], 
+                    'route' => [$routePrefix.'.update',$package->id],
                     'class' => 'form-horizontal ',
                     'id'=>'package-form',
                     'enctype'=>'multipart/form-data'
@@ -179,8 +179,8 @@
                                     <span class="help-block">{{ $errors->first('monthly_rate') }}</span>
                                 @endif
                             </div>
-                        </div>                       
-                        
+                        </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('boxes_included', 'Number of Boxes Included <span class="span-req">*</span>:',array('class'=>'','for'=>'boxes_included'),false) !!}
@@ -190,7 +190,7 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 {!! Form::label('te_500', 'TE-5000 Included<span class="span-req">*</span>:',array('class'=>'','for'=>'te_500'),false) !!}
@@ -226,7 +226,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 {!! Form::label('duration', 'Duration <span class="span-req">*</span>:',array('class'=>'','for'=>'duration'),false) !!}
-                                <div class="col-md-12 row">                                    
+                                <div class="col-md-12 row">
                                     {!! Form::number('duration_number',null,['class'=>'form-control col-md-7','placeholder'=>'Enter number','id'=>'duration_number','required'=>'required','step'=>'0.01']) !!}
                                     @if ($errors->has('duration_number'))
                                         <span class="help-block">{{ $errors->first('duration_number') }}</span>
@@ -275,17 +275,17 @@
                                     <td>{{ (array_key_exists($pval->compliance,$yes_no_arr)) ?$yes_no_arr[$pval->compliance]: '' }}</td>
                                     <td>{{ ($pval->frequency_number)?$pval->frequency_number.'/'.$frequency_types[$pval->frequency_type]:'' }} </td>
                                     <td>{{ ($pval->duration_number)?$pval->duration_number.'/'.$frequency_types[$pval->duration_type]:'' }}</td>
-                                    <td> 
+                                    <td>
                                         <a href="{{ route($routePrefix.'.edit',$pval->id) }}" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"><i class="bx bx-edit-alt"></i></a>
                                         <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                             document.getElementById('delete-form-{{$pval->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
                                             {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'route' => [
-                                                $routePrefix . '.destroy', 
+                                                $routePrefix . '.destroy',
                                                 $pval->id
-                                                ], 
-                                                'style'=>'display:inline', 
+                                                ],
+                                                'style'=>'display:inline',
                                                 'id' => 'delete-form-' . $pval->id
                                                 ]) !!}
                                             {!! Form::close() !!}
