@@ -104,7 +104,8 @@ class MenuController extends Controller
         }
         
         $childs = $data->childs;
-        if($data->delete() && $childs->count()){
+        // dd($childs->count());
+        if($data->delete() && $childs->count() > 0 ){
             $childs->delete();
         }
 
@@ -160,6 +161,7 @@ class MenuController extends Controller
                 'group_menu'    => [
                     'type'      => 'switch',
                     'label'     => 'Parent Menu',
+                    'row_width'  => 'col-md-4',
                     'options'   => [
                         1       => ''
                     ],
@@ -168,48 +170,56 @@ class MenuController extends Controller
                 'menu'             => [
                     'type'       => 'text',
                     'label'      => 'Menu Name',
-                    'help'       => 'This will be shown on your menu bar. Maximum 255 characters',
+                    'row_width'  => 'col-md-4',
+                    'help'       => 'Shown on menu bar. Maximum 255 characters',
                     'attributes' => ['required' => true],
                 ],
                 'icon'             => [
                     'type'       => 'text',
                     'label'      => 'Menu Icon',
+                    'row_width'  => 'col-md-4',
                     'help'       => 'Maximum 25 characters',
-                    'extra'         => [
-                        'type'      => 'custom',
-                        'value'     => '<a href="'. route('ui.icons') .'" data-toggle="modal" data-target="#myModal" data-remote="false" data-layout="true" class="btn btn-info waves-effect btn-sm"><i class="bx bx-info-circle"></i> <span>Icon List</span></a>'
-                    ],
+                    // 'extra'         => [
+                    //     'type'      => 'custom',
+                    //     'value'     => '<a href="'. route('ui.icons') .'" data-toggle="modal" data-target="#myModal" data-remote="false" data-layout="true" class="btn btn-info waves-effect btn-sm"><i class="bx bx-info-circle"></i> <span>Icon List</span></a>'
+                    // ],
                 ],
                 'class'             => [
                     'type'       => 'text',
                     'label'      => 'Controller Name',
-                    'help'       => 'Your controller name. Maximum 50 characters',
+                    'row_width'  => 'col-md-4',
+                    'help'       => 'Maximum 50 characters',
                     'attributes' => !$parent_id ? [] : ['required' => true],
                 ],
                 'method'             => [
                     'type'       => 'text',
                     'label'      => 'Controller Method Name',
-                    'help'       => 'Your controller\'s method name. Maximum 50 characters',
+                    'row_width'  => 'col-md-4',
+                    'help'       => 'Maximum 50 characters',
                     'attributes' => !$parent_id ? [] : ['required' => true],
                 ],
                 'url'             => [
                     'type'       => 'text',
                     'label'      => 'URL',
+                    'row_width'  => 'col-md-4',
                     'help'       => 'Enter your route name',
                     'value'      => $data->url ? $data->url : '#'
                 ],
-                'query_params'      => [
-                    'type'          => 'html',
-                    'value'         => $fieldOption
-                ],
+                // 'query_params'      => [
+                //     'type'          => 'html',
+                //     'value'         => $fieldOption
+                // ],
                 'display_order' => [
                     'type' => 'text',
                     'label' => 'Display Order',
+                    'help'       => 'Order of menu display',
+                    'row_width'  => 'col-md-4',
                     'value' => $data->display_order ? $data->display_order : 0
                 ],
                 'status' => [
                     'type' => 'radio',
                     'label' => 'Status',
+                    'row_width'  => 'col-md-4',
                     'options' => $status,
                     'value' => isset($data->status) ? $data->status : 1
                 ],
@@ -232,10 +242,10 @@ class MenuController extends Controller
                     'value' => '<div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"><h3>Permission Info</h3></div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 m-t-15">
-                                        <div class="switch">
-                                            <label>
-                                                <input type="checkbox" name="permission_required" value="1" checked id="permission_required"><span class="lever"></span>
-                                            </label>
+                                        
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox"  name="permission_required" checked class="custom-control-input" id="permission_required">
+                                            <label class="custom-control-label" for="permission_required">Toggle for Permission</label>
                                         </div>
                                     </div>
                                 </div>'
@@ -243,24 +253,28 @@ class MenuController extends Controller
                 'permission_list'             => [
                     'type'       => 'text',
                     'label'      => 'Permission for Listing',
+                    'row_width'  => 'col-md-6',
                     'help'       => 'Please input Method\'s name only. Maximum 255 characters',
                     'value'      => 'index'
                 ],
                 'permission_add'             => [
                     'type'       => 'text',
                     'label'      => 'Permission for Add new Item',
+                    'row_width'  => 'col-md-6',
                     'help'       => 'Please input Method\'s name only. Maximum 255 characters',
                     'value'      => 'create'
                 ],
                 'permission_edit'             => [
                     'type'       => 'text',
                     'label'      => 'Permission for Edit an Item',
+                    'row_width'  => 'col-md-6',
                     'help'       => 'Please input Method\'s name only. Maximum 255 characters',
                     'value'      => 'edit'
                 ],
                 'permission_delete'             => [
                     'type'       => 'text',
                     'label'      => 'Permission for Delete a Item',
+                    'row_width'  => 'col-md-6',
                     'help'       => 'Please input Method\'s name only. Maximum 255 characters',
                     'value'      => 'destroy'
                 ],
@@ -271,6 +285,7 @@ class MenuController extends Controller
                 'role_ids'             => [
                     'type'       => 'checkbox',
                     'label'      => 'Assign permission for Roles',
+                    'row_width'  => 'col-md-6',
                     'options'    => $roles,
                     'value'      => '',
                     'attributes' => ['width' => 'col-lg-4 col-md-4 col-sm-12 col-xs-12'],
@@ -391,7 +406,9 @@ class MenuController extends Controller
                 
 
                 $currentUserRole        = \Auth::user()->roles->pluck('id')->toArray();
-                $input['role_ids']      = array_merge($input['role_ids'], $currentUserRole);
+                if (isset($input['role_ids'])) {
+                    $input['role_ids']      = array_merge($input['role_ids'], $currentUserRole);
+                }
                 $roleModel              = new \App\Models\Role();
                 $superAdminRole         = $roleModel->getListing(['slug' => 'super-admin']);
                 if($currentUserRole != $superAdminRole->id){

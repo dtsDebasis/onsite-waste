@@ -61,7 +61,7 @@ class UserController extends Controller {
             }
         }
 
-		$this->data["users"] =$users->paginate(10);
+		$this->data["users"] =$users->paginate(2);
         $this->data["search"] = $request->search;
 
 		$this->data['pageHeading'] = 'EMPLOYEE LISTING';

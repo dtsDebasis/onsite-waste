@@ -3,13 +3,13 @@
 
 <div class="container-fluid p-0">
     <div class="row no-gutters">
-        <div class="col-xl-3">
+        <div class="col-xl-4">
             <div class="auth-full-page-content p-md-5 p-4">
                 <div class="w-100">
 
                     <div class="d-flex flex-column h-100">
-                        <div class="mb-4 mb-md-5">
-                            <a href="index.html" class="d-block auth-logo">
+                        <div class="mb-4 mb-md-5 p-6">
+                            <a class="d-block auth-logo">
                                 <img src="{{asset('/assets/images/logo-dark.png')}}" alt="" height="18" class="auth-logo-dark">
                                 <img src="{{asset('/assets/images/logo-light.png')}}" alt="" height="18" class="auth-logo-light">
                             </a>
@@ -17,24 +17,31 @@
                         <div class="my-auto">
 
                             <div>
-                                <h5 class="text-primary">Welcome Back !</h5>
+                                <h5 class="text-primary">Welcome Back !!</h5>
                                 <p class="text-muted">Sign in to continue to OnSite Waste Technologies.</p>
                             </div>
-
+                            @if ($message = Session::get('error'))
+                                
+                                <div class="alert alert-danger">
+                                    @foreach ($message as $data)
+                                       {{$data}}
+                                    @endforeach
+                                </div>
+                            @endif
                             <div class="mt-4">
                                 <!-- <form method="get" action="{{route('admin.login')}}"> -->
                                 {{Form::open(array('url'=>'admin/login','method'=>'post',))}}
                                     <div class="form-group">
                                         <label for="username">Email</label>
-                                        <input type="text" class="form-control" name="email" id="email" value="{{old('email')}}" placeholder="Enter username">
+                                        <input type="text" required class="form-control" name="email" id="email" value="{{old('email')}}" placeholder="Enter username">
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="float-right">
+                                        <!-- <div class="float-right">
                                             <a href="forgot-password.html" class="text-muted">Forgot password?</a>
-                                        </div>
+                                        </div> -->
                                         <label for="userpassword">Password</label>
-                                        <input type="password" class="form-control" name="password" id="userpassword" placeholder="Enter password">
+                                        <input type="password" required class="form-control" name="password" id="userpassword" placeholder="Enter password">
                                     </div>
 
                                     
@@ -45,9 +52,7 @@
                                     
                                 {{Form::close()}}
                                 <!-- </form> -->
-                                <div class="mt-5 text-center">
-                                    <p>Don't have an account ? <a href="register.html" class="font-weight-medium text-primary"> Signup now </a> </p>
-                                </div>
+                                
                             </div>
                         </div>
 
@@ -63,21 +68,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-9">
+        <div class="col-xl-8">
             <div class="auth-full-bg pt-lg-5 p-4">
-                <div class="w-100">
-                    <div class="bg-overlay"></div>
-                    <div class="d-flex h-100 flex-column">
-
-                        <div class="p-4 mt-auto">
-                            <div class="row justify-content-center">
+                <div class="bg-overlay"></div>
+                <div class="row justify-content-center">
                                 <div class="col-lg-7">
                                     <div class="text-center testi-bg">
 
                                         <h4 class="mb-3"><i class="bx bxs-quote-alt-left text-primary h1 align-middle mr-3"></i><span class="text-primary">5k</span>+ Satisfied clients</h4>
 
                                         <div dir="ltr">
-                                            <div class="owl-carousel owl-theme auth-review-carousel" id="auth-review-carousel">
+                                            <div>
                                                 <div class="item">
                                                     <div class="py-3">
                                                         <p class="font-size-16 mb-4">"We love OnSite's ability to scale throughout the US. Our organization is adding locations, and OnSite Waste Technologies will grow alongside us!"</p>
@@ -102,9 +103,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- end col -->

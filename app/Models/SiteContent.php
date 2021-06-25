@@ -30,6 +30,9 @@ class SiteContent extends Model
 			->when(isset($srch_params['title']), function ($q) use ($srch_params) {
 				return $q->where($this->table . ".title", "LIKE", "%{$srch_params['title']}%");
 			})
+			->when(isset($srch_params['search']), function ($q) use ($srch_params) {
+				return $q->where($this->table . ".title", "LIKE", "%{$srch_params['search']}%");
+			})
 			->when(isset($srch_params['status']), function ($q) use ($srch_params) {
 				return $q->where($this->table . ".status", $srch_params['status']);
 			});

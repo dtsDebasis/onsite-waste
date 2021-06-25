@@ -52,11 +52,11 @@ class SiteSettingController extends Controller
             ];
         }
 
-        $tabs[] = [
-            'url'           => route($this->_routePrefix . '.edit', 'manipulation'),
-            'name'          => 'Manipulation',
-            'active'        => ($group_name == 'manipulation') ? true : false
-        ];
+        // $tabs[] = [
+        //     'url'           => route($this->_routePrefix . '.edit', 'manipulation'),
+        //     'name'          => 'Manipulation',
+        //     'active'        => ($group_name == 'manipulation') ? true : false
+        // ];
 
         if(!in_array($group_name, ['manipulation'])){
             $fields = [];
@@ -67,9 +67,10 @@ class SiteSettingController extends Controller
                     'label'         => $val->field_label,
                     'value'         => $val->val,
                     'help'          => $val->help_text,
+                    'row_width'  => 'col-md-4',
                     'extra'         => [
                         'type'      => 'custom',
-                        'value'     => "<span class='label bg-black'>\Config::get('settings." . $val->key . "')</span>"
+                        'value'     => "<span style='margin-top:4px;padding:5px 10px;background:#ddd;font-size: 11px;border-radius: 5px;color: #000;display: block;' class='label bg-black'>\Config::get('settings." . $val->key . "')</span>"
                     ],
                     'attributes'    => [
                         'data-id'   => $val->id

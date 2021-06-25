@@ -813,12 +813,13 @@ class CustomerManagementController extends Controller {
 				$this->_data["invoices"] = $invData;
 			}
 			if($srch_params['tab'] == 'inventory'){
-				$url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/inventory.json';
+				// $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/inventory.json';
+				$url = 'locations/'.$companybranch['uniq_id'].'/inventory' ;
 				$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
 				$containerInventory = json_decode($containerInventory, true);
 				$this->_data['containerInventory'] = $containerInventory;
-
-				$url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/device.json';
+				
+				$url = 'locations/'.$companybranch['uniq_id'].'/devices';
 				$te5000 = \App\Helpers\Helper::callAPI('GET',$url,[]);
 				$te5000 = json_decode($te5000, true);
 				$this->_data['te5000'] = $te5000;
@@ -857,7 +858,9 @@ class CustomerManagementController extends Controller {
 		try{
 			$input = $request->all();
 			//\App\Helpers\Helper::messageSendToSlack('text');
-			$url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/cycles.json';
+			// $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/cycles.json';
+			$url = 'locations/'.$input['location_id'].'/devices/'.$input['imie_no'].'/cycleHistory';
+
 			$te5000 = \App\Helpers\Helper::callAPI('GET',$url,[]);
 			$te5000 = json_decode($te5000, true);
 			$data = isset($te5000['results'][0]) ? $te5000['results'][0] : [];

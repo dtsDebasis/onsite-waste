@@ -5,10 +5,10 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-        <div class="input-group mw-30">
+        <!-- <div class="input-group mw-30">
             <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
             <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
-        </div>
+        </div> -->
         
         <a href="{{route('menus.create',$parent_id)}}" class="btn btn-primary w-md">Add New</a>
     </div>

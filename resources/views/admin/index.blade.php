@@ -15,7 +15,7 @@
                             <i class="bx bx-bookmark"></i>
                         </span>
                     </div>
-                    <a href=""><h5 class="font-size-16 text-info mb-0">Customers Count</h5></a>
+                    <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Customers Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{$customers}}</h4>
@@ -35,7 +35,7 @@
                             <i class="bx bx-bookmark"></i>
                         </span>
                     </div>
-                    <a href=""><h5 class="font-size-16 text-info mb-0">Locations Count</h5></a>
+                    <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Locations Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{ $locations }}</h4>
@@ -55,7 +55,7 @@
                             <i class="bx bx-bookmark"></i>
                         </span>
                     </div>
-                    <a href=""><h5 class="font-size-16 text-info mb-0">Active Locations Count</h5></a>
+                    <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Active Locations Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{ $active_locations }}</h4>
@@ -75,7 +75,7 @@
                             <i class="bx bx-bookmark"></i>
                         </span>
                     </div>
-                    <a href=""><h5 class="font-size-16 text-info mb-0">Booked Locations Count</h5></a>
+                    <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Booked Locations Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{ $booked_locations }}</h4>

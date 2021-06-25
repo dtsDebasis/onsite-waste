@@ -140,8 +140,7 @@ class SiteContentController extends Controller
 
         extract($this->_data);
 
-        $labelWidth = 'col-lg-2 col-md-2 col-sm-4 col-xs-12 text-right';
-        $fieldWidth = 'col-lg-6 col-md-6 col-sm-6 col-xs-12';
+        $pageHeading     = ($id ? 'Edit ' : 'Add '). $this->_module;
         $form = [
             'route'      => $this->_routePrefix . ($id ? '.update' : '.store'),
             'back_route' => route($this->_routePrefix . '.index'),
@@ -149,21 +148,26 @@ class SiteContentController extends Controller
                 'title'             => [
                     'type'          => 'text',
                     'label'         => 'Title',
-                    'help'          => 'Maximum 255 characters',
+                    'help'          => 'Maximum 150 characters',
                     'attributes'    => ['required' => true],
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth
+                    'row_width'  => 'col-md-4',
+                    'attributes'    => [
+                        'maxlength' => 150,
+                    ]
                 ],
                 'short_description' => [
-                    'type'          => 'textarea',
+                    'type'          => 'text',
                     'label'         => 'Short Description',
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth
+                    'help'          => 'Maximum 255 characters',
+                    'row_width'  => 'col-md-8',
+                    'attributes'    => [
+                        'maxlength' => 255,
+                    ]
                 ],
                 'long_description'  => [
                     'type'          => 'editor',
                     'label'         => 'Long Description',
-                    'label_width'   => $labelWidth,
+                    'row_width'  => 'col-md-12',
                     'field_width'   => 'col-lg-10 col-md-10 col-sm-8 col-xs-12',
                 ],
                 'html'              => [
@@ -174,37 +178,30 @@ class SiteContentController extends Controller
                     'type'          => 'text',
                     'label'         => 'Meta Title',
                     'help'          => 'Maximum 255 characters',
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth
+                    'row_width'  => 'col-md-6',
                 ],
                 'meta_keyword'      => [
-                    'type'          => 'textarea',
+                    'type'          => 'text',
                     'label'         => 'Meta Keyword',
                     'help'          => 'Maximum 255 characters',
-                    'row_width'     => 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
-                    'label_width'   => 'col-lg-12 col-md-12 col-sm-4 col-xs-12',
-                    'field_width'   => 'col-lg-12 col-md-12 col-sm-4 col-xs-12',
+                    'row_width'  => 'col-md-6',
                     'attributes'    => [
-                        'rows'      => 3,
                         'maxlength' => 255,
                     ]
                 ],
                 'meta_description'  => [
-                    'type'          => 'textarea',
+                    'type'          => 'text',
                     'label'         => 'Meta Description',
                     'help'          => 'Maximum 255 characters',
-                    'row_width'     => 'col-lg-6 col-md-6 col-sm-12 col-xs-12 pl-0',
-                    'label_width'   => 'col-lg-12 col-md-12 col-sm-4 col-xs-12',
-                    'field_width'   => 'col-lg-12 col-md-12 col-sm-4 col-xs-12',
+                    'row_width'  => 'col-md-12',
                     'attributes'    => [
-                        'rows'      => 3,
                         'maxlength' => 255,
                     ]
                 ],
             ],
         ];
 
-        return view('admin.components.admin-form', compact('data', 'id', 'form', 'breadcrumb', 'module'));
+        return view('admin.components.admin-form', compact('data', 'id', 'form', 'breadcrumb', 'module','pageHeading'));
     }
 
     /**

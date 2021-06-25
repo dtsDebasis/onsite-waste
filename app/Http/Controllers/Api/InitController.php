@@ -65,10 +65,14 @@ class InitController extends Controller {
 	}
 	public function siteInitialDetails(Request $request) {
 		try {
-
-			$data['site'] = \App\SiteSetting::select("key", "val", "field_label", "field_type")
-				->where("is_visible", 1)
-				->get();
+			$input     = $request->all();
+			$query = \App\Models\SiteSetting::select("key", "val", "field_label", "field_type")
+				->where("is_visible", 1);
+			if(isset($input['type']) && $input['type']!=''){
+				$query = $query->where("group_name", $input['type']);
+			}	
+			$data['site'] = $query->get();
+				
 
 			return Helper::rj('Record found', 200, $data);
 		} catch (Exception $e) {

@@ -74,6 +74,13 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['auth:api']], function () {
 		
 		Route::get('contact-information','ExternalInfoApiController@contactDetails');
 	});
+
+	Route::group(['prefix' => 'sitecontent'], function () {
+		Route::get('getContent', 'App\Http\Controllers\Api\SiteContentController@getContent');
+	});
+	Route::group(['prefix' => 'sitedetails'], function () {
+		Route::get('siteInitialDetails', 'App\Http\Controllers\Api\InitController@siteInitialDetails');
+	});
 	
 
 });

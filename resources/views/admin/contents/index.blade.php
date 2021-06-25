@@ -6,8 +6,10 @@
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="input-group mw-30">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+          <form class="form-inline">
+            <input name="search" type="text" value="{{Request::get('search')?Request::get('search'):null}}" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+          </form>
         </div>
         
         <a href="{{route('contents.create')}}" class="btn btn-primary w-md">Add New</a>
@@ -20,6 +22,7 @@
                     <thead class="thead-light">
                     <tr>
                     <th width="15%">Title {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'title', $orderBy) !!}</th>
+                    <th>Slug</th>
                     <th>Short Description</th>
                     @if($permission['edit'] || $permission['destroy'])
                     <th width="15%" style="text-align: right;">Action</th>
@@ -30,15 +33,16 @@
                 @if(count($data) != 0)
                   @foreach ($data as $key => $val)
                   <tr>
-                    <td><a href="{{ route($routePrefix . '.show', $val->id) }}" data-toggle="modal" data-target="#myModal" data-remote="false" data-layout="true">{{ $val->title }}</a></td>
-                    <td>{{ $val->short_description }}</td>
+                    <td>{{ $val->title }}</td>
+                    <td>{{ $val->slug }}</td>
+                    <td>{{ (strlen($val->short_description) >80)?substr($val->short_description,0,80).'...': $val->short_description  }}</td>
                     @if($permission['edit'] || $permission['destroy'])
                     <td class="text-right">
                       @if($permission['edit'])
                       <a href="{{ route($routePrefix . '.edit',$val->id) }}" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-original-title="Edit">{!! \Config::get('settings.icon_edit') !!}</a>
                       @endif
                       @if($permission['destroy'])
-                    <a class="btn  btn-outline-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
+                    <a class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                         document.getElementById('delete-form-{{$val->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
                       {!! Form::open([
                         'method' => 'DELETE',

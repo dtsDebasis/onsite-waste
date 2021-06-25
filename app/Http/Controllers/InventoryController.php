@@ -26,14 +26,14 @@ class InventoryController extends Controller {
 		$this->_data['pageHeading'] = $this->_module;
 		$data = app('App\Models\CompanyBranch')->getListing([],20);//$this->_offset
 		foreach($data as $key=>$val){
-			$url = 'https://84j9b2t7u2.execute-api.us-west-2.amazonaws.com/Prod/locations/'.$val['uniq_id'].'/inventory' ;
+			$url = 'locations/'.$val['uniq_id'].'/inventory' ;
 			$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
 			$containerInventory = json_decode($containerInventory, true);
 			$val->inventory_details = $containerInventory;
 		}
 		
 		$this->_data['inventories'] = $data;
-		dd($data);
+		// dd($data);
 		return view('admin.' . $this->_routePrefix . '.index',$this->_data);
 	}
 

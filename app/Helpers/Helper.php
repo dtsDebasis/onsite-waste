@@ -478,6 +478,7 @@ class Helper
 	public static function callAPI($method, $url, $data)
 	{
 		$curl = curl_init();
+		$url = 'https://vd3r1augje.execute-api.us-west-2.amazonaws.com/Prod/'.$url; 
 		switch ($method) {
 			case "POST":
 				curl_setopt($curl, CURLOPT_POST, 1);
@@ -505,11 +506,10 @@ class Helper
 			'x-api-key: xHReajboin7PY4M2G4Gku2YD9kdgqvb95qhhtO5r',
 		));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		// curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		// EXECUTE:
 		
 		$result = curl_exec($curl);
-		// dd($result);
 		if (!$result) {
 			die("Connection Failure");
 		}
