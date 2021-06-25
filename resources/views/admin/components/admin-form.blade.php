@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------------------------------
 
     1. Include Scripts into form:
-        If you want to include scripts into form, 
+        If you want to include scripts into form,
         Enter below script into your form array element.
 
         You may pass either script file location.
@@ -14,7 +14,7 @@
             $(document).ready(function () {
                 your script
             });
-        </script>', 
+        </script>',
 
     2. Custom Buttons:
         If you want to show custom buttons instead of
@@ -55,13 +55,13 @@
                 'help'          => 'Extra help text, below your field name.',
                 'row_width'     => 'custom-row-class' // Default "row clearfix"
             ]
-        textarea: 
+        textarea:
         editor:
         radio:
         checkbox:
         select:
-        multiselect: 
-        email: 
+        multiselect:
+        email:
         number:
         date:
         time:
@@ -70,12 +70,12 @@
         file:
         custom:
         html:
-            METHOD 1: 
+            METHOD 1:
                 'html_group_name'  => [
                     'type'          => 'html',
                     'value'         => '<h4>Your custom html</h4>',
                 ],
-                
+
             METHOD 2:
                 $html = view('your-folder.your-blade', compact(
                             'your-data'
@@ -87,9 +87,9 @@
                     'value'         => $html,
                 ],
         hidden:
-        include: 
+        include:
 --}}
-@extends('admin.layouts.layout', ['title' => $module])
+@extends('admin.layouts.layout', ['title' => $module, 'pageHeading'=> $module])
 @section('content')
 <div class="body">
     @include('admin.components.admin-form-wrapper')

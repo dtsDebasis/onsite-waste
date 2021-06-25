@@ -4,15 +4,16 @@
 
 @section('content')
 <div class="card-body card mb-4">
+<form method="get" action="{{route('permissions.index')}}">
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="input-group mw-30">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+            <input type="text" name="search" value="{{$search}}" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
         </div>
-        
+
         <a href="{{route('permissions.create')}}" class="btn btn-primary w-md">Add New</a>
     </div>
-
+</form>
     <div class="tab-content mt-3 text-muted">
         <div class="tab-pane active" id="home1" role="tabpanel">
             <div class="table-responsive">

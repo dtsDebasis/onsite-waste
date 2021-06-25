@@ -97,11 +97,18 @@ class Permission extends Authenticatable
 
         if (isset($srch_params['orderBy'])) {
             $this->orderBy = \App\Helpers\Helper::manageOrderBy($srch_params['orderBy']);
-            foreach ($this->orderBy as $key => $value) {
-                $listing->orderBy($key, $value);
-            }
+            //dd($this->orderBy);
+            // foreach ($this->orderBy as $key => $value) {
+            //     $listing->orderBy($key, $value);
+            // }
+            $listing->orderBy($this->table . '.id', 'DESC');
         } else {
             $listing->orderBy($this->table . '.id', 'DESC');
+        }
+        if (isset($srch_params['search'])) {
+            $listing->where($this->table . ".p_type", "LIKE", "%{$srch_params['search']}%");
+            $listing->orWhere($this->table . ".class", "LIKE", "%{$srch_params['search']}%");
+            $listing->orWhere($this->table . ".method", "LIKE", "%{$srch_params['search']}%");
         }
 
         if ($offset) {
@@ -123,10 +130,10 @@ class Permission extends Authenticatable
             ], false);
             $userRoles  = $userRoles->pluck('id')->toArray();
         }
-        
+
 
         // if this is a super admin
-        // set all permission 
+        // set all permission
         if(in_array(1, $userRoles)) {
             return true;
         }
@@ -161,7 +168,7 @@ class Permission extends Authenticatable
     }
 
     /*
-     * Check module wise permissions. It checks given methods permissions 
+     * Check module wise permissions. It checks given methods permissions
      * from given class name. and return method wise permission result.
      */
 

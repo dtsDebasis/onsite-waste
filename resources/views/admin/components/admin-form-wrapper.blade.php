@@ -15,19 +15,19 @@
     {!! Form::model($data, [
         'method'    => 'PATCH',
         'route'     => [
-            $form['route'], 
+            $form['route'],
             $requestParam
-        ], 
+        ],
         'class'     => 'form-horizontal',
         'enctype'   => 'multipart/form-data'
         ]) !!}
 @else
     {!! Form::open(array(
         'route'     => [
-            $form['route'], 
+            $form['route'],
             $requestParam
         ],
-        'method'    => 'POST', 
+        'method'    => 'POST',
         'enctype'   => 'multipart/form-data'
     )) !!}
 @endif
@@ -41,24 +41,24 @@
         @foreach($form['fields'] as $key => $value)
             @if(isset($value['row_width']))
                 @if($oneElementEachRow)
-                    <div class="form-group row mb-4'">
+                    <div class="col-md-4'">
                 @endif
                 @php ($rowClass =  $value['row_width'])
                 @php ($oneElementEachRow = false)
-            @else 
+            @else
                 @if(!$oneElementEachRow)
                     </div>
                 @endif
-                @php ($rowClass = 'form-group row mb-4')
+                @php ($rowClass = 'col-md-4')
                 @php ($oneElementEachRow = true)
             @endif
             @php ($extraWidth = (isset($value['extra']['field_width']) ? $value['extra']['field_width'] : 'col-lg-3 col-md-3 col-xs-12 col-sm-12'))
-            @php ($dateTimePicker = (!$dateTimePicker && in_array($value['type'], ['date', 'time', 'datetime'])) ? 1 : $dateTimePicker) 
-            @php ($fileCropper = (!$fileCropper && $value['type'] == 'file' && isset($value['attributes']) && array_key_exists("cropper", $value['attributes']) && $value['attributes']['cropper']) ? 1 : $fileCropper) 
+            @php ($dateTimePicker = (!$dateTimePicker && in_array($value['type'], ['date', 'time', 'datetime'])) ? 1 : $dateTimePicker)
+            @php ($fileCropper = (!$fileCropper && $value['type'] == 'file' && isset($value['attributes']) && array_key_exists("cropper", $value['attributes']) && $value['attributes']['cropper']) ? 1 : $fileCropper)
             @php ($coverClass = '')
             @php ($inputValue = (isset($value['value']) ? $value['value'] : null))
             @if(!in_array($value['type'], ['html', 'include', 'hidden']))
-               
+
                 <div class="{{ $rowClass }}" id="row-{{ str_replace('[]', '', $key) }}">
                     @include('admin.components.admin-form-field')
                     @if(isset($value['extra']) && $value['extra'])
@@ -75,7 +75,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="row-{{ $key }}">{!! $value['value'] !!}</div>
                 <div class="clearfix"></div>
             @elseif($value['type'] == 'include')
-                @include($value['value'])        
+                @include($value['value'])
             @endif
         @endforeach
 
@@ -132,7 +132,7 @@
                 @if(isset($form['back_route']))
                 <a href="{{ $form['back_route'] }}" class="btn btn-info  w-md waves-effect">{!! \Config::get('settings.icon_back') !!} <span>Back</span></a>
                 @endif
-            
+
         </div>
     @else
         <div class="text-right">
@@ -142,7 +142,7 @@
         </div>
     @endif
     </div>
-    
+
 {!! Form::close() !!}
 
 <div class="clearfix"></div>

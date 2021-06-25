@@ -12,10 +12,11 @@ class PermissionController extends Controller {
 	public function __construct($parameters = array())
     {
         parent::__construct($parameters);
-        
+
 		$this->_module      = 'Permission';
 		$this->_routePrefix = 'permissions';
 		$this->_model 		= new Permission();
+        $this->_offset = 20;
 	}
 
 	/**
@@ -33,6 +34,8 @@ class PermissionController extends Controller {
 		$this->_data['data'] 	= $this->_model->getListing($this->_data['srch_params'], $this->_offset);
 		$this->_data['filters'] = $this->_model->getFilters();
 		$this->_data['orderBy'] = $this->_model->orderBy;
+		$this->_data['search'] = $request->search ?? '' ;
+
 		return view('admin.' . $this->_routePrefix . '.index', $this->_data)
 			->with('i', ($request->input('page', 1) - 1) * $this->_offset);
 	}
@@ -95,7 +98,7 @@ class PermissionController extends Controller {
 		$data->delete();
 
 		return redirect()->route($this->_routePrefix . '.index')
-			->with('success', 'Site Content deleted successfully');
+			->with('success', 'Permissions deleted successfully');
 	}
 
 	/**

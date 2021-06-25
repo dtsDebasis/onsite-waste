@@ -70,6 +70,7 @@ class UserController extends Controller {
 
 	public function create(Request $request) {
 		$this->data['roles'] = DB::table('roles')->get();
+		$this->data['module'] = 'EMPLOYEE';
 		return view('admin.users.create',$this->data);
 	}
 
@@ -248,6 +249,7 @@ class UserController extends Controller {
 
         $this->data['user'] = $user;
         $this->data['role_id'] = $role_id;
+        $this->data['module'] = 'EMPLOYEE';
 		return view('admin.users.edit',$this->data);
 		//return $this->__formUiGeneration($request, $id);
 	}

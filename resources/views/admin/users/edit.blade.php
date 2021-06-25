@@ -1,4 +1,4 @@
-@extends('admin.layouts.layout')
+@extends('admin.layouts.layout', ['title' => $module, 'pageHeading'=> $module])
 
 @section('content')
 <div class="card-body card mb-4">

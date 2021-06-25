@@ -59,7 +59,7 @@ class Role extends Authenticatable {
 			->when(isset($srch_params['is_visible']), function ($q) use ($srch_params) {
 				return $q->where($this->table . ".is_visible", $srch_params['is_visible']);
 			})
-			
+
 			->when(isset($srch_params['level_gt']), function ($q) use ($srch_params) {
 				return $q->where($this->table . ".level", ">", $srch_params['level_gt']);
 			})
@@ -82,13 +82,16 @@ class Role extends Authenticatable {
 
 		if (isset($srch_params['orderBy'])) {
 			$this->orderBy = \App\Helpers\Helper::manageOrderBy($srch_params['orderBy']);
-			foreach ($this->orderBy as $key => $value) {
-				$listing->orderBy($key, $value);
-			}
+			// foreach ($this->orderBy as $key => $value) {
+			// 	$listing->orderBy($key, $value);
+			// }
+            $listing->orderBy($this->table . '.id', 'DESC');
 		} else {
 			$listing->orderBy($this->table . '.id', 'DESC');
 		}
-
+        if (isset($srch_params['search'])) {
+            $listing->where($this->table . ".title", "LIKE", "%{$srch_params['search']}%");
+        }
 		if ($offset) {
 			$listing = $listing->paginate($offset);
 		} else {

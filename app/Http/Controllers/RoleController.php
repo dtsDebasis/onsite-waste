@@ -11,10 +11,11 @@ class RoleController extends Controller {
 	public function __construct($parameters = array())
     {
         parent::__construct($parameters);
-        
+
 		$this->_module      = 'Role';
 		$this->_routePrefix = 'roles';
 		$this->_model 		= new Role();
+        $this->_offset = 10;
 	}
 
 	/**
@@ -33,12 +34,12 @@ class RoleController extends Controller {
 		$srch_params 				= $request->all();
 		$srch_params['level_gt'] 	= $myLevel;
 		$srch_params['is_visible'] 	= 1;
-		
+
 		if(!$request->has('orderBy')){
 			$srch_params['orderBy'] 	= 'roles__level';
 		}
 		$this->_data['data']       	= $this->_model->getListing($srch_params, $this->_offset);
-		
+        $this->_data['search'] = $request->search ?? '' ;
 		$this->_data['orderBy']     = $this->_model->orderBy;
 		return view('admin.' . $this->_routePrefix . '.index', $this->_data)
 			->with('i', ($request->input('page', 1) - 1) * $this->_offset);
@@ -107,7 +108,7 @@ class RoleController extends Controller {
 		}
 
 		return redirect()->route($this->_routePrefix . '.index')
-			->with('success', 'Site Content deleted successfully');
+			->with('success', 'Role deleted successfully');
 	}
 
 	/**
@@ -128,7 +129,7 @@ class RoleController extends Controller {
 			if ($return) {
 				return $return;
 			}
-		} 
+		}
 
 		$form = [
 			'route'      => $this->_routePrefix . ($id ? '.update' : '.store'),
