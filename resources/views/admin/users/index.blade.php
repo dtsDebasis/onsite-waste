@@ -35,6 +35,7 @@
                                         <th>Email</th>
                                         <th>Phone</th>
                                         <th>Designation</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -67,6 +68,7 @@
                                             @endphp
                                             {{$designation}}
                                         </td>
+                                        <td>{{$user->status == 1 ? 'Active' : 'Inactive'}}</td>
                                         <td>
                                             {{-- <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary
                                             btn-sm btn-rounded waves-effect waves-light">
