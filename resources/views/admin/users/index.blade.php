@@ -59,7 +59,7 @@
                                             if($user->designation=='m'){
                                             $designation = 'Manager';
                                             }elseif($user->designation=='s'){
-                                            $designation = 'Superviser';
+                                            $designation = 'Supervisor';
                                             }elseif($user->designation=='ex'){
                                             $designation = 'Executive';
                                             }elseif($user->designation=='exa'){
