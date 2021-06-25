@@ -1,6 +1,11 @@
 @extends('admin.layouts.layout')
 @push('pageplugincss')
-
+<style>
+select.select2{
+    position: static !important;
+    outline:none !important;
+}
+</style>
 @endpush
 
 @section('content')
@@ -9,7 +14,7 @@
         @if($data)
             {!! Form::model($data, [
             'method' => 'PATCH',
-            'route' => ['pickups.update',$id], 
+            'route' => ['pickups.update',$id],
             'class' => 'form-horizontal ',
             'id'=>'branch-hauling-form',
             'enctype'=>'multipart/form-data'
@@ -18,7 +23,7 @@
             {!! Form::open(array('route' => ['pickups.store'],'method'=>'POST', 'enctype'=>'multipart/form-data','id'=>'branch-hauling-form','class' => 'form-horizontal')) !!}
         @endif
             <div class="row">
-                <div class="col-md-4">                    
+                <div class="col-md-4">
                     <div class="form-group">
                         @php($companies = \App\Helpers\Helper::companies())
                         @php($compnay_id = Request::old('company_id')?Request::old('company_id'):((isset($branch_details) && $branch_details)?$branch_details->company_id:((isset($data->company_id) && $data->company_id)?$data->company_id:null)))
@@ -29,7 +34,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">                    
+                <div class="col-md-4">
                     <div class="form-group">
                         @php($company_branches = \App\Helpers\Helper::companyBranches($compnay_id))
                         @php($branch_id = Request::old('branch_id')?Request::old('branch_id'):(Request::get('branch_id')?Request::get('branch_id'):(($data && isset($data->branch_id))?$data->branch_id:null)))
@@ -49,7 +54,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">                    
+                <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('driver_name', 'Provider Name :',array('class'=>'','for'=>'driver_name'),false) !!}
                         {!! Form::text('driver_name',null,['class'=>'form-control','placeholder'=>'Enter name','id'=>'driver_name']) !!}
@@ -58,7 +63,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">                    
+                <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('request_type', 'Request Type <span class="span-req">*</span>:',array('class'=>'','for'=>'request_type'),false) !!}
                         {!! Form::select('request_type',['1' => 'ASAP','2' => 'ASAP - No Change to Frequency'],null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'request_type','required'=>'required']) !!}
@@ -67,7 +72,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">                    
+                <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('supplies_requested', 'Supplies Requested <span class="span-req">*</span>:',array('class'=>'','for'=>'supplies_requested'),false) !!}
                         {!! Form::select('supplies_requested',['0' => 'No','1' => 'Yes'],null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'supplies_requested','required'=>'required']) !!}
@@ -76,7 +81,7 @@
                         @endif
                     </div>
                 </div>
-                
+
                 <div class="col-md-12">
                     <div class="form-group">
                         {!! Form::label('description', 'Note :',array('class'=>'','for'=>'description'),false) !!}
@@ -87,7 +92,7 @@
                     </div>
                 </div>
                 @php($status_arr = ['0'=>'Not Confirm','1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
-                <div class="col-md-4">                    
+                <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('status', 'status <span class="span-req">*</span>:',array('class'=>'','for'=>'status'),false) !!}
                         {!! Form::select('status',$status_arr,null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'status','required'=>'required']) !!}
@@ -99,8 +104,8 @@
             </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary w-md">Submit</button>
-            </div>            
-        {!! Form::close() !!}        
+            </div>
+        {!! Form::close() !!}
     </div>
 
 @endsection
@@ -108,6 +113,24 @@
 @push('pagejs')
 <script>
 $(document).ready(function () {
+        var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+
+    // or instead:
+    // var maxDate = dtToday.toISOString().substr(0, 10);
+
+    //alert(maxDate);
+    $('#date').attr('min', maxDate);
+
     let loc = window.location.href;
     console.log(loc);
     $('.nav-link.active').removeClass('active');
@@ -136,12 +159,12 @@ $(document).ready(function () {
                     });
                     $('#branch_id').html(html);
                     $('#branch_id').select2();
-                } 
+                }
                 else {
                     bootbox.alert({
                         title:"Branch List",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -150,7 +173,7 @@ $(document).ready(function () {
                     bootbox.alert({
                     title:"Branch List",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
