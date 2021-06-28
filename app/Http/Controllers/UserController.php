@@ -61,7 +61,7 @@ class UserController extends Controller {
             }
         }
 
-		$this->data["users"] =$users->paginate(2);
+		$this->data["users"] =$users->paginate(20);
         $this->data["search"] = $request->search;
 
 		$this->data['pageHeading'] = 'EMPLOYEE LISTING';
@@ -108,7 +108,9 @@ class UserController extends Controller {
 					"user_type" => 'admin'
 				];
 				$user_id = DB::table('users')->insertGetId($usrTblData);
+                //dd($user_id);
 				if($user_id){
+                    User::sendPasswordChangeMail($request->email);
 					if(!empty($request->role)){
 						$userRoleTblData = [
 							"user_id" => $user_id,
