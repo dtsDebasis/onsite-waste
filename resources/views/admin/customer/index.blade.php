@@ -11,22 +11,22 @@
                     <div class="col-md-8">
                         {!! Form::open(['method' => 'GET','route' => 'customers.index','id' => 'srch-form','class' => 'form-controll']) !!}
                             <div class="row">
-                                <div class="col-md-3">                    
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="company_number" value="{{Request::get('company_number')?Request::get('company_number'):null}}" placeholder="Search by ID" aria-label="Search">
                                     </div>
                                 </div>
-                                <div class="col-md-4">                    
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="company_name" value="{{Request::get('company_name')?Request::get('company_name'):null}}" placeholder="Search by name" aria-label="Search">
                                     </div>
                                 </div>
-                                <div class="col-md-4">                    
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="address" value="{{Request::get('address')?Request::get('address'):null}}" placeholder="Search by address" aria-label="Search">
                                     </div>
                                 </div>
-                            
+
                                 <div class="col-md-4">
                                     <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                                     <a class="btn btn-danger" href="{{route('customers.index')}}">Reset</a>
@@ -88,10 +88,10 @@
                                                 {!! Form::open([
                                                     'method' => 'DELETE',
                                                     'route' => [
-                                                    'customers.destroy', 
+                                                    'customers.destroy',
                                                     $company->id
-                                                    ], 
-                                                    'style'=>'display:inline', 
+                                                    ],
+                                                    'style'=>'display:inline',
                                                     'id' => 'delete-form-' . $company->id
                                                     ]) !!}
                                                 {!! Form::close() !!}
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                {{$companies->links()}}                
+                {{-- {{$companies->links()}}                 --}}
             </div>
         </div>
     </div>
@@ -128,16 +128,16 @@
                         </div>
                     </div>
                 </div>
-                
+
                     <p>Please check sample CSV file for format, any other format will not be recognized.</p>
-                    
-                    <a class="btn btn-info" href="{{ url('samples/Company Sample Format.csv') }}">Sample Format</a> 
-                
+
+                    <a class="btn btn-info" href="{{ url('samples/Company Sample Format.csv') }}">Sample Format</a>
+
             </div>
-            <div class="modal-footer">  
-                <button type="submit" class="btn btn-success">Submit</button>               
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
             </div>
             {!! Form::close() !!}
         </div><!-- /.modal-content -->
@@ -151,7 +151,7 @@ $(document).ready(function () {
     $('body').on('click','#import_customer',function(){
         $('.import_modal').modal('show');
     });
-    
+
 });
 </script>
 @endpush

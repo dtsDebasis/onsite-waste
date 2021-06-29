@@ -12,35 +12,35 @@
             <div class="card-body">
                 <div class="col-sm-12">
                     <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div class="col-md-12">                            
+                        <div class="col-md-12">
                             {!! Form::open(['method' => 'GET','route' => $routePrefix.'.index','id' => 'srch-form']) !!}
-                            
-                            <div class="row">                     
-                                <div class="col-md-3">                    
+
+                            <div class="row">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="location" value="{{Request::get('location')?Request::get('location'):null}}" placeholder="Search by location" aria-label="Search">
                                     </div>
                                 </div>
-                                <div class="col-md-3">                    
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         @php($type = Request::get('type')?Request::get('type'):null)
                                         {!! Form::select('type',$types,$type,['class'=>'form-control select2','placeholder'=> 'Choose ...','id'=>'type',]) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-3">                    
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         @php($stch_dt = Request::get('date')?Request::get('date'):null)
                                         {!! Form::date('date',$stch_dt,['class'=>'form-control','placeholder'=> 'select date','id'=>'srch_date',]) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-3"> 
+                                <div class="col-md-3">
                                     <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                                     <a class="btn btn-danger" href="{{route($routePrefix.'.index')}}">Reset</a>
                                 </div>
                             </div>
                             {!! Form::close() !!}
                         </div>
-                        
+
                     </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap mb-0" id="inventories_table">
@@ -55,7 +55,7 @@
                             </thead>
                             <tbody>
                             @if(count($data))
-                                @foreach($data as $ikey => $ival) 
+                                @foreach($data as $ikey => $ival)
                                     <tr class="">
                                         <td>{{(isset($ival->branch_details->name)) ? $ival->branch_details->name:'NA' }} </td>
                                         <td>{!! (isset($ival->user_details) && $ival->user_details) ? '<strong>'.$ival->user_details->full_name.'</strong><br>'.$ival->user_details->email:'NA' !!}</td>
@@ -96,7 +96,7 @@
                 </button>
             </div>
             <div class="modal-body" id="detailsBody">
-                                              
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -117,7 +117,7 @@ $(document).ready(function () {
         $('#detailsBody').html(details);
         $('#details_modal').modal('show');
     });
-    
+
 
 });
 </script>

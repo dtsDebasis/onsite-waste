@@ -16,11 +16,11 @@
                     @endforeach
                 </ul>
             </div>
-            @endif            
+            @endif
             @if($companybranch)
                 {!! Form::model($companybranch, [
                 'method' => 'PATCH',
-                'route' => ['customers.create.branch-store-update',[$id,'brnch'=>$companybranch->id]], 
+                'route' => ['customers.create.branch-store-update',[$id,'brnch'=>$companybranch->id]],
                 'class' => 'form-horizontal ',
                 'id'=>'branch-form',
                 'enctype'=>'multipart/form-data'
@@ -53,7 +53,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             {!! Form::label('phone', 'Phone :',array('class'=>'','for'=>'phone'),false) !!}
-                            {!! Form::number('phone',null,['class'=>'form-control','id' => 'phone']) !!}
+                            {!! Form::number('phone',null,['class'=>'form-control','id' => 'phone','min'=>1]) !!}
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -134,7 +134,7 @@
                                 @endif
                             @endforeach
                         @endif
-                    </div>                    
+                    </div>
                     <div class="col-md-12 mt-3 ">
                         <div class="form-group">
                             <a href="javascript:void(0);" class="btn btn-outline-secondary waves-effect" data-toggle="modal" data-target=".add-contact-site-branch-bs-center"><i class="fa fa-plus"></i> Add Contact</a>
@@ -188,16 +188,19 @@
                                         <td> {{($onsitePartners)?implode(',',$onsitePartners):'NA'}}</td>
                                         <td>{{ $companybranch->phone  ?? '' }}</td>
                                         <td>{{ $companybranch->addressdata->addressline1  ?? '' }}</td>
-                                        
-                                        
+
+
                                         @php($comSpecialt = [])
+
                                         @if(isset($companybranch->branchspecialty) && count($companybranch->branchspecialty))
                                             @foreach($companybranch->branchspecialty as $sp)
+                                            {{-- {{dd($sp)}} --}}
                                                 @if(isset($sp->speciality_details->name) && ($sp->speciality_details->name))
                                                     @php($comSpecialt[] = $sp->speciality_details->name)
                                                 @endif
                                             @endforeach
                                         @endif
+
                                         <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
                                         @php($branchUsers = [])
                                         @if(isset($companybranch->branchusers) && count($companybranch->branchusers))
@@ -218,10 +221,10 @@
                                             {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'route' => [
-                                                'customers.branch-destroy',[$companybranch->company_id, 
+                                                'customers.branch-destroy',[$companybranch->company_id,
                                                 $companybranch->id
-                                                ]], 
-                                                'style'=>'display:inline', 
+                                                ]],
+                                                'style'=>'display:inline',
                                                 'id' => 'delete-form-' . $companybranch->id
                                                 ]) !!}
                                             {!! Form::close() !!}
@@ -269,7 +272,7 @@
                                     <td>{{ $contact->designation ?? '' }}</td>
                                     <td>{{ $contact->email ?? '' }}</td>
                                     <td>{{ $contact->phone ?? '' }}</td>
-                                    
+
                                     <td>
                                         <button type="button" id="contact_list_td_{{$contact->id}}" class="{{!in_array($contact->id,$includedContact_ids)?'btn btn-outline-primary waves-effect waves-light assign-contact':'btn btn-outline-primary assign-contact pointer-none'}}" user_id = "{{ $contact->id }}" company_id = "{{ $id }}" user_name="{{ $contact->fullname ?? '' }}" user_email="{{ $contact->email }}" user_phone="{{ $contact->phone}}" user_designation="{{ $contact->designation}}">{{!in_array($contact->id,$includedContact_ids)?'Assign':'Assigned'}}</button>
                                             <span class="check-icon" style="display:none;" ><i class="bx bx-check"></i> </span>
@@ -316,7 +319,7 @@
                                     <td>{{ $contact->designation ?? '' }}</td>
                                     <td>{{ $contact->email ?? '' }}</td>
                                     <td>{{ $contact->phone ?? '' }}</td>
-                                    
+
                                     <td>
                                         <button type="button" id="existing_contact_list_td_{{$contact->id}}" class="btn btn-outline-primary waves-effect waves-light existing-assign-contact" user_id = "{{ $contact->id }}" company_id = "{{ $id }}" user_name="{{ $contact->fullname ?? '' }}" user_email="{{ $contact->email }}" user_phone="{{ $contact->phone}}" user_designation="{{ $contact->designation}}">Assign</button>
                                             <span class="check-icon" style="display:none;" ><i class="bx bx-check"></i> </span>
@@ -328,8 +331,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                 <a href="javascript:;" class="btn btn-success" id="contact_reassign_submit">Submit</a>                         
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                 <a href="javascript:;" class="btn btn-success" id="contact_reassign_submit">Submit</a>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -341,9 +344,9 @@
 {!! Form::open([
     'method' => 'POST',
     'route' => [
-        'customers.branch-assign-to-contact' 
-    ], 
-    'style'=>'display:inline', 
+        'customers.branch-assign-to-contact'
+    ],
+    'style'=>'display:inline',
     'id' => 'branch-assign-to-contact-form'
     ]) !!}
     <input type="hidden" name="company_id" value="{{$id}}" id="assign_company_id">
@@ -371,7 +374,7 @@ $(document).ready(function () {
         else{
             $('.service-based-view').removeClass('d-none');
         }
-    });    
+    });
 });
 </script>
 @endsection('create-customer-content')

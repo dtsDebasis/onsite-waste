@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label>Company Name*</label>
                             @php($company_name = Request::old('company_name')?Request::old('company_name'):(Request::get('company_name')?Request::get('company_name'):(isset($company->company_name)?$company->company_name:null)))
-                            <input type="text" class="form-control" name="company_name"  value="{{ $company_name }}" >
+                            <input type="text" class="form-control" name="company_name"  value="{{ $company_name }}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
