@@ -62,7 +62,7 @@ class LoginController extends Controller {
 			$section_settings = \App\Helpers\Helper::getUserHomeSectionSettings($user);
 			$data['section_settings'] = $section_settings;
 			$data['details']->section_settings = $section_settings;
-			
+
 			return Helper::rj('Login Successful', $this->successStatus, $data);
 		} catch (\Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());
@@ -104,32 +104,34 @@ class LoginController extends Controller {
 			$input = $request->all();
 			$user  = User::where('email', $input['email'])->first();
 
-			$user_roles  = $user->roles->pluck('slug')->toArray();
-			if (in_array('customer', $user_roles)) {
-				return \App\Helpers\Helper::resp('Not a valid user.', 400);
-			}
+			// $user_roles  = $user->roles->pluck('slug')->toArray();
+			// if (in_array('customer', $user_roles)) {
+			// 	return \App\Helpers\Helper::resp('Not a valid user.', 400);
+			// }
 
 			if (!$user) {
 				// return \App\Helpers\Helper::resp('Not a valid data', 400);
 				return Helper::rj('An email has been sent to your registered email id to recover your password.', 200, []);
 			}
 
-			$user->remember_token = Helper::randomString(25);
+            User::sendPasswordChangeMail($input['email']);
 
-			if ($user->save()) {
-				$mailData = [
-					'first_name'      => $user->first_name,
-					'activation_link' => \Config::get('settings.frontend_url') . 'user/password/' . $user->remember_token,
-				];
-				$fullName = $user->first_name . ' ' . $user->last_name;
-				\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'forgot_password');
-				return Helper::rj('Password recovery email has been sent to you.', 200);
-			} else {
-				return Helper::rj('An email has been sent to your registered email id to recover your password.', 200, [
-					'errors' => 'Sorry! This email is not registered with us.',
-				]);
-			}
+			//$user->remember_token = Helper::randomString(25);
 
+			// if ($user->save()) {
+			// 	$mailData = [
+			// 		'first_name'      => $user->first_name,
+			// 		'activation_link' => \Config::get('settings.frontend_url') . 'user/password/' . $user->remember_token,
+			// 	];
+			// 	$fullName = $user->first_name . ' ' . $user->last_name;
+			// 	\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'forgot_password');
+			// 	return Helper::rj('Password recovery email has been sent to you.', 200);
+			// } else {
+			// 	return Helper::rj('An email has been sent to your registered email id to recover your password.', 200, [
+			// 		'errors' => 'Sorry! This email is not registered with us.',
+			// 	]);
+			// }
+			return Helper::rj('Password recovery email has been sent to you.', 200);
 		} catch (Exception $e) {
 			return Helper::rj($e->getMessage(), 500);
 		}
@@ -198,7 +200,7 @@ class LoginController extends Controller {
 				]);
 			}
 			$user =  User::where('remember_token', $input['token'])->first();
-			if($user){			
+			if($user){
 				$data['verified']       = 1;
 				$data['remember_token'] = null;
 				$data['status']         = 1;

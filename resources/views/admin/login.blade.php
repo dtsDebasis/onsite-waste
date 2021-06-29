@@ -21,7 +21,7 @@
                                 <p class="text-muted">Sign in to continue to OnSite Waste Technologies.</p>
                             </div>
                             @if ($message = Session::get('error'))
-                                
+
                                 <div class="alert alert-danger">
                                     @foreach ($message as $data)
                                        {{$data}}
@@ -44,15 +44,17 @@
                                         <input type="password" required class="form-control" name="password" id="userpassword" placeholder="Enter password">
                                     </div>
 
-                                    
+
 
                                     <div class="mt-3">
                                         <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Log In</button>
                                     </div>
-                                    
+                                                <div class="mt-4 text-center">
+                <a href="{{ url('admin/password/reset') }}" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot Password ?</a>
+            </div>
                                 {{Form::close()}}
                                 <!-- </form> -->
-                                
+
                             </div>
                         </div>
 

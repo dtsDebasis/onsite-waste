@@ -29,19 +29,19 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['api']], function () {
 Route::group(['prefix' => 'v1/', 'middleware' => ['auth:api']], function () {
 	Route::post('auth/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout');
 	Route::get('init', 'App\Http\Controllers\Api\InitController@initialDetails');
-	
+
 
 	Route::group(['prefix' => 'users'], function () {
 		Route::post('avatar', 'App\Http\Controllers\Api\UserController@uploadAvatar');
-		Route::post('update-password', 'App\Http\Controllers\Api\UserController@updatePassword');	
+		Route::post('update-password', 'App\Http\Controllers\Api\UserController@updatePassword');
 		Route::get('profile-details', 'App\Http\Controllers\Api\UserController@profileDetails');
-		Route::post('profile-update', 'App\Http\Controllers\Api\UserController@profileUpdate');	
+		Route::post('profile-update', 'App\Http\Controllers\Api\UserController@profileUpdate');
 	});
 
 	Route::group(['prefix' => 'knowledgecenter'], function () {
 		Route::get('getcategory', 'App\Http\Controllers\Api\KnowledgeCenterController@getCategory');
 		Route::get('getknowledgewizard', 'App\Http\Controllers\Api\KnowledgeCenterController@getKnowledgeWizard');
-		Route::get('getKnowledgeContent', 'App\Http\Controllers\Api\KnowledgeCenterController@getKnowledgeContent');		
+		Route::get('getKnowledgeContent', 'App\Http\Controllers\Api\KnowledgeCenterController@getKnowledgeContent');
 		Route::post('addUserPreference', 'App\Http\Controllers\Api\KnowledgeCenterController@addUserPreference');
 		Route::get('getUserPreference', 'App\Http\Controllers\Api\KnowledgeCenterController@getUserPreference');
 		Route::get('getTagList', 'App\Http\Controllers\Api\KnowledgeCenterController@getTagList');
@@ -56,22 +56,22 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['auth:api']], function () {
 	Route::group(['prefix' => 'banners'], function () {
 		Route::get('getBanners', 'App\Http\Controllers\Api\BannersController@getBanners');
 	});
-	
+
 	Route::post('send-request-info','App\Http\Controllers\Api\GuestRequestApiController@postRequest');
-	
+
 	Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
 		Route::get('manifest-list','PickupApiController@manifestList');
 		Route::get('manifest-list-export','PickupApiController@manifestListExport');
 		Route::get('hauling-list','PickupApiController@haulingList');
 		Route::get('branch-list','PickupApiController@branchList');
 		Route::post('inventory-manifest-request-sent','PickupApiController@customerRequestStore');
-		
+
 		Route::get('inventory-list','PickupApiController@inventoryList');
 		Route::get('invoice-list','PickupApiController@invoiceList');
 		Route::get('invoice-list-export','PickupApiController@getInvoiceExcelLink');
 		Route::get('package-lists','PickupApiController@packageLists');
 		Route::get('transaction-package-list','PickupApiController@getTransactionPackageDetails');
-		
+
 		Route::get('contact-information','ExternalInfoApiController@contactDetails');
 	});
 
@@ -81,7 +81,7 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['auth:api']], function () {
 	Route::group(['prefix' => 'sitedetails'], function () {
 		Route::get('siteInitialDetails', 'App\Http\Controllers\Api\InitController@siteInitialDetails');
 	});
-	
+
 
 });
 
