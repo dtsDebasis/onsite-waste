@@ -58,6 +58,9 @@ class Speciality extends Model
             ->when(isset($srch_params['with']), function ($q) use ($srch_params) {
 				return $q->with($srch_params['with']);
 			})
+            ->when(isset($srch_params['status']), function($q) use($srch_params){
+                return $q->where($this->table . '.status', '=', $srch_params['status']);
+            })
             ->when(isset($srch_params['name']), function($q) use($srch_params){
                 return $q->where($this->table . ".name", "LIKE", "%{$srch_params['name']}%");
             });

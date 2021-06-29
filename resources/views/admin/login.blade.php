@@ -23,9 +23,11 @@
                             @if ($message = Session::get('error'))
 
                                 <div class="alert alert-danger">
-                                    @foreach ($message as $data)
-                                       {{$data}}
-                                    @endforeach
+                                    @if(isset($message))
+                                        @foreach ($message as $data)
+                                        {{$data}}
+                                        @endforeach
+                                    @endif
                                 </div>
                             @endif
                             <div class="mt-4">

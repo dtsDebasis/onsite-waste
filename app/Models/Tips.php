@@ -78,6 +78,9 @@ class Tips extends Model
             ->when(isset($srch_params['with']), function ($q) use ($srch_params) {
 				return $q->with($srch_params['with']);
 			})
+            ->when(isset($srch_params['status']), function($q) use($srch_params){
+                return $q->where($this->table . '.status', '=', $srch_params['status']);
+            })
             ->when(isset($srch_params['title']), function($q) use($srch_params){
                 return $q->where($this->table . ".title", "LIKE", "%{$srch_params['title']}%");
             });
@@ -125,7 +128,7 @@ class Tips extends Model
         if($file && $icon){
             \App\Models\File::deleteFile($icon, true);
         }
-		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $data);
+		return \App\Helpers\Helper::resp('Changes have been successfully saved.', 200, $data);
     }
     
     public function remove($id = null)

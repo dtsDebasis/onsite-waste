@@ -125,6 +125,17 @@ class GuestRequestInfo extends Model
 		}		
 		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $file);
 	}
+
+    public function uploadManifestDoc($data = [], $request)
+	{
+		$avatar = false;
+		$file 	= \App\Models\File::upload($request, 'manifest_documents', 'request_manifest_document', $data->id,0,$data->id);
+
+        if($file && $avatar){
+            \App\Models\File::deleteFile($avatar, true);
+		}		
+		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $file);
+	}
 }
 
 

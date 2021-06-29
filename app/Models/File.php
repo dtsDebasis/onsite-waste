@@ -80,6 +80,10 @@ class File extends Model {
 			'type'     => 9,
 			'location' => 'banner',
 		],
+		'request_manifest_document' => [
+			'type'     => 10,
+			'location' => 'request-manifest-documents'
+		],
 
 	];
 

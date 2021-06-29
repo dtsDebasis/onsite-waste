@@ -139,7 +139,8 @@
                                                 <th>Company Name</th>
                                                 <th>E-mail Id</th>
                                                 <th>Phone</th>
-                                                <th>Documents</th>
+                                                <th>Invoices</th>
+                                                <th>Manifests</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -152,7 +153,8 @@
                                                     <td>{!! ($val->company_name)?$val->company_name:'NA' !!}</td>
                                                     <td>{{ $val->company_email }}</td>
                                                     <td><a href="tel:{{ $val->company_phone }}">{{ $val->company_phone }}</a></td>
-                                                    <td class="font-22"><a href="{{route($routePrefix.'.request-file-download',$val->id)}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a></td>
+                                                    <td class="font-22"><a href="{{route($routePrefix.'.request-file-download',['invoice',$val->id])}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a></td>
+                                                    <td class="font-22"><a href="{{route($routePrefix.'.request-file-download',['manifest',$val->id])}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a></td>
                                                     <td><button type="button" class="btn btn-outline-primary waves-effect waves-light reply_to_button" data-id="{{$val->id}}" data-email="{{$val->company_email}}">Reply</button></td>
                                                 </tr>
                                                 <tr class="d-none" id="file_details_{{$val->id}}">

@@ -104,12 +104,17 @@ class GuestController extends Controller {
 
 	}
 
-	public function downloadRequestFile(Request $request,$id){
+	public function downloadRequestFile(Request $request,$type,$id){
 		$details = app('App\Models\GuestRequestInfo')->getListing(['id' => $id]);
 		if($details && count($details->request_info_doc)){
-			$fileName = $details->company_name.'.zip';
+			$fileName = $details->company_name.'-'.$type.'.zip';
 			$cdn = \App\Models\Cdn::where("status", 1)->first();
-			$path2 = \Storage::disk($cdn->location_type)->path($cdn->cdn_root . File::$fileType['request_info_document']['location'].'/'.$id);//. '\\' . $fileName;
+			if ($type == 'manifest') {
+				$path2 = \Storage::disk($cdn->location_type)->path($cdn->cdn_root . File::$fileType['request_manifest_document']['location'].'/'.$id);//. '\\' . $fileName;
+			} else {
+				$path2 = \Storage::disk($cdn->location_type)->path($cdn->cdn_root . File::$fileType['request_info_document']['location'].'/'.$id);//. '\\' . $fileName;
+			}
+			
 			$path2 = str_replace('\\','/',$path2);
 			$path = public_path().'/downloads';
 			$files = CoreFile::files($path);

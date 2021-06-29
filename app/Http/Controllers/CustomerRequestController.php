@@ -15,7 +15,7 @@ class CustomerRequestController extends Controller
     {
         parent::__construct($parameters);
 
-        $this->_module      = 'Customer Request Management';
+        $this->_module      = 'Customer Requests';
         $this->_routePrefix = 'customer-requests';
         $this->_model       = new CustomerRequest;
     }

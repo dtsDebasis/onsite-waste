@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 	Route::get('export/users', 'App\Http\Controllers\UserController@export')->name('export.users');
 	Route::post('providers/approve', 'App\Http\Controllers\ProviderController@approve')->name('providers.approve');
 
+	Route::get('/profile', 'App\Http\Controllers\UserController@profile')->name('admin.profile');
 
 	#customer
 	Route::group(['prefix' => 'customers'], function () {
@@ -217,7 +218,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 	Route::match(['post','patch'],'pickups/ajax-update-manifest-details','App\Http\Controllers\HaulingController@manifestUpdateDetails')->name('pickups.manifest-update-details');
 	Route::post('pickups/status-update','App\Http\Controllers\HaulingController@updateStatus')->name('pickups.status-update');
 	Route::resource('pickups','App\Http\Controllers\HaulingController');
-	Route::get('guest/request-file-download/{id}','App\Http\Controllers\GuestController@downloadRequestFile')->name('guests.request-file-download');
+	Route::get('guest/request-file-download/{type}/{id}','App\Http\Controllers\GuestController@downloadRequestFile')->name('guests.request-file-download');
 	Route::resource('guests','App\Http\Controllers\GuestController');
 	Route::post('request-info-reply','App\Http\Controllers\GuestController@requestInfoReply')->name('request-info.reply');
 

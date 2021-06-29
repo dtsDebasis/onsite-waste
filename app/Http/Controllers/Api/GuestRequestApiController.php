@@ -24,8 +24,8 @@ class GuestRequestApiController extends Controller {
             return $next($request);
         });
         $this->_siteSettings = \App\Helpers\Helper::SiteSettingDetails();
-		$this->_module      = 'User';
-		$this->_routePrefix = 'users';
+		// $this->_module      = 'User';
+		// $this->_routePrefix = 'users';
 		$this->_model       = new GuestRequestInfo();
 	}
 
@@ -47,9 +47,11 @@ class GuestRequestApiController extends Controller {
                 'company_phone' =>'required',
                 'request_type' =>'required|integer',
                 'info_documents.*' =>'required|mimes:jpeg,png,jpg,doc,docx,pdf|max:' . (int) $siteSettings['file_size'] * 1024,
+                'manifest_documents.*' =>'required|mimes:jpeg,png,jpg,doc,docx,pdf|max:' . (int) $siteSettings['file_size'] * 1024,
             );
             $messages = [
-                'info_documents.*.max' => 'File size cannot exceed ' . $siteSettings['file_size'] . ' MB'
+                'info_documents.*.max' => 'File size cannot exceed ' . $siteSettings['file_size'] . ' MB',
+                'manifest_documents.*.max' => 'File size cannot exceed ' . $siteSettings['file_size'] . ' MB'
             ];
             $validator = \Validator::make($input, $rules,$messages);
             if ($validator->fails()) {
@@ -78,7 +80,8 @@ class GuestRequestApiController extends Controller {
                 $model = new \App\Models\GuestRequestInfo();
                 $data = $model->create($input);
                 if($data){ 
-                    $uploadedFiles = $model->uploadInfoDoc($data,$request);   
+                    $uploadedFiles = $model->uploadInfoDoc($data,$request);
+                    $uploadedMaqnifestFiles = $model->uploadManifestDoc($data,$request);   
                     $mailData = [
                         'name'       => 'Hello Admin',
                         'user_name' => $this->_user->full_name,

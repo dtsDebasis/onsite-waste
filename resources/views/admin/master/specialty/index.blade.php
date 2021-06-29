@@ -21,6 +21,7 @@
                     <tr>
                       <th>Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'country_name', $orderBy) !!}</th>
                       <th>Status {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'status', $orderBy) !!}</th>
+                      <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>

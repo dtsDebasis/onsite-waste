@@ -15,6 +15,7 @@ class TipsController extends Controller
         $this->_module      = 'Tips';
         $this->_routePrefix = 'tips';
         $this->_model       = new Tips();
+        $this->_offset = 10;
     }
 
     /**
@@ -26,10 +27,11 @@ class TipsController extends Controller
     {
         $this->initIndex();
         $srch_params                        = $request->all();
-        $this->_data['data']                = $this->_model->getListing($srch_params, $this->_offset);
+        $this->_data['data']                = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
         $this->_data['orderBy']             = $this->_model->orderBy;
         $this->_data['pageHeading']             = $this->_module;
         $this->_data['filters']             = $this->_model->getFilters();
+        $this->_data['search']              = isset($srch_params['title'])?$srch_params['title']:null;
         return view('admin.' . $this->_routePrefix . '.index', $this->_data)
             ->with('i', ($request->input('page', 1) - 1) * $this->_offset);
     }
@@ -154,6 +156,9 @@ class TipsController extends Controller
                     'label'         => 'Icon',
                     'help'          => 'For better viewing upload image of 48 x 48 size',
                     'value'         =>  isset ($data->icon) ? $data->icon : '',
+                    'attributes'    => [
+                        'accept'       => "image/*"
+                    ]
                 ],
                 'article_link' => [
                     'row_width'     => 'col-md-6',
@@ -167,7 +172,8 @@ class TipsController extends Controller
                     'label'      => 'Rank',
                     'value'      => isset($data->rank) ? $data->rank : null,
                     'attributes'    => [
-                        'required'  => true
+                        'required'  => true,
+                        'min'  => 0
                     ]
                 ],
                 'status'            => [

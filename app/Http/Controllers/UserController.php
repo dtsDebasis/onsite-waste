@@ -268,6 +268,15 @@ class UserController extends Controller {
 		//return $this->__formUiGeneration($request, $id);
 	}
 
+
+	public function profile(Request $request) {
+        $user                    = \Auth::user();
+        $this->data['user'] = $user;
+        $this->data['module'] = 'UPDATE PROFILE';
+		return $this->__formUiGeneration($request, $user->id);
+		// return view('admin.users.profile',$this->data);
+	}
+
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -309,9 +318,10 @@ class UserController extends Controller {
 		$roles      = [];
 		$userRoles  = [];
 		$ownAccount = true;
-
+		
 		$this->initUIGeneration($id, false);
 		extract($this->_data);
+		
 		if ($id) {
 			$data = $this->_model->getListing([
 				'id'              => $id,
@@ -388,15 +398,15 @@ class UserController extends Controller {
 					'type'  => 'password',
 					'label' => 'Confirm Password',
 				],
-				'avatar'           => [
-					'type'       => 'file',
-					'label'      => 'Avatar',
-					'value'      => isset($data->profile_pic) ? $data->profile_pic : [],
-					'attributes' => [
-						'cropper' => true,
-						'ratio'   => '200x200',
-					],
-				],
+				// 'avatar'           => [
+				// 	'type'       => 'file',
+				// 	'label'      => 'Avatar',
+				// 	'value'      => isset($data->profile_pic) ? $data->profile_pic : [],
+				// 	'attributes' => [
+				// 		'cropper' => true,
+				// 		'ratio'   => '200x200',
+				// 	],
+				// ],
 				/*'appointments[]' => [
 					                    'type'          => 'file',
 					                    'label'         => 'Avatar',
@@ -435,6 +445,10 @@ class UserController extends Controller {
 			$form['fields']['username']['attributes']['readonly'] = true;
 			$form['fields']['email']['attributes']['readonly']    = true;
 		}
+		if ($id && Auth::user()->id == $id) {
+			$breadcrumb = ['#'=> 'Update Profile' ];
+			$module = 'Update Profile';
+		}
 
 		return view('admin.components.admin-form', compact('data', 'id', 'form', 'breadcrumb', 'module'));
 	}
@@ -466,7 +480,7 @@ class UserController extends Controller {
 					->with('success', $response['message']);
 			} else {
 				return redirect()
-					->route($this->_routePrefix . '.edit', $id)
+					->route('admin.profile')
 					->with('success', $response['message']);
 			}
 		} else {

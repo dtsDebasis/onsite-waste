@@ -77,6 +77,9 @@ class Banner extends Model
             ->when(isset($srch_params['with']), function ($q) use ($srch_params) {
 				return $q->with($srch_params['with']);
 			})
+            ->when(isset($srch_params['status']), function($q) use($srch_params){
+                return $q->where($this->table . '.status', '=', $srch_params['status']);
+            })
             ->when(isset($srch_params['title']), function($q) use($srch_params){
                 return $q->where($this->table . ".title", "LIKE", "%{$srch_params['title']}%");
             });
@@ -124,7 +127,7 @@ class Banner extends Model
         if($file && $banner_img){
             \App\Models\File::deleteFile($banner_img, true);
         }
-		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $data);
+		return \App\Helpers\Helper::resp('Changes have been successfully saved.', 200, $data);
     }
     
     public function remove($id = null)
