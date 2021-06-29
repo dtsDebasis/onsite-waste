@@ -45,7 +45,7 @@ class CompanyBranch extends Model
     public function addressdata(){
         return  $this->belongsTo('App\Models\AddressData', 'addressdata_id');
     }
-    
+
     public function branchspecialty(){
         return  $this->hasMany('App\Models\BranchSpecialty', 'company_branch_id','id');
     }
@@ -62,11 +62,12 @@ class CompanyBranch extends Model
         $with_det = [];
         if(isset($srch_params['with'])){
             $with_det = $srch_params['with'];
-        } 
+        }
         $select = '*';
         if(isset($srch_params['select'])){
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
         }
+
         $listing = self::select($select)->with($with_det)//->where($this->table .'.deleted_at',NULL)
             ->when(isset($srch_params['company_id']), function($q) use($srch_params){
                 return $q->where($this->table.".company_id", "=", $srch_params['company_id']);
@@ -76,7 +77,7 @@ class CompanyBranch extends Model
             })
             ->when(isset($srch_params['recurring_id']), function($q) use($srch_params){
                 return $q->where($this->table.".recurring_id", "=", $srch_params['recurring_id']);
-            })            
+            })
             ->when(isset($srch_params['addressdata_id']), function($q) use($srch_params){
                 return $q->where($this->table.".addressdata_id", "=", $srch_params['addressdata_id']);
             })
@@ -100,13 +101,17 @@ class CompanyBranch extends Model
                 return $listing->where($this->table .'.uniq_id', '=', $srch_params['uniq_id'])
                                 ->first();
             }
-            
+
             if(isset($srch_params['single_record'])){
                 return $listing->latest()->first();
             }
             if(isset($srch_params['count'])){
                 return $listing->count();
-            }                        
+            }
+            if (isset($srch_params['location'])) {
+                $listing->where($this->table . ".name", "LIKE", "%{$srch_params['location']}%");
+
+            }
             if($offset){
                 $listing = $listing->orderBy($this->table .'.id', 'Asc')
                                 ->paginate($offset);
@@ -126,7 +131,7 @@ class CompanyBranch extends Model
                 }
             }
         return $listing;
-            
+
     }
 
 }

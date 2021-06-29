@@ -11,28 +11,28 @@
             <div class="card-body">
                 <div class="col-sm-12">
                     <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div class="col-md-9">                            
+                        <div class="col-md-9">
                             {!! Form::open(['method' => 'GET','route' => $routePrefix.'.index','id' => 'srch-form']) !!}
-                            
+
                             <div class="row">
-                                <div class="col-md-5">                    
+                                {{-- <div class="col-md-5">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="company" value="{{Request::get('company')?Request::get('company'):null}}" placeholder="Search by company" aria-label="Search">
                                     </div>
-                                </div>                                    
-                                <div class="col-md-3">                    
+                                </div>                                     --}}
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="location" value="{{Request::get('location')?Request::get('location'):null}}" placeholder="Search by location" aria-label="Search">
                                     </div>
                                 </div>
-                                <div class="col-md-4"> 
+                                <div class="col-md-4">
                                     <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                                     <a class="btn btn-danger" href="{{route($routePrefix.'.index')}}">Reset</a>
                                 </div>
                             </div>
                             {!! Form::close() !!}
                         </div>
-                        
+
                     </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap mb-0" id="inventories_table">
@@ -50,7 +50,7 @@
                             </thead>
                             <tbody>
                             @if(count($inventories))
-                                @foreach($inventories as $ikey => $ival) 
+                                @foreach($inventories as $ikey => $ival)
                                     <tr class="">
                                         <td>{{$ival->name}}</td>
                                         @php($inventory_details = (array_key_exists("canisterInventory",$ival->inventory_details))?$ival->inventory_details['canisterInventory']: array())
@@ -97,7 +97,7 @@
                 </button>
             </div>
             <div class="modal-body" id="cyclingBody">
-                                              
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -126,15 +126,15 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#cyclingBody').html(data.html);
                     $('#cycle_modal').modal('show');
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Last Cycle Run Information",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -143,13 +143,13 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Last Cycle Run Information",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
     });
     $('body').on('click','.cycling_details_status_change', function(){
-        
+
         var branch_id = $(this).attr('data-branch_id');
         var info_id = $(this).attr('data-info_id');
         $.ajax({
@@ -163,14 +163,14 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#cycle_modal').find('#ping_data_body').html(data.msg);
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Cycling Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -179,7 +179,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Cycling Details",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });

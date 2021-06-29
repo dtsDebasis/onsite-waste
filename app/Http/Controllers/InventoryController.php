@@ -23,15 +23,15 @@ class InventoryController extends Controller {
 		$this->initIndex([], false);
         $srch_params                    = $request->all();
         $this->_data['srch_params'] = $srch_params;
-		$this->_data['pageHeading'] = $this->_module;
-		$data = app('App\Models\CompanyBranch')->getListing([],20);//$this->_offset
+		$this->_data['pageHeading'] = 'INVENTORY MANAGEMENT';
+		$data = app('App\Models\CompanyBranch')->getListing($srch_params,20);//$this->_offset
 		foreach($data as $key=>$val){
 			$url = 'locations/'.$val['uniq_id'].'/inventory' ;
 			$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
 			$containerInventory = json_decode($containerInventory, true);
 			$val->inventory_details = $containerInventory;
 		}
-		
+
 		$this->_data['inventories'] = $data;
 		// dd($data);
 		return view('admin.' . $this->_routePrefix . '.index',$this->_data);
@@ -52,7 +52,7 @@ class InventoryController extends Controller {
 			if ($validator->fails()) {
 				throw new Exception($validator->errors()->first(),200);
 			}
-			else{ 
+			else{
 				$data = \App\Helpers\Helper::getCyclingDetails($input['branch_id']);
 				if($data){
 					$view = view("admin.inventories.cycling_information",['data'=>$data])->render();
@@ -78,7 +78,7 @@ class InventoryController extends Controller {
 			if ($validator->fails()) {
 				throw new Exception($validator->errors()->first(),200);
 			}
-			else{ 				
+			else{
 				return Response::json(['success'=>true,'msg'=>'Ping successfully','data'=>[]]);
 
 			}
@@ -86,5 +86,5 @@ class InventoryController extends Controller {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
         }
 	}
-	
+
 }
