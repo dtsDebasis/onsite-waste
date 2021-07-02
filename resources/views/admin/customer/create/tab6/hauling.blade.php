@@ -10,7 +10,7 @@
             @if($hauling)
                 {!! Form::model($hauling, [
                 'method' => 'PATCH',
-                'route' => ['customers.hauling-store-upadte',$company->id], 
+                'route' => ['customers.hauling-store-upadte',$company->id],
                 'class' => 'form-horizontal ',
                 'id'=>'branch-hauling-form',
                 'enctype'=>'multipart/form-data'
@@ -24,7 +24,7 @@
                     <div class="col-sm-12">
                         <h3 class="custom-heading">Pickup </h3>
                     </div>
-                    <div class="col-md-4">                        
+                    <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('driver_name', 'Driver Name :',array('class'=>'','for'=>'driver_name'),false) !!}
                             {!! Form::text('driver_name',null,['class'=>'form-control','placeholder'=>'Enter name','id'=>'driver_name']) !!}
@@ -53,7 +53,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-md-4">                    
+                    <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('number_of_boxes', 'Number Of Boxes <span class="span-req">*</span>:',array('class'=>'','for'=>'number_of_boxes'),false) !!}
                             {!! Form::number('number_of_boxes',null,['class'=>'form-control','placeholder'=>'Enter box number','id'=>'number_of_boxes','required' => 'required']) !!}
@@ -100,8 +100,8 @@
                             <table class="table table-centered table-nowrap mb-0">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Branch Name</th>
                                         <th>Location</th>
+                                        <th>Address</th>
                                         <th>Number Of Boxes</th>
                                         <th>Package</th>
                                         <th>Driver Name</th>
@@ -112,7 +112,7 @@
                                 </thead>
                                 <tbody>
                                     @if(count($hauling_list))
-                                        @foreach($hauling_list as $hkey => $hval) 
+                                        @foreach($hauling_list as $hkey => $hval)
                                             <tr class="">
                                                 <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td>
                                                 @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
@@ -122,7 +122,7 @@
                                                 @endif
                                                 <td> {{($hval->number_of_boxes)?$hval->number_of_boxes.' Box':'NA'}}</td>
                                                 @if(isset($hval->package_details) && $hval->package_details)
-                                                    <td> {{$hval->package_details->name}}</td>                                                        
+                                                    <td> {{$hval->package_details->name}}</td>
                                                 @else
                                                     <td> NA </td>
                                                 @endif
@@ -144,9 +144,9 @@
                                                     {!! Form::open([
                                                         'method' => 'DELETE',
                                                         'route' => [
-                                                        'pickups.destroy',[$hval->id] 
-                                                        ], 
-                                                        'style'=>'display:inline', 
+                                                        'pickups.destroy',[$hval->id]
+                                                        ],
+                                                        'style'=>'display:inline',
                                                         'id' => 'delete-form-' . $hval->id
                                                         ]) !!}
                                                     {!! Form::close() !!}
@@ -155,7 +155,7 @@
                                         @endforeach
                                     @else
                                     <tr class="">
-                                        <td colspan="25">No Record found</td>                                        
+                                        <td colspan="25">No Record found</td>
                                     </tr>
                                     @endif
                                 </tbody>
@@ -177,7 +177,7 @@
                 </button>
             </div>
             <div class="modal-body" id="manifesstBody">
-                                              
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -213,15 +213,15 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#manifesstBody').html(data.html);
                     $('#all_manifest_modal').modal('show');
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -230,7 +230,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Manifest Details",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -255,14 +255,14 @@ $(document).ready(function () {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"success"                   
+                        type:"success"
                     });
-                } 
+                }
                 else {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -271,7 +271,7 @@ $(document).ready(function () {
                     bootbox.alert({
                     title:"Manifest Assign",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });

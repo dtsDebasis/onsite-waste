@@ -296,7 +296,7 @@ class UserController extends Controller {
 	 */
 	public function destroy($id) {
 		$response = $this->_model->remove($id);
-
+        //dd($response);
 		if ($response['status'] == 200) {
 			return redirect()
 				->route($this->_routePrefix . '.index')
@@ -318,10 +318,10 @@ class UserController extends Controller {
 		$roles      = [];
 		$userRoles  = [];
 		$ownAccount = true;
-		
+
 		$this->initUIGeneration($id, false);
 		extract($this->_data);
-		
+
 		if ($id) {
 			$data = $this->_model->getListing([
 				'id'              => $id,

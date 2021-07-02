@@ -291,9 +291,9 @@ class User extends Authenticatable
 		}
 
 		if ($offset) {
-			$listing = $listing->paginate($offset);
+			$listing = $listing->whereNull($this->table .'deleted_at')->paginate($offset);
 		} else {
-			$listing = $listing->get();
+			$listing = $listing->whereNull($this->table .'deleted_at')->get();
 		}
 
 		if ($listing != null && $listing->isEmpty()) {
