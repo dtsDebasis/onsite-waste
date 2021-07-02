@@ -5,10 +5,12 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
+    <form class="form-inline" method="get" action="{{route('master.companyowners.index')}}">
         <div class="input-group mw-30">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+            <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
         </div>
+    </form> 
         
         <a href="{{route('master.companyowners.create')}}" class="btn btn-primary w-md">Add New</a>
     </div>
@@ -62,7 +64,9 @@
                     </tbody>
                 </table>
             </div>
-
+            <div style="margin-top: 15px;">
+              {{$data->links()}}                
+            </div>                     
         </div>
     </div>
 </div>

@@ -15,6 +15,7 @@ class KnowledgeCategoryController extends Controller
         $this->_module      = 'Knowledge Category';
         $this->_routePrefix = 'knowledgecategories';
         $this->_model       = new KnowledgeCategory;
+        $this->_offset = 10;
     }
 
     /**
@@ -25,9 +26,10 @@ class KnowledgeCategoryController extends Controller
     public function index(Request $request, $kw_category_id = 0)
     {
         $permission = \App\Models\Permission::checkModulePermissions();
-        $data       = $this->_model->getListing(["kw_category_id" => $kw_category_id], $this->_offset);
+        $srch_params                    = $request->all();
+        $data       = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
         $adminMenu  = $this->_model->getParentMenu($kw_category_id);
-
+        $search              = isset($srch_params['title'])?$srch_params['title']:null;
         $breadcrumb[route($this->_routePrefix . '.index', 0)] = str_plural($this->_module);
         foreach ($adminMenu as $key => $value) {
             $breadcrumb[route($this->_routePrefix . '.index', $value['id'])] = $value['title'];
@@ -43,6 +45,7 @@ class KnowledgeCategoryController extends Controller
             'permission',
             'pageHeading',
             'routePrefix',
+            'search',
             'kw_category_id'
         ))
             ->with('i', ($request->input('page', 1) - 1) * $this->_offset);
@@ -176,7 +179,8 @@ class KnowledgeCategoryController extends Controller
                     'label'      => 'Rank',
                     'value'      => $data->rank ? $data->rank : '',
                     'attributes'    => [
-                        'required'  => true
+                        'required'  => true,
+                        'min'  => 0
                     ]
                 ],
                 'status' => [

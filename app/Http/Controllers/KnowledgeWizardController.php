@@ -16,6 +16,7 @@ class KnowledgeWizardController extends Controller
         $this->_module      = 'Knowledge Wizard';
         $this->_routePrefix = 'knowledgewizard';
         $this->_model       = new KnowledgeWizard();
+        $this->_offset = 10;
     }
 
     /**
@@ -36,7 +37,8 @@ class KnowledgeWizardController extends Controller
         //     $srch_params['sub_category']    = $sub_category;
         // }
         $this->_data['pageHeading'] = $this->_module;
-        $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset);
+        $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
+        $this->_data['search']              = isset($srch_params['title'])?$srch_params['title']:null;
         $this->_data['orderBy']         = $this->_model->orderBy;
         $this->_data['filters']         = $this->_model->getFilters();
         // $this->_data['category']         = $category;
@@ -207,7 +209,8 @@ class KnowledgeWizardController extends Controller
                     'label'      => 'Rank',
                     'value'      => $data->rank ? $data->rank : '',
                     'attributes'    => [
-                        'required'  => true
+                        'required'  => true,
+                        'min'  => 0
                     ]
                 ],
                 'bk_img' => [
@@ -220,7 +223,10 @@ class KnowledgeWizardController extends Controller
                 'benifits_header' => [
                     'row_width'     => 'col-md-6',
                     'type'          => 'text',
-                    'label'         => 'Highlights Title'
+                    'label'         => 'Highlights Title',
+                    'attributes'    => [
+                        'required'  => true
+                    ]
                 ],
                 'benifits' => [
                     'row_width'     => 'col-md-6',

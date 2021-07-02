@@ -557,6 +557,7 @@ class CustomerManagementController extends Controller {
 			return response()->json(['data' => $response ],200);
 
 		}
+		$packages = \App\Helpers\Helper::getPackageNameDropdown();
 		if(isset($input['package_id'])){
 			$this->_data['editPackage'] = Package::where(['company_id' => $id, 'id' => $input['package_id']])->first();
 		}
@@ -565,6 +566,7 @@ class CustomerManagementController extends Controller {
 		}
 
 		$this->_data["id"] = $id;
+		$this->_data["packagenames"] = $packages;
 		$this->_data["navlink_isactive"] = true;
 		$this->_data['transactionalpackages'] = \App\Models\TransactionalPackage::where('company_id',$id)->first();
 		$this->_data["packages"] =  Package::where(['is_active' => 1,'company_id' => 0,'branch_id' => 0 ])->get();
@@ -679,9 +681,11 @@ class CustomerManagementController extends Controller {
 			$addressdata = $companybranch = null;
 			$companyBrancObject = new CompanyBranch();
 			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','branchusers.user','branchspecialty.speciality_details']]);
+			
 			$this->_data['branch_code'] = \App\Helpers\Helper::generateMasterCode('\App\Models\CompanyBranch','uniq_id',10);
 			$this->_data['company'] = $company;
 			$this->_data["navlink_isactive"] = true;
+			$this->_data["shipping"] = true;
 			if( request('edit') && request('companybranchid') ){
 				$companybranch = $companyBrancObject->getListing(['id'=>request('companybranchid'),'company_id'=>$id,'with'=>['addressdata','branchusers.user']]);
 				$this->_data['branch_code'] = ($companybranch)?$companybranch->uniq_id:$this->_data['branch_code'];
@@ -834,6 +838,22 @@ class CustomerManagementController extends Controller {
 			return redirect()->back()->with('error','Details not found');
 		}
 	}
+
+	public function locationInventoryDetails(Request $request) {
+		$input = $request->all();
+		$this->_data['uniq_id'] = $input['unique_id'];
+		$url = 'locations/'.$input['unique_id'].'/inventory' ;
+		$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
+		$containerInventory = json_decode($containerInventory, true);
+		$this->_data['containerInventory'] = $containerInventory;
+		
+		$url = 'locations/'.$input['unique_id'].'/devices';
+		$te5000 = \App\Helpers\Helper::callAPI('GET',$url,[]);
+		$te5000 = json_decode($te5000, true);
+		$this->_data['te5000'] = $te5000;
+		return view('admin.customer.create.tab4.inventory-partial', $this->_data);
+	}
+
 	public function branchInventoryReorder(Request $request){
 		try{
 			$input = $request->all();
@@ -844,16 +864,7 @@ class CustomerManagementController extends Controller {
 			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
 		}
 	}
-	public function branchInventoryUpdate(Request $request){
-		try{
-			$input = $request->all();
-			//\App\Helpers\Helper::messageSendToSlack('text');
-			return Response::json(['success'=>true,'msg'=>'Changes has been saved successfully']);
-
-		} catch (Exception $e) {
-			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
-		}
-	}
+	
 	public function branchInventoryLastRunInfo(Request $request){
 		try{
 			$input = $request->all();

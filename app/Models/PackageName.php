@@ -5,25 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Banner extends Model
+class PackageName extends Model
 {
     use HasFactory;
 
-    protected $table = 'banner';
+    protected $table = 'packagename';
 
     protected $fillable = [
-        'title',
-        'short_desc',
-        'button_link',
-        'button_text',
-        'usertype',
+        'name',
         'status',
     ];
 
     protected $hidden = [
     	'updated_at',
-    	'deleted_at',
-        'banner_img'
+    	'deleted_at'
     ];
 
     public $statuses = [
@@ -39,39 +34,17 @@ class Banner extends Model
         ],
     ];
 
-    public $usertype = [
-        'customer' => 'Customer',
-        'guest' => 'Guest'
-    ];
-
-
-    protected $appends = [
-		'banner'
-	];
-
-    public function getBannerAttribute()
-	{
-		return File::file($this->banner_img, 'no-profile.jpg');
-	}
-
-	public function banner_img()
-	{
-		$entityType = isset(File::$fileType['banner']['type']) ? File::$fileType['banner']['type'] : 0;
-		return $this->hasOne('App\Models\File', 'entity_id', 'id')
-			->where('entity_type', $entityType)->latest();
-	}
-
     public $orderBy = [];
 
     public function getFilters()
 	{
         $status         = \App\Helpers\Helper::makeSimpleArray($this->statuses, 'id,name');
 		return [
-            'reset' => route('banners.index'),
+            'reset' => route('master.packagename.index'),
 			'fields' => [
-				'title'          => [
+				'name'          => [
 		            'type'      => 'text',
-		            'label'     => 'Title'
+		            'label'     => 'Package Name'
 		        ]
 			]
 		];
@@ -88,11 +61,8 @@ class Banner extends Model
             ->when(isset($srch_params['status']), function($q) use($srch_params){
                 return $q->where($this->table . '.status', '=', $srch_params['status']);
             })
-            ->when(isset($srch_params['usertype']), function($q) use($srch_params){
-                return $q->where($this->table . '.usertype', '=', $srch_params['usertype']);
-            })
-            ->when(isset($srch_params['title']), function($q) use($srch_params){
-                return $q->where($this->table . ".title", "LIKE", "%{$srch_params['title']}%");
+            ->when(isset($srch_params['name']), function($q) use($srch_params){
+                return $q->where($this->table . ".name", "LIKE", "%{$srch_params['name']}%");
             });
 
         if(isset($srch_params['id'])){
@@ -107,7 +77,7 @@ class Banner extends Model
                 $listing->orderBy($key, $value);
             }
         } else {
-            $listing->orderBy($this->table . '.title', 'ASC');
+            $listing->orderBy($this->table . '.name', 'ASC');
         }
 
         if($offset){
@@ -122,23 +92,19 @@ class Banner extends Model
     public function store($input = [], $id = 0, $request = null)
 	{
 		$data 						= null;
-        $banner_img = null;
         if ($id) {
             $data = $this->getListing(['id' => $id]);
 
             if(!$data) {
 				return \App\Helpers\Helper::resp('Not a valid data', 400);
 			}
-            $banner_img = $data->banner_img;
+
             $data->update($input);
         } else {
             $data   = $this->create($input);
 		}
-		$file   = \App\Models\File::upload($request, 'banner', 'banner', $data->id);
-        if($file && $banner_img){
-            \App\Models\File::deleteFile($banner_img, true);
-        }
-		return \App\Helpers\Helper::resp('Changes have been successfully saved.', 200, $data);
+		
+		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $data);
     }
     
     public function remove($id = null)

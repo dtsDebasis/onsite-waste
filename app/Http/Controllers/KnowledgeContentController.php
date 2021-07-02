@@ -16,6 +16,7 @@ class KnowledgeContentController extends Controller
         $this->_module      = 'Knowledge Content';
         $this->_routePrefix = 'knowledgecontent';
         $this->_model       = new KnowledgeContent();
+        $this->_offset = 10;
     }
 
     /**
@@ -29,7 +30,8 @@ class KnowledgeContentController extends Controller
         $this->__routeParams();
         $srch_params                    = $request->all();
         $this->_data['pageHeading'] = $this->_module;
-        $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset);
+        $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
+        $this->_data['search']              = isset($srch_params['title'])?$srch_params['title']:null;
         $this->_data['orderBy']         = $this->_model->orderBy;
         $this->_data['filters']         = $this->_model->getFilters();
 
@@ -203,7 +205,8 @@ class KnowledgeContentController extends Controller
                     'label'      => 'Rank',
                     'value'      => $data->rank ? $data->rank : '',
                     'attributes'    => [
-                        'required'  => true
+                        'required'  => true,
+                        'min'  => 0
                     ]
                 ],
                 'knowledge_states[]' => [

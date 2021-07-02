@@ -232,9 +232,19 @@ class PickupApiController extends Controller {
             $data = app('App\Models\CompanyBranch')->getListing($srch_params,$this->_offset);
             foreach($data as $key=>$val){
                 $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/inventory.json';
+                $devices_url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/devices.json';
+
+                // $url = 'locations/'.$val['uniq_id'].'/inventory' ;
+                // $devices_url = 'locations/'.$val['uniq_id'].'/devices';
+
                 $containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
                 $containerInventory = json_decode($containerInventory, true);
+
+                $devicesInventory = \App\Helpers\Helper::callAPI('GET',$devices_url,[]);
+                $devicesInventory = json_decode($devicesInventory, true);
+
                 $val->inventory_details = $containerInventory;
+                $val->devices_details = $devicesInventory;
             }
             return Helper::rj('List fetch successfully .', $this->successStatus,$data);
         } catch (Exception $e) {

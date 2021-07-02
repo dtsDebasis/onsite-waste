@@ -76,7 +76,7 @@
         </div> 
         <div class="card-footer text-right">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-            <button type="button" class="btn btn-success" id="manifest_submit">Submit</button>                         
+            <button type="submit" class="btn btn-success" id="manifest_submit">Submit</button>                         
         </div> 
     {!! Form::close() !!}
 </div> 

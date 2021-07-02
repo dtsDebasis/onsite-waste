@@ -5,10 +5,12 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
+    <form class="form-inline" method="get" action="{{route('knowledgewizard.index')}}">
         <div class="input-group mw-30">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+            <input value="{{$search}}" name="title" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
         </div>
+    </form>
         
         <a href="{{route('knowledgewizard.create',$routeParams)}}" class="btn btn-primary w-md">Add New</a>
     </div>
@@ -22,7 +24,7 @@
                       <th>Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'title', $orderBy, $routeParams) !!}</th>
                       <th>Category {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'c__title', $orderBy, $routeParams) !!}</th>
                       <th>Rank {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'rank', $orderBy, $routeParams) !!}</th>
-                      <th>Short Desc. {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'short_desc', $orderBy, $routeParams) !!}</th>
+                      <th>Short Desc</th>
                       <th>Status {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'status', $orderBy, $routeParams) !!}</th>
                       @if($permission['edit'] || $permission['destroy'])
                       <th width="15%" style="text-align: right;">Action</th>
@@ -40,7 +42,7 @@
                         <td>{{ $val->title }}</td>
                         <td>{{ $val->category_name }}</td>
                         <td>{{ $val->rank }}</td>
-                        <td>{{ $val->short_desc }}</td>
+                        <td>{{ strlen($val->short_desc) > 60? substr($val->short_desc,0,59).'...':$val->short_desc }}</td>
                         <td><span class="badge badge-pill badge-soft-{{ $val->statuses[$val->status]['badge'] }} font-size-12">{!! $val->statuses[$val->status]['name'] !!}</span></td>
                         @if($permission['edit'] || $permission['destroy'])
                         <td class="text-right">
@@ -70,7 +72,9 @@
                   </tbody>
                 </table>
             </div>
-
+            <div style="margin-top: 15px;">
+              {{$data->links()}}                
+            </div>                   
         </div>
     </div>
 </div>

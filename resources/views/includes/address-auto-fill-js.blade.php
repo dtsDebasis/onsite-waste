@@ -26,6 +26,9 @@ function initAutocomplete() {
 	// When the user selects an address from the drop-down, populate the
 	// address fields in the form.
 	autocomplete.addListener("place_changed", fillInAddress);
+	if (typeof initAutocomplete2 === "function") { 
+		initAutocomplete2();
+	}
 }
 
 function fillInAddress() {

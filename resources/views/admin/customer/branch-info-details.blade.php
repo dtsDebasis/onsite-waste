@@ -497,11 +497,11 @@
                                                     <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],isset($inventory_details[1]['canisterType'])?$inventory_details[1]['canisterType']:null,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td>
                                                     <!-- <td>{{isset($inventory_details[1]['canisterType'])?$inventory_details[1]['canisterType']:'NA'}} </td> -->
                                                     <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$uniq_id}}" value="{{isset($inventory_details[0]['availableInventory'])?$inventory_details[0]['availableInventory']:0}}"> </td>
-                                                    <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$uniq_id}}" value="{{isset($inventory_details[0]['reorderPoint'])?$inventory_details[0]['reorderPoint']:'NA'}}"> </td>
+                                                    <td><input class="form-control" type="number" name="rb_rop[]" id="rb_rop_{{$uniq_id}}" value="{{isset($inventory_details[0]['reorderPoint'])?$inventory_details[0]['reorderPoint']:0}}"> </td>
                                                     <!-- <td>{{isset($inventory_details[0]['canisterType'])?$inventory_details[0]['canisterType']:'NA'}} </td> -->
                                                     <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details[0]['canisterType'])?$inventory_details[1]['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td>
                                                     <td>
-                                                    <a href="javascript:;" data-toggle="tooltip" data-id="{{$companybranch->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
+                                                    <a href="javascript:;" data-toggle="tooltip" data-id="{{$companybranch->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
                                                         <i class="fa fa-save"></i>
                                                     </a>
                                                     </td>
@@ -1059,16 +1059,28 @@ $(document).ready(function () {
             }
         });
     });
-    $('body').on('click','.update-info',function(){
-        let index = $(this).attr('data-id');
-        let location_id = $(this).attr('data-location_id');
-        let waste_type = $('#waste_type_'+index).val();
-        let inventory = $('#inventory_'+index).val();
-        let re_order_point = $('#re_order_point_'+index).val();
+    $('body').on('click','.update-inventory-info',function(){
+        // var inputs = $(this).closest('tr').find('input,select');
+        var location = $(this).data('id');
+        var updatedata = {
+            "locationId": location,
+            "canisterInventory": [
+                {
+                    "canisterType": "redbag",
+                    "reorderPoint": $('#rb_rop_'+location).val(),
+                    "availableInventory": $('#rb_inventory_'+location).val()
+                },
+                {
+                    "canisterType": "sharps",
+                    "reorderPoint": $('#sh_rop_'+location).val(),
+                    "availableInventory": $('#sh_inventory_'+location).val()
+                }
+            ]
+        };
         $.ajax({
-            url: '{{url("admin/customers/ajax-post-inventory-update")}}',
+            url: '{{url("admin/inventory/ajax-post-inventory-update")}}',
             type: 'POST',
-            data: {waste_type:waste_type,location_id:location_id,inventory:inventory,re_order_point:re_order_point},
+            data: updatedata,
             beforeSend: function () {
                 $('.loader').show();
             },
@@ -1076,14 +1088,16 @@ $(document).ready(function () {
                 $('.loader').hide();                       
                 if (data.success) {
                     bootbox.alert({
-                        title:"Inventory Update",
+                        title:"Inventory Update Successful",
                         message: data.msg ,
+                        size: 'small',
                         type:"success"                   
                     });
                 } else {
                     bootbox.alert({
-                        title:"Inventory update",
+                        title:"Inventory update failed",
                         message:  data.msg ,
+                        size: 'small',
                         type:"error"                   
                     });
                 }

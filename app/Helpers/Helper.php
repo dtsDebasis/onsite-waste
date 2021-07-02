@@ -478,7 +478,10 @@ class Helper
 	public static function callAPI($method, $url, $data)
 	{
 		$curl = curl_init();
-		$url = 'https://vd3r1augje.execute-api.us-west-2.amazonaws.com/Prod/'.$url;
+		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+			$url = 'https://vd3r1augje.execute-api.us-west-2.amazonaws.com/Prod/'.$url;
+		}
+		 
 		switch ($method) {
 			case "POST":
 				curl_setopt($curl, CURLOPT_POST, 1);
@@ -490,7 +493,7 @@ class Helper
 			case "PUT":
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
 				if ($data) {
-					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+					curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
 				}
 
 				break;
@@ -508,7 +511,7 @@ class Helper
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		// EXECUTE:
-
+		
 		$result = curl_exec($curl);
 		if (!$result) {
 			die("Connection Failure");
@@ -606,7 +609,7 @@ class Helper
 			return $data = \App\Models\LeadSource::whereNull('deleted_at')->where('lead_type',$type )->pluck('name','id')->toArray();
 		}
 		return $data = \App\Models\LeadSource::whereNull('deleted_at')->pluck('name','id')->toArray();
-
+		
 	}
 
 	public static function getRelationshiRoles(){
@@ -633,12 +636,21 @@ class Helper
 				->join('speciality','speciality.id','=','company_speciality.specality_id')
 				->where('company_speciality.company_id',$company_id)
 				->where('speciality.status',1)
-				->pluck('name','id')->toArray();
+				->pluck('name')->toArray();
+	}
+
+	public static function getCompanySpecialitiesDropdown($company_id){
+		return $data = \App\Models\CompanySpeciality::select('speciality.name','speciality.id')
+			->join('speciality','speciality.id','=','company_speciality.specality_id')
+			->where('company_speciality.company_id',$company_id)
+			->where('speciality.status',1)
+			->pluck('name','id')->toArray();
+		
 	}
 	public static function getCompnyBranchSpeciality($company_id='',$branch_id=''){
 		if($company_id && $branch_id){
 			return $data = \App\Models\BranchSpecialty::where(['company_branch_id' =>$branch_id])->pluck('specality_id','id')->toArray();
-
+			
 		}
 		else{
 			return [];
@@ -658,11 +670,11 @@ class Helper
 	}
 	public static function companies(){
 		$data = [];
-
+		
 		$datas = app('App\Models\Company')->getListing([]);
 		if(count($datas)){
 			$data = $datas->pluck('company_name','id')->toArray();
-
+		
 		}
 		return $data;
 	}
@@ -676,7 +688,7 @@ class Helper
 		if(count($datas)){
 			$data = $datas->pluck('name','id')->toArray();
 		}
-
+		
 		return $data;
 	}
 
@@ -718,10 +730,10 @@ class Helper
         }
         return $data;
     }
-
+	
 
 	public static function getInventoryDetails(){
-
+		
 		return $data = [
 			0 => [
 				'company_id' => 5962741299,
@@ -749,9 +761,18 @@ class Helper
 	public static function branchDetails($branch_id){
 		if($branch_id){
 			return $data = app('App\Models\CompanyBranch')->getListing(['uniq_id' => $branch_id,'with' => ['addressdata']]);
-
+			
 		}
 		return false;
+	}
+
+	public static function getPackageNameDropdown() {
+		$packagename = [];
+		$data = app('App\Models\PackageName')->getListing(['status' => 1]);
+		foreach($data as $key=>$val){
+			$packagename[$val->name] = 	$val->name;
+		}
+		return $packagename;
 	}
 
 	public static function getCyclingDetails($branch_id){
@@ -759,14 +780,14 @@ class Helper
 			// $last_run_info = [
 			// 	'waste_type' => 'Liquid Waste',
 			// 	'cycle_run_estimation' => '12',
-			// 	'status' => 'Not Run'
+			// 	'status' => 'Not Run'				
 			// ];
 			// \App\Models\BranchCyclingInformation::create([
 			// 	'branch_id' => $branch_id,
 			// 	'last_run_information' => json_encode($last_run_info)
 			// ]);
 			return $data = app('App\Models\BranchCyclingInformation')->getListing(['branch_id' => $branch_id,'single_record' => true]);
-
+	
 		}
 		return false;
 	}

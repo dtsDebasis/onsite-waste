@@ -34,12 +34,12 @@
         </div>
 
         <div class="d-flex">
-            <div class="dropdown d-none d-lg-inline-block ml-1">
+            <!-- <div class="dropdown d-none d-lg-inline-block ml-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                         <i class="bx bx-fullscreen"></i>
                     </button>
-            </div>
-            <div class="dropdown d-inline-block">
+            </div> -->
+            <!-- <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="bx bx-bell bx-tada"></i>
                         <span class="badge badge-danger badge-pill">3</span>
@@ -120,20 +120,18 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/users/avatar-1.jpg')}}"
-                            alt="Header Avatar">
-                        <span class="d-none d-xl-inline-block ml-1" key="t-henry">Henry</span>
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                        <span class="d-none d-xl-inline-block ml-1 text-info text-bold" key="t-henry">Hello, {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
                     <a class="dropdown-item" href="{{route('admin.profile')}}"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span key="t-profile">Profile</span></a>
                     <!-- <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> <span key="t-my-wallet">My Wallet</span></a> -->
-                    <a class="dropdown-item d-block" href="#"><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> <span key="t-settings">Settings</span></a>
+                    <!-- <a class="dropdown-item d-block" href="#"><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> <span key="t-settings">Settings</span></a> -->
                     <!-- <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> <span key="t-lock-screen">Lock screen</span></a> -->
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="{{route('admin.logout')}}"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>

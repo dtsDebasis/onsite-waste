@@ -12,7 +12,7 @@
         <ul class="metismenu list-unstyled" id="side-menu">
             {{--<li class="menu-title" key="t-menu">Menu</li>--}}
 
-            <li class="{{ ($className == 'DashboardController') ? 'active' : '' }}"><a href="{{ route('admin.home') }}" id="menu-home" class="waves-effect"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
+            <li class="{{ ($className == 'DashboardController') ? 'active' : '' }}"><a href="{{ route('admin.home') }}" id="menu-home" class="waves-effect"><i class="bx bxs-dashboard"></i> <span>Dashboard</span></a></li>
             @foreach($adminMenu as $key => $menu)
             <li class="{{ ($className == $menu['class']) ? 'active' : '' }}">
                 @if($menu['child'])

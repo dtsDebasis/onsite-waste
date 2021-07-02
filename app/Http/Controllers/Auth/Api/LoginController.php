@@ -62,7 +62,7 @@ class LoginController extends Controller {
 			$section_settings = \App\Helpers\Helper::getUserHomeSectionSettings($user);
 			$data['section_settings'] = $section_settings;
 			$data['details']->section_settings = $section_settings;
-
+			
 			return Helper::rj('Login Successful', $this->successStatus, $data);
 		} catch (\Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());
@@ -114,23 +114,23 @@ class LoginController extends Controller {
 				return Helper::rj('An email has been sent to your registered email id to recover your password.', 200, []);
 			}
 
-            User::sendPasswordChangeMail($input['email']);
+            //User::sendPasswordChangeMail($input['email']);
 
-			//$user->remember_token = Helper::randomString(25);
+			$user->remember_token = Helper::randomString(25);
 
-			// if ($user->save()) {
-			// 	$mailData = [
-			// 		'first_name'      => $user->first_name,
-			// 		'activation_link' => \Config::get('settings.frontend_url') . 'user/password/' . $user->remember_token,
-			// 	];
-			// 	$fullName = $user->first_name . ' ' . $user->last_name;
-			// 	\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'forgot_password');
-			// 	return Helper::rj('Password recovery email has been sent to you.', 200);
-			// } else {
-			// 	return Helper::rj('An email has been sent to your registered email id to recover your password.', 200, [
-			// 		'errors' => 'Sorry! This email is not registered with us.',
-			// 	]);
-			// }
+			if ($user->save()) {
+				$mailData = [
+					'first_name'      => $user->first_name,
+					'activation_link' => \Config::get('services.frontend_url') . 'reset-password/' . $user->remember_token,
+				];
+				$fullName = $user->first_name . ' ' . $user->last_name;
+				\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'forgot_password');
+				return Helper::rj('Password recovery email has been sent to you.', 200);
+			} else {
+				return Helper::rj('An email has been sent to your registered email id to recover your password.', 200, [
+					'errors' => 'Sorry! This email is not registered with us.',
+				]);
+			}
 			return Helper::rj('Password recovery email has been sent to you.', 200);
 		} catch (Exception $e) {
 			return Helper::rj($e->getMessage(), 500);
@@ -157,6 +157,10 @@ class LoginController extends Controller {
 			}
 			$input  = $request->all();
 			$user   = User::where('remember_token', $input['token'])->first();
+            if (!$user) {
+				// return \App\Helpers\Helper::resp('Not a valid data', 400);
+				return Helper::rj('Not a valid token', 400, []);
+			}
 			$return = \App\Helpers\Helper::notValidData($user);
 			if ($return) {
 				return $return;
@@ -173,10 +177,35 @@ class LoginController extends Controller {
 					$success = $this->_model->userInit($user);
 				}
 
-				return Helper::rj('Registration has been successfully completed.', $this->successStatus, $success);
+				return Helper::rj('New password set for your account', $this->successStatus, $success);
 			} else {
 				return Helper::rj('Failed!', 400);
 			}
+
+		} catch (Exception $e) {
+			return Helper::rj($e->getMessage(), 500);
+		}
+	}
+
+
+	public function verifyToken(Request $request) {
+		try {
+			$validator          = Validator::make($request->all(), [
+				'token'      => 'required',
+			]);
+			if ($validator->fails()) {
+				return Helper::rj('Bad Request', 400, [
+					'errors' => $validator->errors(),
+				]);
+			}
+			$input  = $request->all();
+			$user   = User::where('remember_token', $input['token'])->first();
+            if (!$user) {
+				// return \App\Helpers\Helper::resp('Not a valid data', 400);
+				return Helper::rj('Not a valid token', 400, []);
+			}
+
+			return Helper::rj('Valid user', 200, $user);
 
 		} catch (Exception $e) {
 			return Helper::rj($e->getMessage(), 500);
@@ -200,7 +229,7 @@ class LoginController extends Controller {
 				]);
 			}
 			$user =  User::where('remember_token', $input['token'])->first();
-			if($user){
+			if($user){			
 				$data['verified']       = 1;
 				$data['remember_token'] = null;
 				$data['status']         = 1;

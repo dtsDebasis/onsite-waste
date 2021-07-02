@@ -95,7 +95,7 @@ select.select2{
                 <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('status', 'status <span class="span-req">*</span>:',array('class'=>'','for'=>'status'),false) !!}
-                        {!! Form::select('status',$status_arr,null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'status','required'=>'required']) !!}
+                        {!! Form::select('status',$status_arr,null,['class'=>'form-control select2','id'=>'status','required'=>'required']) !!}
                         @if ($errors->has('status'))
                             <span class="help-block">{{ $errors->first('status') }}</span>
                         @endif

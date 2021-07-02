@@ -15,6 +15,7 @@ class ContactRoleController extends Controller
         $this->_module      = 'Contact Role';
         $this->_routePrefix = 'master.contact-roles';
         $this->_model       = new RelationshipRole();
+        $this->_offset = 2;
     }
 
     /**
@@ -26,10 +27,11 @@ class ContactRoleController extends Controller
     {
         $this->initIndex();
         $srch_params                        = $request->all();
-        $this->_data['data']                = $this->_model->getListing($srch_params, $this->_offset);
+        $this->_data['data']                = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
         $this->_data['orderBy']             = $this->_model->orderBy;
         $this->_data['pageHeading']             = $this->_module;
         $this->_data['filters']             = $this->_model->getFilters();
+        $this->_data['search']              = isset($srch_params['name'])?$srch_params['name']:null;
         return view('admin.' . $this->_routePrefix . '.index', $this->_data)
             ->with('i', ($request->input('page', 1) - 1) * $this->_offset);
     }

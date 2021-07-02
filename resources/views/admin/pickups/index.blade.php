@@ -352,8 +352,13 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on('click','#manifest_submit', function(){
+    $('body').on('click','#manifest_submit', function(e){
         //let form_data = $("#manifest-form").serialize();
+        if (!$('#manifest-form')[0].checkValidity()) {
+            return;
+        } else {
+            e.preventDefault();
+        }
         var form_data = new FormData($('#manifest-form')[0]);
         $.ajax({
             url: '{{url("admin/pickups/ajax-update-manifest-details")}}',

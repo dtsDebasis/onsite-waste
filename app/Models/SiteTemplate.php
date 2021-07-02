@@ -179,9 +179,9 @@ class SiteTemplate extends Model {
 			$subject = $template['template']->subject;
 			$subject = str_replace('{{site_name}}', \Config::get('settings.company_name'), $subject);
 			$subject = str_replace('{{site_url}}', url('/'), $subject);
-
+            //dd($replyTo);
 			\Mail::send('emails.template', $data, function ($m) use ($data, $toemail, $toName, $subject, $attachment,$multiple_attachment,$replyTo) {
-				$m->from(\Config::get('settings.support_mail'), \Config::get('settings.company_name'))
+				$m->from('info@onsite.com', 'OnSite Waste Technologies')
 					->to($toemail, $toName)
 					->subject($subject);
 					if($replyTo){

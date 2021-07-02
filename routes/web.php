@@ -64,9 +64,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::get('/create/hauling/{id}', 'App\Http\Controllers\CustomerManagementController@haulingList')->name('customers.create.hauling');
 		Route::match(['post','patch'],'hauling-store-upadte/{company_id}','App\Http\Controllers\CustomerManagementController@haulingStoreUpdate')->name('customers.hauling-store-upadte');
 		Route::post('ajax-post-inventory-reorder','App\Http\Controllers\CustomerManagementController@branchInventoryReorder')->name('customers.branch.inventory-re-order');
-		Route::post('ajax-post-inventory-update','App\Http\Controllers\CustomerManagementController@branchInventoryUpdate')->name('customers.branch.inventory-update');
 		Route::get('ajax-get-last-run-info','App\Http\Controllers\CustomerManagementController@branchInventoryLastRunInfo')->name('customers.branch.last-run-info');
 		Route::post('ajax-post-machine-ping','App\Http\Controllers\CustomerManagementController@inventoryMachinePing')->name('customers.branch.machine-ping');
+		Route::post('partial-inventory-details','App\Http\Controllers\CustomerManagementController@locationInventoryDetails')->name('customers.branch.locationInventoryDetails');
 	});
 
 
@@ -98,6 +98,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::resource('leadsource', 'App\Http\Controllers\LeadSourceController', ['as' => 'master']);
 		Route::resource('contact-roles', 'App\Http\Controllers\ContactRoleController', ['as' => 'master']);
 		Route::resource('specialty', 'App\Http\Controllers\SpecialtyController', ['as' => 'master']);
+		Route::resource('packagename', 'App\Http\Controllers\PackageNamesController', ['as' => 'master']);
 		Route::resource('companyowners', 'App\Http\Controllers\CompanyOwnersController', ['as' => 'master']);
 		Route::resource('relationships', 'App\Http\Controllers\RelationshipController', ['as' => 'master']);
 		// Route::resource('tests', 'App\Http\Controllers\MasterTestController', ['as' => 'master']);
@@ -206,6 +207,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 
 	Route::group(['prefix' => 'inventory'], function () {
 		Route::get('index', 'App\Http\Controllers\InventoryController@index')->name('inventory.index');
+		Route::post('ajax-post-inventory-update','App\Http\Controllers\InventoryController@branchInventoryUpdate')->name('inventory.branch.inventory-update');
 	});
 
 	#pickup

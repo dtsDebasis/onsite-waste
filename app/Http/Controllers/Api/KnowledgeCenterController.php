@@ -143,7 +143,7 @@ class KnowledgeCenterController extends Controller
             else{
                 $wizard = app('App\Models\KnowledgeWizard')->getListing(['id' => $input['id']]);
                 if($wizard){
-                    $data = app('App\Models\KnowledgeCategory')->getListing(['id' => $wizard->category_id,'with'=>['knowledge_content'=>function($q){return $q->orderBy('rank','ASC')->offset(0)->limit(5);}]]);
+                    $data = app('App\Models\KnowledgeCategory')->getListing(['id' => $wizard->category_id,'with'=>['knowledge_content'=>function($q){return $q->orderBy('rank','ASC');}]]);
                     return Helper::rj('List fetch successfully', $this->successStatus, $data);
                 }
                 else{

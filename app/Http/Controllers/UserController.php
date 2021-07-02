@@ -61,7 +61,7 @@ class UserController extends Controller {
             }
         }
 
-		$this->data["users"] =$users->paginate(20);
+		$this->data["users"] =$users->paginate(10);
         $this->data["search"] = $request->search;
 
 		$this->data['pageHeading'] = 'EMPLOYEE LISTING';
@@ -76,7 +76,7 @@ class UserController extends Controller {
 			route($this->_routePrefix . '.index') => str_plural($this->_module),
 			'#'                                   => $module,
 		];
-        $this->data['breadcrumb'] = $breadcrumb;
+		$this->data['breadcrumb'] = $breadcrumb;
 		return view('admin.users.create',$this->data);
 	}
 
@@ -257,7 +257,7 @@ class UserController extends Controller {
 
         $this->data['user'] = $user;
         $this->data['role_id'] = $role_id;
-        $this->data['module'] = 'EMPLOYEE EDIT';
+		$this->data['module'] = 'EMPLOYEE EDIT';
         $module     = 'Employee edit';
         $breadcrumb = [
 			route($this->_routePrefix . '.index') => str_plural($this->_module),

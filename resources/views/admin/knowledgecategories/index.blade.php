@@ -13,18 +13,20 @@
 
 
 <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex flex-column flex-md-row justify-content-between">
-                                        <div class="input-group mw-30">
-                                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-                                            <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
-                                          </div>
-                                        <a href="{{route('knowledgecategories.create', $kw_category_id)}}" type="submit" class="btn btn-primary w-md">Add Knowledge Category</a>
-                                    </div>
-                                    <div class="tab-content mt-3 text-muted">
-                                        <div class="tab-pane active" id="home1" role="tabpanel">
+  <div class="col-lg-12">
+  <div class="card">
+  <div class="card-body">
+  <div class="d-flex flex-column flex-md-row justify-content-between">
+    <form class="form-inline" method="get" action="{{route('knowledgecategories.index')}}">
+          <div class="input-group mw-30">
+              <input value="{{$search}}" name="title" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+              <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
+          </div>
+    </form>
+      <a href="{{route('knowledgecategories.create', $kw_category_id)}}" type="submit" class="btn btn-primary w-md">Add Knowledge Category</a>
+  </div>
+  <div class="tab-content mt-3 text-muted">
+      <div class="tab-pane active" id="home1" role="tabpanel">
 
 <div class="table-responsive">
   <table class="table table-condensed">
@@ -79,7 +81,9 @@
     </tbody>
   </table>
 </div>
-@include('admin.components.pagination')
+<div style="margin-top: 15px;">
+  {{$data->links()}}                
+</div> 
  </div>
                                     </div>
                                     </div>

@@ -15,7 +15,7 @@ class BannersController extends Controller
         $this->_module      = 'Banner';
         $this->_routePrefix = 'banners';
         $this->_model       = new Banner();
-        $this->_offset = 2;
+        $this->_offset = 10;
     }
 
     /**
@@ -128,6 +128,7 @@ class BannersController extends Controller
         $pageHeading     = $this->_module;
         extract($this->_data);
         $status = \App\Helpers\Helper::makeSimpleArray($this->_model->statuses, 'id,name');
+        $usertype = $this->_model->usertype;
         $form = [
             'route'      => $this->_routePrefix . ($id ? '.update' : '.store'),
             'back_route' => route($this->_routePrefix . '.index'),
@@ -147,6 +148,26 @@ class BannersController extends Controller
                     'label'         => 'Short Desc',
                     'attributes'    => [
                         'max'       => 255,
+                        'required'  => true
+                    ]
+                ],
+                'usertype'            => [
+                    'row_width'  => 'col-md-4',
+                    'type'          => 'select',
+                    'label'         => 'Visible To',
+                    'options'       => $usertype,
+                    'attributes'    => [
+                        'required'  => true,
+                        'class' => 'form-control select2'
+                    ]
+                ],
+                'button_text'      => [
+                    'row_width'  => 'col-md-6',
+                    'type'          => 'text',
+                    'label'         => 'Button Text',
+                    'help'          => 'Maximum 100 characters',
+                    'attributes'    => [
+                        'max'       => 100,
                         'required'  => true
                     ]
                 ],

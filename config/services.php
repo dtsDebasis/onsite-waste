@@ -23,7 +23,7 @@ return [
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
-
+    'frontend_url' => 'https://onsite-customer.glohtesting.com',
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),

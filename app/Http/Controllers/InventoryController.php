@@ -17,6 +17,7 @@ class InventoryController extends Controller {
 		parent::__construct($parameters);
 		$this->_module      = 'Inventory Management';
         $this->_routePrefix = 'inventories';
+		$this->_offset = 15;
 	}
 
 	public function index(Request $request){
@@ -24,14 +25,14 @@ class InventoryController extends Controller {
         $srch_params                    = $request->all();
         $this->_data['srch_params'] = $srch_params;
 		$this->_data['pageHeading'] = 'INVENTORY MANAGEMENT';
-		$data = app('App\Models\CompanyBranch')->getListing($srch_params,20);//$this->_offset
+		$data = app('App\Models\CompanyBranch')->getListing($srch_params,$this->_offset);//$this->_offset
 		foreach($data as $key=>$val){
 			$url = 'locations/'.$val['uniq_id'].'/inventory' ;
 			$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
 			$containerInventory = json_decode($containerInventory, true);
 			$val->inventory_details = $containerInventory;
 		}
-
+		
 		$this->_data['inventories'] = $data;
 		// dd($data);
 		return view('admin.' . $this->_routePrefix . '.index',$this->_data);
@@ -52,7 +53,7 @@ class InventoryController extends Controller {
 			if ($validator->fails()) {
 				throw new Exception($validator->errors()->first(),200);
 			}
-			else{
+			else{ 
 				$data = \App\Helpers\Helper::getCyclingDetails($input['branch_id']);
 				if($data){
 					$view = view("admin.inventories.cycling_information",['data'=>$data])->render();
@@ -78,7 +79,7 @@ class InventoryController extends Controller {
 			if ($validator->fails()) {
 				throw new Exception($validator->errors()->first(),200);
 			}
-			else{
+			else{ 				
 				return Response::json(['success'=>true,'msg'=>'Ping successfully','data'=>[]]);
 
 			}
@@ -87,4 +88,17 @@ class InventoryController extends Controller {
         }
 	}
 
+	public function branchInventoryUpdate(Request $request){
+		try	{
+			$input = $request->all();
+			$url = 'locations/'.$input['locationId'].'/inventory' ;
+			$containerInventory = \App\Helpers\Helper::callAPI('PUT',$url,$input);
+			//\App\Helpers\Helper::messageSendToSlack('text');
+			return Response::json(['success'=>true,'msg'=>'Changes has been saved successfully']);
+
+		} catch (Exception $e) {
+			return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
+		}
+	}
+	
 }

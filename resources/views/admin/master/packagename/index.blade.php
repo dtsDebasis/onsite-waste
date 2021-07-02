@@ -5,14 +5,14 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-    <form class="form-inline" method="get" action="{{route('master.contact-roles.index')}}">
+    <form class="form-inline" method="get" action="{{route('master.packagename.index')}}">
         <div class="input-group mw-30">
             <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
             <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
         </div>
     </form> 
         
-        <a href="{{route('master.contact-roles.create')}}" class="btn btn-primary w-md">Add New</a>
+        <a href="{{route('master.packagename.create')}}" class="btn btn-primary w-md">Add New</a>
     </div>
 
     <div class="tab-content mt-3 text-muted">
@@ -33,7 +33,7 @@
                           <td>{{ $val->name }}</td>
                           <td><span class="badge badge-pill badge-soft-{{ $val->statuses[$val->status]['badge'] }} font-size-12">{!! $val->statuses[$val->status]['name'] !!}</span></td>
                           @if($permission['edit'] || $permission['destroy'])
-                          <td class="text-right">
+                          <td >
                             @if($permission['edit'])
                             <a href="{{ route($routePrefix . '.edit',$val->id) }}" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-original-title="Edit">{!! \Config::get('settings.icon_edit') !!}</a>
                             @endif
@@ -62,7 +62,8 @@
             </div>
             <div style="margin-top: 15px;">
               {{$data->links()}}                
-            </div>                   
+            </div> 
+
         </div>
     </div>
 </div>

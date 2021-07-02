@@ -100,7 +100,7 @@ class Relationship extends Model
             $data   = $this->create($input);
 		}
 		
-		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $data);
+		return \App\Helpers\Helper::resp('Changes have been successfully saved.', 200, $data);
     }
     
     public function remove($id = null)

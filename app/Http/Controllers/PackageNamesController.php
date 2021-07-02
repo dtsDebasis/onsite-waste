@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CompanyOwner;
+use App\Models\PackageName;
 
-class CompanyOwnersController extends Controller
+class PackageNamesController extends Controller
 {
     public function __construct($parameters = array())
     {
         parent::__construct($parameters);
         
-        $this->_module      = 'Company Owner';
-        $this->_routePrefix = 'master.companyowners';
-        $this->_model       = new CompanyOwner();
+        $this->_module      = 'Package Name';
+        $this->_routePrefix = 'master.packagename';
+        $this->_model       = new PackageName();
         $this->_offset = 10;
     }
 
@@ -27,9 +27,9 @@ class CompanyOwnersController extends Controller
     {
         $this->initIndex();
         $srch_params                        = $request->all();
-        $this->_data['pageHeading']         = $this->_module;
         $this->_data['data']                = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
         $this->_data['orderBy']             = $this->_model->orderBy;
+        $this->_data['pageHeading']             = $this->_module;
         $this->_data['filters']             = $this->_model->getFilters();
         $this->_data['search']              = isset($srch_params['name'])?$srch_params['name']:null;
         return view('admin.' . $this->_routePrefix . '.index', $this->_data)
@@ -133,7 +133,7 @@ class CompanyOwnersController extends Controller
             'back_route' => route($this->_routePrefix . '.index'),
             'fields'     => [
                 'name'      => [
-                    'row_width'  => 'col-md-4',
+                    'row_width'  => 'col-md-6',
                     'type'          => 'text',
                     'label'         => 'Name',
                     'attributes'    => [
@@ -141,25 +141,17 @@ class CompanyOwnersController extends Controller
                         'required'  => true
                     ]
                 ],
-                'email'      => [
+                'status'            => [
                     'row_width'  => 'col-md-4',
-                    'type'          => 'text',
-                    'label'         => 'Email',
-                    'attributes'    => [
-                    ]
+                    'type'          => 'radio',
+                    'label'         => 'Status',
+                    'options'       => $status,
+                    'value'         => isset($data->status) ? $data->status : 1,
                 ],
-                'phone'        => [
-                    'row_width'  => 'col-md-4',
-                    'type'          => 'text',
-                    'label'         => 'Phone',
-                    'attributes'    => [
-                        'max'       => 255
-                    ]
-                ]
             ],
         ];
 
-        return view('admin.components.admin-form', compact('data', 'id', 'form', 'breadcrumb', 'module', 'pageHeading'));
+        return view('admin.components.admin-form', compact('data', 'id', 'form', 'breadcrumb', 'module','pageHeading'));
     }
 
     /**
@@ -172,9 +164,8 @@ class CompanyOwnersController extends Controller
     protected function __formPost(Request $request, $id = '')
     {
         $validationRules = [
-            'email'          => 'max:255',
             'name'          => 'required|max:255',
-            'phone'            => 'max:255'
+            'status'          => 'required'
         ];
 
         $this->validate($request, $validationRules);
