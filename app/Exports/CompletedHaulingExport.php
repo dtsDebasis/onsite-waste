@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Exports;
-  
+
 use App\Models\Event;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -39,7 +39,7 @@ class CompletedHaulingExport implements FromCollection, WithHeadings, ShouldAuto
     public function headings(): array
     {
         return [
-            'Branch Name',
+            'Location',
             'Location',
             'Driver Name',
             'Number Of Boxes',
@@ -57,23 +57,23 @@ class CompletedHaulingExport implements FromCollection, WithHeadings, ShouldAuto
            	$event->sheet->getStyle($cellRange)->getFill()
 			          ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
 			          ->getStartColor()->setARGB('F84300');
-    			
+
 				$styleArray = [
-					
+
 					'font' => [
 						'name'      =>  'Calibri',
 						'size'      =>  12,
 						'bold'      =>  true,
 						'color' => ['argb' => 'FFFFFF'],
 					],
-					
+
 					'alignment' => [
 
                         'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     ],
-                    
-                    
-					
+
+
+
 				];
 				$event->sheet->getDelegate()->getStyle($cellRange)->applyFromArray($styleArray);
             },

@@ -30,21 +30,21 @@
                 <div class="form-group">
                     <label for="formrow-email-input">Customer Name*</label>
                     <select class="form-control" name="eqp_ownership_id" id="eqp_ownership_id">
-                    <option value="">Select</option>        
-                    <option value="1" data-attr="COMPANY_OWNED" class="eqp_ownership_id">William</option> 
-                    <option value="2" data-attr="LEASED" class="eqp_ownership_id">Isabella</option> 
-                    <option value="3" data-attr="OWNER_OPERATED" class="eqp_ownership_id">James</option> 
+                    <option value="">Select</option>
+                    <option value="1" data-attr="COMPANY_OWNED" class="eqp_ownership_id">William</option>
+                    <option value="2" data-attr="LEASED" class="eqp_ownership_id">Isabella</option>
+                    <option value="3" data-attr="OWNER_OPERATED" class="eqp_ownership_id">James</option>
                 </select>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="formrow-email-input">Branch Name*</label>
+                    <label for="formrow-email-input">Location*</label>
                     <select class="form-control" name="eqp_ownership_id" id="eqp_ownership_id">
-                    <option value="">Select</option>        
-                    <option value="1" data-attr="COMPANY_OWNED" class="eqp_ownership_id">Vital Health and Hope</option> 
-                    <option value="2" data-attr="LEASED" class="eqp_ownership_id">Health and Hope</option> 
-                    <option value="3" data-attr="OWNER_OPERATED" class="eqp_ownership_id">Vital Health</option> 
+                    <option value="">Select</option>
+                    <option value="1" data-attr="COMPANY_OWNED" class="eqp_ownership_id">Vital Health and Hope</option>
+                    <option value="2" data-attr="LEASED" class="eqp_ownership_id">Health and Hope</option>
+                    <option value="3" data-attr="OWNER_OPERATED" class="eqp_ownership_id">Vital Health</option>
                 </select>
                 </div>
             </div>

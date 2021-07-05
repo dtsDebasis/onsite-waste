@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::post('import-data','App\Http\Controllers\CustomerManagementController@importData')->name('customers.import-data');
 		Route::any('/create/{id}', 'App\Http\Controllers\CustomerManagementController@create')->name('customers.create');
 		Route::any('/create/contact/{id}', 'App\Http\Controllers\CustomerManagementController@contact')->name('customers.create.contact');
+		Route::any('/assign/password/{id}', 'App\Http\Controllers\CustomerManagementController@assign_password')->name('customers.assign_password');
 		Route::post('/assign-contact-to-branch','App\Http\Controllers\CustomerManagementController@contactAssignToBranch')->name('customers.assign-contact-to-branch');
 		Route::delete('contact-delete/{company_id}/{id}', 'App\Http\Controllers\CustomerManagementController@contactDelete')->name('customers.contact-delete');
 		Route::any('/create/package/{id}', 'App\Http\Controllers\CustomerManagementController@package')->name('customers.create.package');

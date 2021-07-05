@@ -54,7 +54,7 @@
                             <input name="designation" type="text" class="form-control">
 
                             {{--<select name="designation" id="designation" class="form-control" >
-                                
+
                                 @foreach ($designations as $designation )
                                 <option  >{{ $designation->name ??  "" }}</option>
                                 @endforeach
@@ -72,8 +72,8 @@
                                 @endforeach
                             </select>
                             --}}
-                            
-                            
+
+
                             {!! Form::label('company_relationship', 'Role *:',array('class'=>'','for'=>'company_relationship'),false) !!}
                             {!! Form::select('company_relationship',$relationshipRoles,null,['class'=>'form-control select2','id'=>'company_relationship','placeholder'=>'Choose ...','required'=>'required']) !!}
                             @if ($errors->has('company_relationship'))
@@ -96,8 +96,8 @@
                     <button type="submit" class="btn btn-primary w-md">Save</button>
                 </div>
             </form>
-         
-                        
+
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="">
@@ -135,25 +135,26 @@
                                     <td> {{ $contact->designation ?? '' }}</td>
                                     <td>{{  (array_key_exists($contact->company_relationship,$relationshipRoles)) ?$relationshipRoles[$contact->company_relationship]: '' }}</td>
                                     {{--<td><a href="javascript:void(0);" class="btn btn-outline-secondary waves-effect  assign-btn" user_id="{{$contact->id}}" data-company_id="{{$contact->id}}">Assign</a></td>--}}
-                                    <td> 
+                                    <td>
                                         <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light    edit-contact-user" user_id="{{ $contact->id ?? ''  }}" first_name="{{ $contact->first_name ?? '' }}" last_name="{{ $contact->last_name ?? '' }}" phone="{{ $contact->phone ?? '' }}" email="{{ $contact->email ?? '' }}" designation="{{ $contact->designation ?? '' }}" company_relationship="{{ $contact->company_relationship ?? '' }}" permission_level="{{$contact->permission_level ?? ''}}"><i class="bx bx-edit-alt"></i></button>
-                                        
+                                        <a href="{{route('customers.assign_password',$contact->id)}}" class="btn btn-primary btn-sm btn-rounded">Assign Password</a>
+
                                         <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                         document.getElementById('delete-form-{{$contact->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
                                         {!! Form::open([
                                             'method' => 'DELETE',
                                             'route' => [
-                                             'customers.contact-delete',[$id,$contact->id] 
-                                            ], 
-                                            'style'=>'display:inline', 
+                                             'customers.contact-delete',[$id,$contact->id]
+                                            ],
+                                            'style'=>'display:inline',
                                             'id' => 'delete-form-' . $contact->id
                                             ]) !!}
                                         {!! Form::close() !!}
                                     </td>
                                 </tr>
                                 @endforeach
-                                
-                                
+
+
                             </tbody>
                         </table>
                     </div>
@@ -167,9 +168,9 @@
 {!! Form::open([
     'method' => 'POST',
     'route' => [
-        'customers.assign-contact-to-branch' 
-    ], 
-    'style'=>'display:inline', 
+        'customers.assign-contact-to-branch'
+    ],
+    'style'=>'display:inline',
     'id' => 'assign-contact-form'
     ]) !!}
     <input type="hidden" name="company_id" value="{{$id}}" id="assign_company_id">
@@ -193,7 +194,7 @@
                     <table class="table table-centered table-nowrap mb-0">
                         <thead class="thead-light">
                             <tr>
-                                <th>Branch Name</th>
+                                <th>Location</th>
                                 <th>Address</th>
                                 <th>Action</th>
                             </tr>
@@ -214,8 +215,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                <a href="javascript:;" class="btn btn-success" id="branch_assigned_submit">Submit</a> 
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <a href="javascript:;" class="btn btn-success" id="branch_assigned_submit">Submit</a>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -243,7 +244,7 @@
 
                 <input type="hidden" class="user_id" name="user_id" value="" >
 
-                <div class="row">                    
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>First Name*</label>
@@ -273,11 +274,11 @@
                             <label>Position </label>
                             <!--  enum('m', 's', 'ex', 'exa') -->
                             <input name="designation" type="text" class="form-control designation">
-                            
+
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">                            
+                        <div class="form-group">
                             {!! Form::label('company_relationship', 'Role *:',array('class'=>'','for'=>'company_relationship'),false) !!}
                             {!! Form::select('company_relationship',$relationshipRoles,null,['class'=>'form-control select2 company_relationship','id'=>'company_relationship','placeholder'=>'Choose ...','required'=>'required']) !!}
                         </div>
@@ -286,7 +287,7 @@
                         <div class="form-group">
                             {!! Form::label('permission_level', 'Permission Level *:',array('class'=>'','for'=>'permission_level_mod'),false) !!}
                             {!! Form::select('permission_level',$permission_levels,null,['class'=>'form-control select2 permission_level','id'=>'permission_level_mod','placeholder'=>'Choose ...','required'=>'required']) !!}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -298,7 +299,7 @@
                     <button type="submit" class="btn btn-primary w-md">Save</button>
                 </div>
             </form>
-                
+
 
 
 
@@ -325,7 +326,7 @@ $(document).ready(function () {
 
 
     var user_id = 0;
-    $( ".assign-btn" ).click(function(){        
+    $( ".assign-btn" ).click(function(){
         $('.assign-contact').removeClass('assigned');
         $('.assign-contact').text('Assign');
         $('#assign-contact-form').find('#assign_user_id').val($(this).attr('user_id'));
@@ -355,10 +356,10 @@ $(document).ready(function () {
             bootbox.alert({
                 title:"Branch Assign",
                 message: 'Please select branch.' ,
-                type:"error"                   
+                type:"error"
             });
         }
-        else{      
+        else{
             bootbox.confirm({
                 message: "Are You Sure? Do you want to continue this action?",
                 buttons: {
@@ -395,7 +396,7 @@ $(document).ready(function () {
             url: "{{ route('customers.create.contact', ['id' => $id] ) }}",
             data: {"_token": "{{ csrf_token() }}", "user_id": user_id, "company_id": company_id, "companybranch_id":companybranch_id },
             success: function(resultData) {
-                console.log("teswt", resultData.data.success ); 
+                console.log("teswt", resultData.data.success );
                 //
                 //that.parent().find(".check-icon").show();
                 that.text("Assigned");
@@ -438,8 +439,8 @@ $(document).ready(function () {
 
         //let data = $('.edit-contact-bs-center #modal-frm').serialize();
         //let data = $('.edit-contact-bs-center #modal-frm').serializeArray();
-        
-        
+
+
 
         let user_id = $('.edit-contact-bs-center #modal-frm .user_id').val();
         let first_name = $('.edit-contact-bs-center #modal-frm .first_name').val();
@@ -465,11 +466,11 @@ $(document).ready(function () {
              "company_relationship":company_relationship
             },
             success: function(resultData) {
-                //console.log("teswt", resultData.data.success ); 
+                //console.log("teswt", resultData.data.success );
                 window.location.reload();
                 //that.parent().find(".check-icon").show();
-               
-                
+
+
             }
         });
         assign.error(function() { console.log("Something went wrong"); });

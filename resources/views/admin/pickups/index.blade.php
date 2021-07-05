@@ -6,7 +6,7 @@
 
 @section('content')
 @php($tab = Request::get('tab')?Request::get('tab'):'active')
-@php($status_arr = ['0'=>'Not Confirm','1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested'])
+@php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
 <div class="row">
     <div class="col-lg-12">
         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -68,7 +68,7 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>Location</th>
-                                                <th>Vendor</th>
+                                                <th>Provider Name</th>
                                                 <th>Package</th>
                                                 <th>Date</th>
                                                 <th>Status</th>
@@ -173,7 +173,7 @@
                                     <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th>Branch Name</th>
+                                                <th>Location</th>
                                                 <th>Location</th>
                                                 <th>Driver Name</th>
                                                 <th>Number Of Box</th>

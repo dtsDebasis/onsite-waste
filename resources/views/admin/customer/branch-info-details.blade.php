@@ -6,9 +6,9 @@
 @php($waste_type = ['spinner' => 'Spinner','rocker' => 'Rocker'])
 @php($inventoryType = ['sharps' => 'Sharps','redbag'=>'Redbag'])
 <div class="">
-    @if($company)    
+    @if($company)
     <div class="card">
-        <div class="card-body row"> 
+        <div class="card-body row">
                 <div class="col-md-3">
                     <strong>Company ID </strong>: @if(isset($company) && isset($company->company_number) && $company->company_number) {{$company->company_number}} @else NA @endif
                 </div>
@@ -26,13 +26,13 @@
         </div>
     </div>
     @endif
-    @if($companybranch)    
+    @if($companybranch)
     <div class="card">
-        <div class="card-body row"> 
+        <div class="card-body row">
                 <div class="col-md-4">
                     <strong>Location Code </strong>: @if(isset($companybranch->uniq_id) && $companybranch->uniq_id) {{$companybranch->uniq_id}} @else NA @endif
                 </div>
-                
+
                 <div class="col-md-4">
                    <strong> Location Name</strong> :@if(isset($companybranch->name) && $companybranch->name) {{$companybranch->name}} @else NA @endif
                 </div>
@@ -48,19 +48,19 @@
                 <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'contact')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'contact'])}}" role="tab"  aria-selected="true">
                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                        <span class="d-none d-sm-block">Contact Information</span> 
+                        <span class="d-none d-sm-block">Contact Information</span>
                     </a>
                 </li>
                 <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'pricing')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'pricing'])}}" role="tab" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                        <span class="d-none d-sm-block">Pricing Details</span> 
+                        <span class="d-none d-sm-block">Pricing Details</span>
                     </a>
                 </li>
                 <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'package')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'package'])}}" role="tab" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                        <span class="d-none d-sm-block">Package Details</span> 
+                        <span class="d-none d-sm-block">Package Details</span>
                     </a>
                 </li>
                 <li class="nav-item waves-effect waves-light">
@@ -138,11 +138,11 @@
                     @php($page_type = isset($input['page_type'])?$input['page_type']:'view_details')
                     @php($pointNone = ($page_type == "create_edit")?'':'pointer-none')
                     <div class="card">
-                        <div class="card-body mb-4">                
+                        <div class="card-body mb-4">
                             @if($transactionalpackages)
                                 {!! Form::model($transactionalpackages, [
                                 'method' => 'PATCH',
-                                'url' => 'javascript:;', 
+                                'url' => 'javascript:;',
                                 'class' => 'form-horizontal ',
                                 'id'=>'transactional-form',
                                 'enctype'=>'multipart/form-data'
@@ -154,7 +154,7 @@
                                 <input type="hidden" name="company_id" value="{{($transactionalpackages)?$transactionalpackages->company_id:0}}">
                                 <input type="hidden" name="branch_id" value="{{($transactionalpackages)?$transactionalpackages->branch_id:0}}">
                                 <div class="row {{$pointNone}}">
-                                    
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('additional_trip_cost', 'Additional Trip Cost <span class="span-req">*</span>:',array('class'=>'','for'=>'additional_trip_cost'),false) !!}
@@ -200,7 +200,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('shipping_cost', 'Shipping Rate<span class="span-req">*</span>:',array('class'=>'','for'=>'shipping_cost'),false) !!}
@@ -210,7 +210,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('setup_initial_cost', 'Setup-Initial <span class="span-req">*</span>:',array('class'=>'','for'=>'setup_initial_cost'),false) !!}
@@ -237,7 +237,7 @@
                                                 <span class="help-block">{{ $errors->first('compliance_training_cost') }}</span>
                                             @endif
                                         </div>
-                                    </div>                        
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('quarterly_review_cost', 'Quarterly Volume Analysis <span class="span-req">*</span>:',array('class'=>'','for'=>'quarterly_review_cost'),false) !!}
@@ -271,7 +271,7 @@
                                         <button type="button" id="transactional_update" class="btn btn-primary w-md">Save</button>
                                     @endif
                                 </div>
-                            {!! Form::close() !!}                
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -289,11 +289,11 @@
                             <a href="javascript:;" data-id="{{($package)?$package->id:0}}" data-company_id="{{($package)?$package->company_id:0}}" data-branch_id="{{($package)?$package->branch_id:0}}" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light delete-branch-package"><i class="bx bx-trash-alt"></i></a>
                         </div>
                         @endif
-                        <div class="card-body mb-4">                
+                        <div class="card-body mb-4">
                             @if($package)
                                 {!! Form::model($package, [
                                 'method' => 'PATCH',
-                                'url' => 'javascript:;', 
+                                'url' => 'javascript:;',
                                 'class' => 'form-horizontal ',
                                 'id'=>'branch-package-form',
                                 'enctype'=>'multipart/form-data'
@@ -304,7 +304,7 @@
                                 <input type="hidden" name="id" id="tran_package_id" value="{{($package)?$package->id:0}}">
                                 <input type="hidden" name="company_id" value="{{($package)?$package->company_id:0}}">
                                 <input type="hidden" name="branch_id" value="{{($package)?$package->branch_id:0}}">
-                                <div class="row {{$pointNone}}">                                
+                                <div class="row {{$pointNone}}">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         {!! Form::label('name', 'Package Name <span class="span-req">*</span>:',array('class'=>'','for'=>'name'),false) !!}
@@ -342,7 +342,7 @@
                                     </div>
                                 </div>
                                 @php($service_dnone = (isset($package->service_type) && ($package->service_type == 'TE-5000')) ? 'd-none':'')
-                                <div class="col-md-5 service-based-view {{$service_dnone}}">                                
+                                <div class="col-md-5 service-based-view {{$service_dnone}}">
                                     <div class="form-group">
                                         {!! Form::label('frequency', 'Frequency <span class="span-req">*</span>:',array('class'=>'','for'=>'frequency'),false) !!}
                                         <div class="col-md-12 row">
@@ -371,7 +371,7 @@
                                     <button type="button" id="brnch_pck_update" class="btn btn-primary w-md">Save</button>
                                     @endif
                                 </div>
-                            {!! Form::close() !!}                
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -395,32 +395,32 @@
                                                     <th>IMEI</th>
                                                     <th>Serial Number</th>
                                                     <th>Firmware</th>
-                                                    <th>Status</th> 
-                                                    <th>Last run</th>                                                        
+                                                    <th>Status</th>
+                                                    <th>Last run</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @if(count($te5000))
-                                                    @foreach($te5000['results'] as $key => $val) 
+                                                    @foreach($te5000['results'] as $key => $val)
                                                         <tr>
                                                             <td>{{isset($val['imei']) ? $val['imei'] : 'NA'}}</td>
                                                             <td>{{isset($val['serialNumber']) ? $val['serialNumber'] : 'NA'}}</td>
                                                             <td>{{isset($val['currentFirmwareVersion']) ? $val['currentFirmwareVersion'] : 'NA'}}</td>
                                                             <td>{{isset($val['status']) ? $val['status'] : 'NA'}}</td>
                                                             <td>{{isset($val['lastAnnounceDateTime']) ? \App\Helpers\Helper::showdate($val['lastAnnounceDateTime'],true,'m-d-Y h:i A') : 'NA'}}</td>
-                                                            
+
                                                             <td>
                                                                 <button type="button" class="btn btn-sm btn-outline-primary waves-effect waves-light last_run_info" data-location_id="{{isset($val['locationId']) ? $val['locationId'] : ''}}" data-imie_no="{{isset($val['imei']) ? $val['imei'] : ''}}">Last Run Info</button>
                                                             </td>
                                                         </tr>
-                                                    @endforeach   
+                                                    @endforeach
                                                 @else
                                                 <tr>
                                                     <td colspan="25">No record found</td>
                                                 </tr>
                                                 @endif
-                                                
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -473,7 +473,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        
+
                                         <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>
@@ -487,7 +487,7 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                               
+                                        <tbody>
                                                 <tr class="">
                                                     <td>@if(isset($companybranch->name) && $companybranch->name) {{$companybranch->name}} @else NA @endif</td>
                                                     @php($uniq_id = (isset($companybranch->uniq_id)) ? $companybranch->uniq_id : 1)
@@ -505,13 +505,13 @@
                                                         <i class="fa fa-save"></i>
                                                     </a>
                                                     </td>
-                                                </tr>                                                
+                                                </tr>
                                         </tbody>
                                     </table>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                     </div>
@@ -530,7 +530,7 @@
                                             <table class="table table-centered table-nowrap mb-0">
                                                 <thead class="thead-light">
                                                     <tr>
-                                                        <th>Branch Name</th>
+                                                        <th>Location</th>
                                                         <th>Location</th>
                                                         <th>Number Of Boxes</th>
                                                         <th>Package</th>
@@ -542,7 +542,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @if(count($hauling_list))
-                                                        @foreach($hauling_list as $hkey => $hval) 
+                                                        @foreach($hauling_list as $hkey => $hval)
                                                             <tr class="">
                                                                 <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td>
                                                                 @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
@@ -552,7 +552,7 @@
                                                                 @endif
                                                                 <td> {{($hval->number_of_boxes)?$hval->number_of_boxes.' Box':'NA'}}</td>
                                                                 @if(isset($hval->package_details) && $hval->package_details)
-                                                                    <td> {{$hval->package_details->name}}</td>                                                        
+                                                                    <td> {{$hval->package_details->name}}</td>
                                                                 @else
                                                                     <td> NA </td>
                                                                 @endif
@@ -568,17 +568,17 @@
                                                         @endforeach
                                                     @else
                                                     <tr class="">
-                                                        <td colspan="25">No Record found</td>                                        
+                                                        <td colspan="25">No Record found</td>
                                                     </tr>
                                                     @endif
                                                 </tbody>
-                                            </table>                                            
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 @endif
                 @if($tab == 'document')
@@ -777,27 +777,27 @@
                     <div class="col-md-12">
                         {!! Form::open(['method' => 'GET','route' => ['customers.branche-info-details',[$company->id,$id]],'id' => 'srch-form','class' => 'form-horizontal ']) !!}
                         <input type="hidden" value="{{$tab}}" name="tab">
-                        <div class="row">                     
-                            <div class="col-md-3">                    
+                        <div class="row">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Start date</label>
                                     @php($begin_date = (isset($srch_params['begin_date']))?$srch_params['begin_date']:null)
                                     {!! Form::date('begin_date',$begin_date,['class'=>'form-control','placeholder'=> 'select start date','id'=>'begin_date',]) !!}
                                 </div>
                             </div>
-                            <div class="col-md-3">                    
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>End date</label>
                                     @php($end_date = (isset($srch_params['end_date']))?$srch_params['end_date']:null)
                                     {!! Form::date('end_date',$end_date,['class'=>'form-control','placeholder'=> 'select end date','id'=>'end_date',]) !!}
                                 </div>
-                            </div>                            
-                            <div class="col-md-2"> 
+                            </div>
+                            <div class="col-md-2">
                                 <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
-                                <a class="btn btn-danger" href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'invoices'])}}">Reset</a>                        
+                                <a class="btn btn-danger" href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'invoices'])}}">Reset</a>
                             </div>
                         </div>
-                        
+
                         {!! Form::close() !!}
                     </div>
                     <div class="row">
@@ -823,20 +823,20 @@
                                         <td>{{ $inv['id'] }}</td>
                                         <td>{{ $inv['company'] }}</td>
                                         <td>{{ $inv['total'] }}</td>
-                                        <td>{{ $inv['state'] }}</td>                                
+                                        <td>{{ $inv['state'] }}</td>
                                         <td>{{ ($inv['created_at'])?\App\Helpers\Helper::dateConvert($inv['created_at']):'NA' }}</td>
                                         <td><a href="javascript:;" data-line_items="{{json_encode($inv)}}" data-invoice_id="{{$inv['id']}}" class="btn btn-primary line_items"><i class="fa fa-eye"></i></td>
-                                        <td> 
+                                        <td>
                                             @if($inv['state'] != "paid")
                                             <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                                 document.getElementById('paid-form-{{$inv['id']}}').submit();" data-original-title="Pay">Pay</a>
                                                 {!! Form::open([
                                                     'method' => 'DELETE',
                                                     'route' => [
-                                                    'customers.package-destroy', 
+                                                    'customers.package-destroy',
                                                     $inv['id']
-                                                    ], 
-                                                    'style'=>'display:inline', 
+                                                    ],
+                                                    'style'=>'display:inline',
                                                     'id' => 'paid-form-' . $inv['id']
                                                     ]) !!}
                                                 {!! Form::close() !!}
@@ -855,7 +855,7 @@
                     </div>
                 </div>
                 @endif
-                
+
             </div>
         </div>
     </div>
@@ -880,10 +880,10 @@
                             <th>Discount</th>
                             <th>Status</th>
                             <th>Invoice Date</th>
-                       </tr>                             
-                   </thead> 
+                       </tr>
+                   </thead>
                    <tbody>
-                   </tbody>                                
+                   </tbody>
                 </table>
                 <h4>Line Items</h4>
                 <table class="table table-striped line-item-table">
@@ -891,15 +891,15 @@
                        <tr>
                             <th>Description</th>
                             <th>Amount</th>
-                       </tr>                             
-                   </thead> 
+                       </tr>
+                   </thead>
                    <tbody>
-                   </tbody>                                
+                   </tbody>
                 </table>
             </div>
-            <div class="modal-footer">                 
-                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -914,7 +914,7 @@
                 </button>
             </div>
             <div class="modal-body" id="manifesstBody">
-                                              
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -933,8 +933,8 @@
             <div class="modal-body" id="reorder-body">
             {!! Form::open(array('url' => 'javascript:;','method'=>'POST', 'enctype'=>'multipart/form-data','id'=>'reorder-form','class' => 'form-horizontal')) !!}
                 <div class="row">
-                    <input type="hidden" id="reorder_index" value=""> 
-                    <input type="hidden" id="reorder_location_id" value="">  
+                    <input type="hidden" id="reorder_index" value="">
+                    <input type="hidden" id="reorder_location_id" value="">
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('waste_type', 'Type *:',array('class'=>'','for'=>'waste_type_rorder_modal'),false) !!}
@@ -947,13 +947,13 @@
                             {!! Form::select('container_type',$waste_type,null,['class'=>'form-control select2','id'=>'container_type_rorder_modal','placeholder'=>'Choose ...','required'=>'required']) !!}
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="text-right">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" id="inventory_reorder_submit" class="btn btn-primary w-md">Save</button>
-                    
+
                 </div>
-                {!! Form::close() !!}                    
+                {!! Form::close() !!}
             </div>
         </div>
         <!-- /.modal-content -->
@@ -987,7 +987,7 @@ $(document).ready(function () {
                 $('.loader').show();
             },
             success: function (data) {
-                $('.loader').hide();                       
+                $('.loader').hide();
                 if (data.success) {
                     let html = `
                         <td>${data.data.startDateTime}</td>
@@ -1002,13 +1002,13 @@ $(document).ready(function () {
                     // bootbox.alert({
                     //     title:"Last Info Details",
                     //     message: data.msg ,
-                    //     type:"success"                   
+                    //     type:"success"
                     // });
                 } else {
                     bootbox.alert({
                         title:"Last Info Details",
                         message:  data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -1017,7 +1017,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Last Info Details",
                     message:  data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -1033,19 +1033,19 @@ $(document).ready(function () {
                 $('.loader').show();
             },
             success: function (data) {
-                $('.loader').hide();                       
+                $('.loader').hide();
                 if (data.success) {
-                    
+
                     bootbox.alert({
                         title:"Machine Ping",
                         message: data.msg ,
-                        type:"success"                   
+                        type:"success"
                     });
                 } else {
                     bootbox.alert({
                         title:"Machine Ping",
                         message:  data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -1054,7 +1054,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Machine Ping",
                     message:  data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -1085,20 +1085,20 @@ $(document).ready(function () {
                 $('.loader').show();
             },
             success: function (data) {
-                $('.loader').hide();                       
+                $('.loader').hide();
                 if (data.success) {
                     bootbox.alert({
                         title:"Inventory Update Successful",
                         message: data.msg ,
                         size: 'small',
-                        type:"success"                   
+                        type:"success"
                     });
                 } else {
                     bootbox.alert({
                         title:"Inventory update failed",
                         message:  data.msg ,
                         size: 'small',
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -1107,12 +1107,12 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Inventory update",
                     message:  data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
     });
-    
+
     $('#reorder-form').validate({
         rules: {
             type: {
@@ -1156,18 +1156,18 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     $('#all_reorder_modal').modal('hide');
-                    $('.loader').hide();                       
+                    $('.loader').hide();
                     if (data.success) {
                         bootbox.alert({
                             title:"Inventory Re-order",
                             message: data.msg ,
-                            type:"success"                   
+                            type:"success"
                         });
                     } else {
                         bootbox.alert({
                             title:"Inventory Re-order",
                             message:  data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
                     }
                 },
@@ -1176,7 +1176,7 @@ $(document).ready(function () {
                     bootbox.alert({
                         title:"Inventory Re-order",
                         message:  data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             });
@@ -1211,15 +1211,15 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#manifesstBody').html(data.html);
                     $('#all_manifest_modal').modal('show');
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -1228,7 +1228,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Manifest Details",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -1253,14 +1253,14 @@ $(document).ready(function () {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"success"                   
+                        type:"success"
                     });
-                } 
+                }
                 else {
                     bootbox.alert({
                         title:"Manifest Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -1269,7 +1269,7 @@ $(document).ready(function () {
                     bootbox.alert({
                     title:"Manifest Assign",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });

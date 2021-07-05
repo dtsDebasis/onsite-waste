@@ -3,7 +3,7 @@
 
 @section('create-customer-content')
 <!-- tab6 -->
-@php($status_arr = ['0'=>'Not Confirm','1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined'])
+@php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
 <div class="tab-pane active" id="settings-1" role="tabpanel">
     <div class="card">
         <div class="card-body mb-4">

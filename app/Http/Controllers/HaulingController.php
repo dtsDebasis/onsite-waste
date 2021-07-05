@@ -259,7 +259,7 @@ class HaulingController extends Controller
 
     public function sendMailToBranch($data){
         if(isset($data->branch_id)){
-            $status_arr = ['0'=>'Not Confirm','1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','3' => 'Completed'];
+            $status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'];
             $branchDetails = app('App\Models\BranchUser')->getListing(['companybranch_id'=>$data->branch_id,'with'=>['user']]);
             if(count($branchDetails)){
                 $maildata = [

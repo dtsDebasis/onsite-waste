@@ -20,7 +20,7 @@ class HomeSectionController extends Controller
         $this->_model       = new HomeSection;
     }
 
-  
+
     protected function __routeParams($category = 0, $sub_category = 0) {
         $this->_data['routeParams'] = [
         ];
@@ -32,7 +32,7 @@ class HomeSectionController extends Controller
         $this->__routeParams();
         $srch_params                    = $request->all();
         $this->_data['srch_params'] = $srch_params;
-        
+
         $srch_params['with'] = ['settings_details'];
         $this->_data['pageHeading'] = $this->_module;
         $this->_data['data']            = $this->_model->getListing($srch_params);
@@ -45,7 +45,7 @@ class HomeSectionController extends Controller
         return view('admin.' . $this->_routePrefix . '.edit', $this->_data);
     }
 
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -100,7 +100,7 @@ class HomeSectionController extends Controller
      */
     public function destroy($kw_category_id = 0, $id)
     {
-        
+
     }
 
     /**
@@ -153,7 +153,7 @@ class HomeSectionController extends Controller
             }
         }
         return redirect()->route( $this->_routePrefix.'.index')->with('success','Changes has been saved successfully');
-        
+
     }
 
     public function updateStatus(Request $request){
@@ -214,7 +214,7 @@ class HomeSectionController extends Controller
 
     public function sendMailToBranch($data){
         if(isset($data->branch_id)){
-            $status_arr = ['0'=>'Not Confirm','1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','3' => 'Completed'];
+            $status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'];
             $branchDetails = app('App\Models\BranchUser')->getListing(['companybranch_id'=>$data->branch_id,'with'=>['user']]);
             if(count($branchDetails)){
                 $maildata = [
@@ -227,7 +227,7 @@ class HomeSectionController extends Controller
                     if($val->user){
                         $maildata['name'] = $val->user->full_name;
                         $fullName = $val->user->full_name;
-				        \App\Models\SiteTemplate::sendMail($val->user->email, $fullName, $maildata, 'hauling_mail'); 
+				        \App\Models\SiteTemplate::sendMail($val->user->email, $fullName, $maildata, 'hauling_mail');
                     }
                 }
                 return true;
@@ -250,7 +250,7 @@ class HomeSectionController extends Controller
             else{
                 $haulingDetails = app('App\Models\CompanyHauling')->getListing(['id'=>$input['hauling_id'],'with' => ['branch_details.addressdata']]);
                 $manifest = app('App\Models\Manifest')->getListing(['hauling_id'=>$input['hauling_id'],'single_record' => true ]);
-                
+
                 $view = view("admin.pickups.manifest",['haulingDetails'=>$haulingDetails,'manifest'=>$manifest])->render();
                 return Response::json(['success'=>true,'msg'=>'List generate success fully','html'=>$view]);
             }
@@ -271,7 +271,7 @@ class HomeSectionController extends Controller
             if ($validator->fails()) {
                 throw new Exception($validator->errors()->first(),200);
             }
-            else{                
+            else{
                 $manifest = app('App\Models\Manifest')->getListing(['hauling_id'=>$input['hauling_id'],'single_record' => true ]);
                 if($manifest){
                     $manifest->update($input);

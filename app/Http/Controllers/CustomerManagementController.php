@@ -590,7 +590,7 @@ class CustomerManagementController extends Controller {
 			$addressdata = $companybranch = null;
 			$companyBrancObject = new CompanyBranch();
 			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','billingaddress','branchusers.user','branchspecialty.speciality_details']]);
-			
+
 			$this->_data['branch_code'] = \App\Helpers\Helper::generateMasterCode('\App\Models\CompanyBranch','uniq_id',10);
 			$this->_data['company'] = $company;
 			$this->_data["navlink_isactive"] = true;
@@ -873,7 +873,7 @@ class CustomerManagementController extends Controller {
 						'longitude' => $input['longitude_b'],
 					);
 				}
-				
+
 				if($addressdata){
 					$addressdata->update($input);
 				}
@@ -1405,7 +1405,12 @@ class CustomerManagementController extends Controller {
 		$company = Company::where('id', '=', $id)->first();
 		if($company){
 			$input = $request->all();
+
 			$hauling_id = (isset($input['hauling_id'])) ? $input['hauling_id']:0;
+			$branch_id = (isset($input['branch_id'])) ? $input['branch_id']:0;
+            //dd($branch_id);
+            $package = Package::where('branch_id',$branch_id)->first();
+            $input['package_id'] = $package->id;
 			$validationRules = \App\Http\Controllers\HaulingController::validationRules($hauling_id);
 			$validator = \Validator::make($request->all(), $validationRules);
 			if ($validator->fails()) {
@@ -1578,5 +1583,22 @@ class CustomerManagementController extends Controller {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
         }
 	}
+
+    public function assign_password($id)
+    {
+        $user  = User::where('id', $id)->first();
+
+        $user->remember_token = Helper::randomString(25);
+        $url = \Config::get('services.frontend_url') ? \Config::get('services.frontend_url') : 'https://onsite-customer.glohtesting.com/';
+        if ($user->save()) {
+            $mailData = [
+                'first_name'      => $user->first_name,
+                'activation_link' => $url . 'reset-password/' . $user->remember_token,
+            ];
+            $fullName = $user->first_name . ' ' . $user->last_name;
+            \App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'forgot_password');
+        }
+        return redirect()->back()->with('success','Password Set mail send successfully');
+    }
 
 }

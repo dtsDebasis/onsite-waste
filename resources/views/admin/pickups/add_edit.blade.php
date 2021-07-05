@@ -38,7 +38,7 @@ select.select2{
                     <div class="form-group">
                         @php($company_branches = \App\Helpers\Helper::companyBranches($compnay_id))
                         @php($branch_id = Request::old('branch_id')?Request::old('branch_id'):(Request::get('branch_id')?Request::get('branch_id'):(($data && isset($data->branch_id))?$data->branch_id:null)))
-                        {!! Form::label('branch_id', 'Branch Name <span class="span-req">*</span>:',array('class'=>'','for'=>'branch_id'),false) !!}
+                        {!! Form::label('branch_id', 'Location <span class="span-req">*</span>:',array('class'=>'','for'=>'branch_id'),false) !!}
                         {!! Form::select('branch_id',$company_branches,$branch_id,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'branch_id','required'=>'required']) !!}
                         @if ($errors->has('branch_id'))
                             <span class="help-block">{{ $errors->first('branch_id') }}</span>
@@ -91,7 +91,7 @@ select.select2{
                         @endif
                     </div>
                 </div>
-                @php($status_arr = ['0'=>'Not Confirm','1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
+                @php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
                 <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('status', 'status <span class="span-req">*</span>:',array('class'=>'','for'=>'status'),false) !!}

@@ -62,7 +62,7 @@ class LoginController extends Controller {
 			$section_settings = \App\Helpers\Helper::getUserHomeSectionSettings($user);
 			$data['section_settings'] = $section_settings;
 			$data['details']->section_settings = $section_settings;
-			
+
 			return Helper::rj('Login Successful', $this->successStatus, $data);
 		} catch (\Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());
@@ -119,9 +119,11 @@ class LoginController extends Controller {
 			$user->remember_token = Helper::randomString(25);
 
 			if ($user->save()) {
+                $url = \Config::get('services.frontend_url') ? \Config::get('services.frontend_url') : 'https://onsite-customer.glohtesting.com/';
+
 				$mailData = [
 					'first_name'      => $user->first_name,
-					'activation_link' => \Config::get('services.frontend_url') . 'reset-password/' . $user->remember_token,
+					'activation_link' => $url . 'reset-password/' . $user->remember_token,
 				];
 				$fullName = $user->first_name . ' ' . $user->last_name;
 				\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'forgot_password');
@@ -229,7 +231,7 @@ class LoginController extends Controller {
 				]);
 			}
 			$user =  User::where('remember_token', $input['token'])->first();
-			if($user){			
+			if($user){
 				$data['verified']       = 1;
 				$data['remember_token'] = null;
 				$data['status']         = 1;

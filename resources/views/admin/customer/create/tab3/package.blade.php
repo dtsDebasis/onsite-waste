@@ -8,11 +8,11 @@
     @php($yes_no_arr = ['0' => 'No','1' => 'Yes'])
     @php($service_types = ['TE-5000' => 'TE-5000','Pick-up' => 'Pick-up', 'Hybrid' => 'Hybrid'])
     <div class="card">
-        <div class="card-body mb-4">                
+        <div class="card-body mb-4">
             @if($transactionalpackages)
                 {!! Form::model($transactionalpackages, [
                 'method' => 'PATCH',
-                'route' => 'packages.transaction-package', 
+                'route' => 'packages.transaction-package',
                 'class' => 'form-horizontal ',
                 'id'=>'transactional-form',
                 'enctype'=>'multipart/form-data'
@@ -71,7 +71,7 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('shipping_cost', 'Shipping Rate<span class="span-req">*</span>:',array('class'=>'','for'=>'shipping_cost'),false) !!}
@@ -81,7 +81,7 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('setup_initial_cost', 'Setup-Initial <span class="span-req">*</span>:',array('class'=>'','for'=>'setup_initial_cost'),false) !!}
@@ -108,7 +108,7 @@
                                 <span class="help-block">{{ $errors->first('compliance_training_cost') }}</span>
                             @endif
                         </div>
-                    </div>                        
+                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('quarterly_review_cost', 'Quarterly Volume Analysis <span class="span-req">*</span>:',array('class'=>'','for'=>'quarterly_review_cost'),false) !!}
@@ -140,16 +140,16 @@
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary w-md">Save</button>
                 </div>
-            {!! Form::close() !!}                
+            {!! Form::close() !!}
         </div>
     </div>
-    
+
     <div class="card {{(Request::get('fnc') && (Request::get('fnc') == 'create' || Request::get('fnc') == 'edit'))?'':'d-none'}}" id="package-form-dev">
-        <div class="card-body mb-4">   
-            @if((isset($editPackage) && $editPackage))             
+        <div class="card-body mb-4">
+            @if((isset($editPackage) && $editPackage))
                 {!! Form::model($editPackage, [
                 'method' => 'PATCH',
-                'route' => ['cutomers.update-package',[$id,$editPackage->id]], 
+                'route' => ['cutomers.update-package',[$id,$editPackage->id]],
                 'class' => 'form-horizontal ',
                 'id'=>'package-form',
                 'enctype'=>'multipart/form-data'
@@ -166,7 +166,7 @@
                         <div class="form-group">
                             {!! Form::label('name', 'Package Name <span class="span-req">*</span>:',array('class'=>'','for'=>'name'),false) !!}
                             {!! Form::select('name',$packagenames,null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'name','required'=>'required']) !!}
-                            
+
                             @if ($errors->has('name'))
                                 <span class="help-block">{{ $errors->first('name') }}</span>
                             @endif
@@ -222,7 +222,7 @@
                                 <span class="help-block">{{ $errors->first('boxes_included') }}</span>
                             @endif
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary w-md">Save</button>
@@ -234,10 +234,10 @@
         <div class="card-body mb-4">
             <div class="col-md-12">
                 <div class="col-sm-12">
-                    <div class="d-flex flex-column flex-md-row justify-content-between custom-heading-wrapper align-items-center">  
+                    <div class="d-flex flex-column flex-md-row justify-content-between custom-heading-wrapper align-items-center">
                         <h3>Package List</h3>
                         <a href="{{ route('customers.create.package',[$id,'fnc'=>'create']) }}" class="btn btn-primary w-md" id="add_package">Add Package</a>
-                    </div>        
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-centered table-nowrap mb-0">
@@ -247,7 +247,7 @@
                                 <th>Service Type</th>
                                 <th>Monthly Rate</th>
                                 <th>Frequency</th>
-                                <th>Number Of Boxes Included</th>                                
+                                <th>Number Of Boxes Included</th>
                                 <th>Compliance</th>
                                 {{--<th>Assign Location</th>--}}
                                 <th>Action</th>
@@ -261,9 +261,9 @@
                                 <td>{{ $pval->monthly_rate}}</td>
                                 <td>{{ ($pval->frequency_number)?$pval->frequency_number.'/'.$frequency_types[$pval->frequency_type]:'' }} </td>
                                 <td>{{ $pval->boxes_included }}</td>
-                               
+
                                 <td>{{ (array_key_exists($pval->compliance,$yes_no_arr)) ?$yes_no_arr[$pval->compliance]: '' }}</td>
-                                
+
                                 {{--<td>
                                     @if( $pval->companybranch )
                                         {{ $pval->companybranch->name ?? '' }}
@@ -272,17 +272,17 @@
                                     @endif
                                 </td>
                                 --}}
-                                <td> 
+                                <td>
                                     <a href="{{ route('customers.create.package',[$id,'package_id'=>$pval->id,'fnc'=>'edit']) }}" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"><i class="bx bx-edit-alt"></i></a>
                                     <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                         document.getElementById('delete-form-{{$pval->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
                                         {!! Form::open([
                                             'method' => 'DELETE',
                                             'route' => [
-                                             'customers.package-destroy', 
+                                             'customers.package-destroy',
                                               $pval->id
-                                            ], 
-                                            'style'=>'display:inline', 
+                                            ],
+                                            'style'=>'display:inline',
                                             'id' => 'delete-form-' . $pval->id
                                             ]) !!}
                                         {!! Form::close() !!}
@@ -345,9 +345,9 @@
                     </table>
                 </div>
             </div>
-            <div class="modal-footer">                 
-                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                 <a href="javascript:;" class="btn btn-success" id="cloned_submit">Submit</a>                         
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                 <a href="javascript:;" class="btn btn-success" id="cloned_submit">Submit</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -374,7 +374,7 @@
                         <table class="table table-centered table-nowrap mb-0">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Branch Name</th>
+                                    <th>Location</th>
                                     <th>Address</th>
                                     <!-- <th>Contact Person</th>
                                     <th>Phone</th>
@@ -471,16 +471,16 @@ $(document).ready(function () {
         $('#package-clone-form').find('#clone_package_id').val(ids.toString());
         $('#package-clone-form').find('#clone_company_id').val('{{$id}}');
     });
-    $('body').on("click","#cloned_submit",function () {  
+    $('body').on("click","#cloned_submit",function () {
         var packages = $('#package-clone-form').find('#clone_package_id').val();
         if(packages == null || packages == undefined || packages == ''){
             bootbox.alert({
                 title:"Add Package",
                 message: 'Please select packages.' ,
-                type:"error"                   
+                type:"error"
             });
         }
-        else{      
+        else{
             bootbox.confirm({
                 message: "Are You Sure? Do you want to continue this action?",
                 buttons: {
@@ -504,7 +504,7 @@ $(document).ready(function () {
 
     var companypackage_id = 0;
     $( ".assign-btn" ).click(function(){
-        
+
         $(".assign-site-branch-package-modal-bs").modal();
         companypackage_id = $(this).attr('companypackage_id');
         console.log(companypackage_id);
@@ -512,27 +512,27 @@ $(document).ready(function () {
     });
     //assign-branch
     $(".assign-branch").on("click", function () {
-       
+
        //packageid
        let branchid = $(this).attr('branchid');
 
        console.log(branchid);
        let r = confirm("Are you sure!");
        if (r == true) {
-           
+
            let assignBranch = $.ajax({
                type: 'POST',
                url: "{{ route('customers.create.package', ['id' => $id] ) }}",
                data: {"_token": "{{ csrf_token() }}", "task": "assign-branch", "companypackage_id": companypackage_id, "branchid": branchid },
                success: function(resultData) {
-                   //console.log("teswt", resultData.data.success ); 
+                   //console.log("teswt", resultData.data.success );
                    window.location.reload();
                }
            });
            assignBranch.error(function() { console.log("Something went wrong"); });
 
        } else {
-           
+
        }
 
     });
@@ -566,7 +566,7 @@ $(document).ready(function () {
                 url: "{{ route('customers.create.package', ['id' => $id] ) }}",
                 data: {"_token": "{{ csrf_token() }}", "task": "deletecompanypackage", "companypackage_id": companypackage_id,  },
                 success: function(resultData) {
-                    //console.log("teswt", resultData.data.success ); 
+                    //console.log("teswt", resultData.data.success );
                     window.location.reload();
                 }
             });
