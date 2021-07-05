@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Hash;
+use DB;
 use App\Models\File;
 use App\Helpers\Helper;
 use Laravel\Passport\HasApiTokens;
@@ -226,6 +227,9 @@ class User extends Authenticatable
 			->when(isset($srch_params['id_gte']), function ($q) use ($srch_params) {
 				return $q->where($this->table . ".id", ">=", $srch_params['id_gte']);
 			})
+			->when(isset($srch_params['id_greater_than']), function ($q) use ($srch_params) {
+				return $q->where($this->table . ".id", ">", $srch_params['id_greater_than']);
+			})
 			->when(isset($srch_params['name']), function ($q) use ($srch_params) {
 				return $q->whereRaw("{$this->table}.first_name LIKE '{$srch_params['name']}%'");
 			})
@@ -291,9 +295,9 @@ class User extends Authenticatable
 		}
 
 		if ($offset) {
-			$listing = $listing->whereNull($this->table .'deleted_at')->paginate($offset);
+			$listing = $listing->paginate($offset);
 		} else {
-			$listing = $listing->whereNull($this->table .'deleted_at')->get();
+			$listing = $listing->get();
 		}
 
 		if ($listing != null && $listing->isEmpty()) {
@@ -452,11 +456,7 @@ class User extends Authenticatable
 
 	public function remove($id = null)
 	{
-		$data = $this->getListing([
-			'id'              => $id,
-			'id_greater_than' => \Auth::user()->id,
-		]);
-
+		$data =  DB::table('users')->where('id',$id);
 		if (!$data) {
 			return \App\Helpers\Helper::resp('Not a valid data', 400);
 		}

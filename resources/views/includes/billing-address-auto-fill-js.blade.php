@@ -128,4 +128,16 @@ function fillInAddress_b() {
 	address1Field_b.focus();
 }
 
+function copyAddress(){
+	document.querySelector("#addressline1_b").value = document.querySelector("#addressline1").value;
+	document.querySelector("#address1_b").value = document.querySelector("#address1").value;	
+	document.querySelector("#address2_b").value = document.querySelector("#address2").value;
+	document.querySelector("#locality_b").value = document.querySelector("#locality").value ;
+	document.querySelector("#state_b").value = document.querySelector("#state").value;
+	document.querySelector("#postcode_b").value = document.querySelector("#postcode").value;
+	document.querySelector("#country_b").value = document.querySelector("#country").value;
+	document.querySelector("#latitude_b").value = document.querySelector("#latitude").value;
+	document.querySelector("#longitude_b").value = document.querySelector("#longitude").value;
+}
+
 </script>

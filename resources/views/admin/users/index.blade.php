@@ -10,7 +10,7 @@
 
                     <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div class="input-group mw-30">
-                            <input type="text" value="{{$search}}" name="search" class="form-control"
+                            <input type="text" value="{{$search}}" name="name" class="form-control"
                                 placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
                             <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                         </div>
@@ -40,8 +40,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(!empty($users))
-                                    @foreach($users as $user)
+                                    @if(!empty($data))
+                                    @foreach($data as $user)
                                     <tr class="">
                                         {{-- <td>
                                           <div class="custom-control custom-checkbox">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                {{$users->links()}}
+                {{$data->links()}}
                 <!-- <div class="row">
                   <div class="col-lg-12">
                       <ul class="pagination pagination-rounded justify-content-center mt-4">

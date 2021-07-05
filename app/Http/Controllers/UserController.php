@@ -16,9 +16,10 @@ class UserController extends Controller {
 	public function __construct($parameters = array()) {
 		parent::__construct($parameters);
 
-		$this->_module      = 'User';
+		$this->_module      = 'EMPLOYEE';
 		$this->_routePrefix = 'users';
 		$this->_model       = new User();
+		$this->_offset = 10;
 	}
 
 	/**
@@ -27,15 +28,16 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	// public function index(Request $request) {
-	// 	// echo "subhasis"; die;
 	// 	$this->initIndex();
 
 	// 	$user                    = \Auth::user();
 	// 	$srch_params             = $request->all();
-	// 	$srch_params['role_gte'] = $this->_model->myRoleMinLevel($user->id);
-	// 	$this->_data['data']     = $this->_model->getListing($srch_params, $this->_offset);
+	// 	$srch_params['user_type'] = 'admin';
+	// 	// $srch_params['role_gte'] = $this->_model->myRoleMinLevel($user->id);
+	// 	$this->_data['data']     = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
 	// 	$this->_data['filters']  = $this->_model->getFilters();
 	// 	$this->_data['orderBy']  = $this->_model->orderBy;
+	// 	$this->_data['search']              = isset($srch_params['name'])?$srch_params['name']:null;
 
 	// 	return view('admin.' . $this->_routePrefix . '.index', $this->_data)
 	// 		->with('i', ($request->input('page', 1) - 1) * $this->_offset);
@@ -52,17 +54,18 @@ class UserController extends Controller {
 	public function index(Request $request){
         $columnsToSearch = ['first_name', 'last_name', 'email','phone'];
         $users = DB::table('users');
-        $users = $users->where('user_type','admin');
-        if ($request->search) {
-            $searchQuery = '%' . $request->search . '%';
-            $users = $users->where('id', 'LIKE', $searchQuery);;
-            foreach($columnsToSearch as $column) {
-                $users = $users->orWhere($column, 'LIKE', $searchQuery);
-            }
+        $users = $users->where('user_type','admin')->whereNull('deleted_at');
+
+        if ($request->name) {
+            $searchQuery = '%' . $request->name . '%';
+            $users = $users->where('first_name', 'LIKE', $searchQuery);
+            // foreach($columnsToSearch as $column) {
+            //     $users = $users->orWhere($column, 'LIKE', $searchQuery);
+            // }
         }
 
-		$this->data["users"] =$users->paginate(10);
-        $this->data["search"] = $request->search;
+		$this->data["data"] =$users->paginate($this->_offset)->appends($request->input());
+        $this->data["search"] = $request->name;
 
 		$this->data['pageHeading'] = 'EMPLOYEE LISTING';
 		return view('admin.users.index',$this->data);
@@ -113,8 +116,8 @@ class UserController extends Controller {
 					"status" => (!empty($request->status))?1:2,
 					"user_type" => 'admin'
 				];
-				$user_id = DB::table('users')->insertGetId($usrTblData);
-                //dd($user_id);
+				$user_id = DB::table('users')->insert($usrTblData);
+                // dd($user_id);
 				if($user_id){
                     User::sendPasswordChangeMail($request->email);
 					if(!empty($request->role)){
@@ -295,6 +298,7 @@ class UserController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id) {
+		// dd($id);
 		$response = $this->_model->remove($id);
         //dd($response);
 		if ($response['status'] == 200) {

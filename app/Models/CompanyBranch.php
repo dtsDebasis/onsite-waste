@@ -19,6 +19,7 @@ class CompanyBranch extends Model
         'company_id',
         'company_number',
         'addressdata_id',
+        'billingaddress_id',
         'name',
         'phone',
         'owner',
@@ -44,6 +45,10 @@ class CompanyBranch extends Model
 
     public function addressdata(){
         return  $this->belongsTo('App\Models\AddressData', 'addressdata_id');
+    }
+
+    public function billingaddress(){
+        return  $this->belongsTo('App\Models\AddressData', 'billingaddress_id');
     }
     
     public function branchspecialty(){

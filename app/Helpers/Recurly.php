@@ -32,8 +32,12 @@ class Recurly {
         /****billing info not needed */
 
         /*$binfo_update = [
-            "first_name" => "Douglas",
-            "last_name" => "Du Monde",
+            "first_name" => $input['contact_firstname'],
+            "last_name" => $input['contact_lastname'],
+            "street1" => $input['billing_address'],
+            "city" => $input['billing_city'],
+            "postal_code" => $input['billing_postcode'],
+            "country" => $input['billing_country']
         ];
         $binfo = $client->updateBillingInfo($account_id, $binfo_update);*/
         

@@ -589,8 +589,8 @@ class CustomerManagementController extends Controller {
 		if($company){
 			$addressdata = $companybranch = null;
 			$companyBrancObject = new CompanyBranch();
-			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','branchusers.user','branchspecialty.speciality_details']]);
-
+			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','billingaddress','branchusers.user','branchspecialty.speciality_details']]);
+			
 			$this->_data['branch_code'] = \App\Helpers\Helper::generateMasterCode('\App\Models\CompanyBranch','uniq_id',10);
 			$this->_data['company'] = $company;
 			$this->_data["navlink_isactive"] = true;
@@ -609,6 +609,14 @@ class CustomerManagementController extends Controller {
 				$addressdata = new AddressData();
 			}
 			$this->_data['addressdata'] = $addressdata;
+
+			if(isset($companybranch->billingaddress) && $companybranch->billingaddress){
+				$billingaddress = $companybranch->billingaddress;
+			}
+			else{
+				$billingaddress = new AddressData();
+			}
+			$this->_data['billingaddress'] = $billingaddress;
 
 			$this->_data['companybranch'] = $companybranch;
 			$this->_data["contact_list"] = User::where('company_id', '=', $company->id )->get();
@@ -824,11 +832,13 @@ class CustomerManagementController extends Controller {
 			}
 			$input['company_id'] = $company->id;
 			$addressdata = null;
+			$billingaddress = null;
 			if($id){
 				$companyBrancObject = new CompanyBranch();
-				$data = $companyBrancObject->getListing(['id'=>$id,'with'=>['addressdata','branchusers.user']]);
+				$data = $companyBrancObject->getListing(['id'=>$id,'with'=>['addressdata','billingaddress','branchusers.user']]);
 				if($data){
 					$addressdata = $data->addressdata;
+					$billingaddress = $data->billingaddress;
 					$data->update($input);
 					$msg = 'Changes has been saved successfully';
 				}
@@ -849,6 +859,21 @@ class CustomerManagementController extends Controller {
 				//$hubspot = HubspotAPI::createUser();
 				/****Create Company In Recurly */
 				self::createDefaultTranctionalPackage($company->id,$data->id);
+				$billing_data = null;
+				if($input['addressline1_b']) {
+					$billing_data = array(
+						'addressline1' => $input['addressline1_b'],
+						'address1' => $input['address1_b'],
+						'address2' => $input['address2_b'],
+						'locality' => $input['locality_b'],
+						'state' => $input['state_b'],
+						'postcode' => $input['postcode_b'],
+						'country' => $input['country_b'],
+						'latitude' => $input['latitude_b'],
+						'longitude' => $input['longitude_b'],
+					);
+				}
+				
 				if($addressdata){
 					$addressdata->update($input);
 				}
@@ -858,6 +883,17 @@ class CustomerManagementController extends Controller {
 				if($addressdata){
 					$data->update(['addressdata_id' => $addressdata->id]);
 				}
+
+				if($billingaddress){
+					$billingaddress->update($billing_data);
+				}
+				else{
+					$billingaddress = AddressData::create($billing_data);
+				}
+				if($addressdata){
+					$data->update(['billingaddress_id' => $billingaddress->id]);
+				}
+
 				$branchspecialty_old = BranchSpecialty::where(['company_branch_id' => $data->id])->delete();
 				if( isset($input['specialities']) && is_array($input['specialities']) ){
 					foreach ($input['specialities'] as $s ){
