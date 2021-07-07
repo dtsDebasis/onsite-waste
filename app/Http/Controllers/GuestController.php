@@ -123,6 +123,9 @@ class GuestController extends Controller {
                 unlink($pathname);
             }
 			$zip = new \ZipArchive();
+			if (!file_exists($path2)) {
+				return redirect()->back()->with('error','Details not found');
+			}
 			$uploadesFiles = CoreFile::files($path2);
 			if($zip->open($path.'/'.$fileName, \ZipArchive::CREATE)== TRUE){
 				foreach($uploadesFiles as $value){

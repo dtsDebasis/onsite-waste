@@ -18,10 +18,11 @@ class Permission
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if($user && $user->roles()->count() && in_array('customer', $user->roles()->pluck('slug')->toArray())) {
-            return $next($request);
-        }
-        if ($user && $user->status && $user->verified && $user->roles()->count()) {
+        // if($user && $user->roles()->count() && in_array('customer', $user->roles()->pluck('slug')->toArray())) {
+        //     return $next($request);
+        // }
+        //if ($user && $user->status && $user->verified && $user->roles()->count()) {
+        if ($user && $user->status && $user->roles()->count()) {
 
             // checking whether current user has permission
             // to enter the page

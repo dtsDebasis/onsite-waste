@@ -94,7 +94,7 @@
                                                         @endif
 
                                                         <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
-                                                        <td><a href="javascript:;" data-id="{{$hval->id}}" data-status="{{$hval->status}}" data-driver_name="{{$hval->driver_name}}" class="change-status"><span class="badge badge-pill badge-soft-success">{{$status_arr[$hval->status]}}</span></a></td>
+                                                        <td><a href="javascript:;" data-id="{{$hval->id}}" data-status="{{$hval->status}}" data-driver_name="{{$hval->driver_name}}" class="change-status"><span class="badge badge-pill badge-soft-success">{{(isset($hval->status) && $hval->status!=0)?$status_arr[$hval->status]:'NA'}}</span></a></td>
                                                         <td>
 
                                                             <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">

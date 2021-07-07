@@ -224,7 +224,7 @@ class CustomerManagementController extends Controller {
 			}
 
 			$user_id = ($user)?$user->id:0;
-			$status = ($user && $user->status)?$user->status:0;
+			$status = ($user && $user->status)?$user->status:1;
 
 			$validator = Validator::make($request->all(), [
 				'first_name' => 'required',
@@ -255,10 +255,15 @@ class CustomerManagementController extends Controller {
 			$user->permission_level = request('permission_level');
 			$user->company_id = $company->id;
 			$user->customer_type = 1;
+			$user->verified = 1;
+			$user->user_type = 'user';
+			$user->remember_token = Helper::randomString(25);
 			//company_relationship
 			//relationship pending
 			$user->save();
 			if($user && !$user_id){
+                $url = \Config::get('services.frontend_url') ? \Config::get('services.frontend_url') : 'https://onsite-customer.glohtesting.com/';
+
 				$role                      = \App\Models\Role::where('slug', 'guest-user')->first();
 				if($role){
 					$input['user_id']          = $user->id;
@@ -267,11 +272,11 @@ class CustomerManagementController extends Controller {
 				}
 				$mailData = [
 					'name'       => $user->full_name,
-					'activation_link' => \Config::get('settings.frontend_url') . 'user/verify/' . $user->remember_token,
+					'activation_link' => $url . 'user/verify/' . $user->remember_token,
 					'extra_text'      => '',
 				];
 				$fullName = $user->full_name;
-				\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'register'); //register_provider from db site_template table template_name field
+				//\App\Models\SiteTemplate::sendMail($user->email, $fullName, $mailData, 'register'); //register_provider from db site_template table template_name field
 
 			}
 			return redirect(route('customers.create.contact',  $company->id ));
@@ -934,6 +939,11 @@ class CustomerManagementController extends Controller {
 					$third_party['sharps_reserve'] = $data->sh_rop;
 					$third_party['rb_container_type'] = $data->rb_container_type;
 					$third_party['sh_container_type'] = $data->sh_container_type;
+					$third_party['branch_billing_address'] = $billingaddress?$billingaddress->addressline1:'';
+					$third_party['branch_billing_state'] = $billingaddress?$billingaddress->state:'';
+					$third_party['branch_billing_city'] = $billingaddress?$billingaddress->locality:'';
+					$third_party['branch_billing_postcode'] = $billingaddress?$billingaddress->postcode:'';
+					$third_party['branch_billing_country'] = $billingaddress?$billingaddress->country:'';
 					$branchContactDetails = app('App\Models\BranchUser')->getListing(['companybranch_id' => $data->id, 'with' => ['user'],'single_record' => true]);
 					$userDetails = ($branchContactDetails && $branchContactDetails->user) ? $branchContactDetails->user : null;
 					if ($userDetails) {

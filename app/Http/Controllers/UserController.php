@@ -116,7 +116,7 @@ class UserController extends Controller {
 					"status" => (!empty($request->status))?1:2,
 					"user_type" => 'admin'
 				];
-				$user_id = DB::table('users')->insert($usrTblData);
+				$user_id = DB::table('users')->insertGetId($usrTblData);
                 // dd($user_id);
 				if($user_id){
                     User::sendPasswordChangeMail($request->email);

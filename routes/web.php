@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'admin'], function () {
-	Auth::routes(['verify' => true]);
+	Auth::routes(['verify' => false]);
 });
 
 Route::get('user/verify/{token}', 'App\Http\Controllers\Auth\RegisterController@verifyUser');
@@ -249,7 +249,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => false]);
 Route::get('/', 'App\Http\Controllers\HomeController@home')->name('home');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');

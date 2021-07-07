@@ -30,16 +30,18 @@ class Recurly {
         $response = $client->createAccount($account_create);
 
         /****billing info not needed */
-
-        /*$binfo_update = [
-            "first_name" => $input['contact_firstname'],
-            "last_name" => $input['contact_lastname'],
-            "street1" => $input['billing_address'],
-            "city" => $input['billing_city'],
-            "postal_code" => $input['billing_postcode'],
-            "country" => $input['billing_country']
-        ];
-        $binfo = $client->updateBillingInfo($account_id, $binfo_update);*/
+        if ($input['branch_billing_address']) {
+            $binfo_update = [
+                "first_name" => $input['contact_firstname'],
+                "last_name" => $input['contact_lastname'],
+                "street1" => $input['branch_billing_address'],
+                "city" => $input['branch_billing_city'],
+                "postal_code" => $input['branch_billing_postcode'],
+                "country" => $input['branch_billing_country']
+            ];
+            $binfo = $client->updateBillingInfo($account_id, $binfo_update);
+        }
+        
         
         /****billing info not needed */   
         // return $account_create;

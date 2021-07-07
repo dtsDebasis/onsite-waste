@@ -61,9 +61,11 @@ class RegisterApiController extends Controller {
 				$input['user_id'] = $user->id;
 				$input['status'] = 1;
 				\App\Models\GuestCompanyInfo::create($input);
+                $url = \Config::get('services.frontend_url') ? \Config::get('services.frontend_url') : 'https://onsite-customer.glohtesting.com/';
+
 				$mailData = [
 					'name'       => $user->full_name,
-					'activation_link' => \Config::get('settings.frontend_url') . 'user/verify/' . $user->remember_token,
+					'activation_link' => $url . 'user/verify/' . $user->remember_token,
 					'extra_text'      => '',
 				];
 				$fullName = $user->full_name;

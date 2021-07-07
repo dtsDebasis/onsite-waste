@@ -240,7 +240,7 @@ class HaulingController extends Controller
             $data->update($input);
             $msg = 'Changes has been saved successfully';
         } else {
-            $input['status'] = 1;
+            //$input['status'] = 1;
             $data   = $this->_model->create($input);
         }
         if($data){
