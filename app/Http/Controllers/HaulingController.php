@@ -307,14 +307,16 @@ class HaulingController extends Controller
     public function manifestUpdateDetails(Request $request){
         try{
             $input = $request->all();
+            //dd($input);
             $siteSettings = \App\Helpers\Helper::SiteSettingDetails();
             $validationRules = [
                 'hauling_id' => 'required|integer',
-                'manifest_doc.*' =>'mimes:jpeg,png,jpg,doc,docx,pdf|max:' . (int) $siteSettings['file_size'] * 1024,
+                //'manifest_doc.*' =>'mimes:jpeg,png,jpg,doc,docx,pdf|max:' . (int) $siteSettings['file_size'] * 1024,
             ];
             $validator = \Validator::make($request->all(), $validationRules);
+
             if ($validator->fails()) {
-                throw new Exception($validator->errors()->first(),200);
+                throw new Exception($validator->errors()->first(),401);
             }
             else{
                 $manifest = app('App\Models\Manifest')->getListing(['hauling_id'=>$input['hauling_id'],'single_record' => true ]);
@@ -330,7 +332,7 @@ class HaulingController extends Controller
                     return Response::json(['success'=>true,'msg'=>'Updated successfully','data'=>$manifest]);
                 }
                 else{
-                    throw new Exception('Something went to wrong',200);
+                    throw new Exception('Something went to wrong',401);
                 }
             }
         } catch (Exception $e) {

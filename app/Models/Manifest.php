@@ -25,10 +25,10 @@ class Manifest extends Model
     protected $appends = ['manifest_document'];
     public function getManifestDocumentAttribute() {
         $data = [];
-        if(isset($this->manifest_doc) && count($this->manifest_doc)){ 
-            foreach($this->manifest_doc as $key => $val){           
+        if(isset($this->manifest_doc) && count($this->manifest_doc)){
+            foreach($this->manifest_doc as $key => $val){
 		        $data[] = File::file($val);
-            }            
+            }
         }
         return $data;
 	}
@@ -42,12 +42,12 @@ class Manifest extends Model
     public function hauling_details(){
         return $this->belongsTo('App\Models\CompanyHauling', 'hauling_id','id');
     }
-    
+
     public function getListing($srch_params = [], $offset = ''){
         $with_det = [];
         if(isset($srch_params['with'])){
             $with_det = $srch_params['with'];
-        } 
+        }
         $select = $this->table.'.*';
         if(isset($srch_params['select'])){
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
@@ -56,13 +56,13 @@ class Manifest extends Model
             ->when(isset($srch_params['hauling_id']), function($q) use($srch_params){
                 return $q->where($this->table.".hauling_id", "=", $srch_params['hauling_id']);
             })
-            
+
             ->when(isset($srch_params['date']), function($q) use($srch_params){
                 return $q->whereDate($this->table.".date", "=", $srch_params['date']);
-            }) 
+            })
             ->when(isset($srch_params['branch_address']), function($q) use($srch_params){
                 return $q->where($this->table.".branch_address", "LIKE", "%{$srch_params['branch_address']}%");
-            })           
+            })
             ->when(isset($srch_params['status']), function($q) use($srch_params){
                 if(is_array($srch_params['status'])){
                     return $q->whereIn($this->table.".status", $srch_params['status']);
@@ -81,7 +81,7 @@ class Manifest extends Model
                     }
                 });
             })
-            ->when(isset($srch_params['ids']), function($q) use($srch_params){               
+            ->when(isset($srch_params['ids']), function($q) use($srch_params){
                 return $q->whereIn('id',$srch_params['ids']);
             });
             if(isset($srch_params['id'])){
@@ -93,7 +93,7 @@ class Manifest extends Model
             }
             if(isset($srch_params['count'])){
                 return $listing->count();
-            }                        
+            }
             if($offset){
                 $listing = $listing->orderBy($this->table .'.id', 'Asc')
                                 ->paginate($offset);
@@ -103,7 +103,7 @@ class Manifest extends Model
                                 ->get();
             }
         return $listing;
-            
+
     }
 
     public function uploadManifestDoc($data = [], $request)
@@ -116,7 +116,7 @@ class Manifest extends Model
             foreach($avatar as $val){
                 \App\Models\File::deleteFile($val, true);
             }
-		}		
+		}
 		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $file);
 	}
 }
