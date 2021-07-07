@@ -1,30 +1,31 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Models\User;
-use Auth;
 use DB;
+use Auth;
+use Exception;
 use Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-
+use App\Models\User;
+use App\Helpers\Helper;
 use App\Models\Company;
-use App\Models\AddressData;
-use App\Models\CompanyBranch;
-use App\Models\Speciality;
-use App\Models\CompanySpeciality;
-use App\Models\BranchSpecialty;
-use App\Models\BranchUser;
 use App\Models\Package;
-use App\Models\CompanyPackages;
+use App\Models\BranchUser;
+
+use App\Models\Speciality;
+use App\Jobs\ImportCompany;
+use App\Models\AddressData;
 use App\Models\Designations;
+use Illuminate\Http\Request;
+use App\Models\CompanyBranch;
+use App\Models\BranchSpecialty;
+use App\Models\CompanyPackages;
 use App\Models\RelationshipRole;
+use App\Models\CompanySpeciality;
+use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
 use App\Helpers\HubSpot as HubspotAPI;
 use App\Helpers\ZenDesk as ZendeskAPI;
-use Exception;
+use Illuminate\Support\Facades\Response;
 
 class CustomerManagementController extends Controller {
 	public function __construct($parameters = array()) {
@@ -72,9 +73,10 @@ class CustomerManagementController extends Controller {
 			}
 			$file = $request->file('import_file');
 			$customerArr = \App\Helpers\Helper::CSVToArray($file);
-
+            //dd($customerArr);
 			foreach ($customerArr as $key => $val) {
                 ImportCompany::dispatch($val);
+               // dd($val);
 			}
 
 			return redirect()->back()->with('success','Imported successfully');
