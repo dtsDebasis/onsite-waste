@@ -5,12 +5,13 @@ use DB;
 use Auth;
 use Exception;
 use Validator;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helper;
 use App\Models\Company;
 use App\Models\Package;
-use App\Models\BranchUser;
 
+use App\Models\BranchUser;
 use App\Models\Speciality;
 use App\Jobs\ImportCompany;
 use App\Models\AddressData;
@@ -22,6 +23,7 @@ use App\Models\CompanyPackages;
 use App\Models\RelationshipRole;
 use App\Models\CompanySpeciality;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Helpers\HubSpot as HubspotAPI;
 use App\Helpers\ZenDesk as ZendeskAPI;
@@ -75,11 +77,24 @@ class CustomerManagementController extends Controller {
 			$customerArr = \App\Helpers\Helper::CSVToArray($file);
             //dd($customerArr);
 			foreach ($customerArr as $key => $val) {
-                ImportCompany::dispatch($val);
-               // dd($val);
+                // dd($val);
+                //ALTER TABLE `company_branch` CHANGE `company_number` `company_number` VARCHAR(255) NULL DEFAULT NULL;
+
+                $newPayload = [];
+                foreach ($val as $key1 => $value) {
+                    $encoding = mb_detect_encoding($value, 'UTF-8, ISO-8859-1, WINDOWS-1252, WINDOWS-1251', true);
+                    if ($encoding != 'UTF-8') {
+                        $value = iconv($encoding, 'UTF-8//IGNORE', $value);
+                    }
+                    $newPayload[$key1] = $value;
+                }
+                if (count($newPayload) > 16) {
+                    unset($newPayload[count($newPayload)-1]);
+                }
+                ImportCompany::dispatch($newPayload);
 			}
 
-			return redirect()->back()->with('success','Imported successfully');
+			return redirect()->back()->with('success','Please wait import may take few minutes');
 		}
 
 	}

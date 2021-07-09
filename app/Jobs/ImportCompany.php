@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Exception;
 use App\Helpers\Helper;
 use App\Models\Company;
 use App\Models\Speciality;
@@ -10,6 +11,7 @@ use App\Models\CompanyBranch;
 use Illuminate\Bus\Queueable;
 use App\Models\BranchSpecialty;
 use App\Models\CompanySpeciality;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,107 +40,120 @@ class ImportCompany implements ShouldQueue
      */
     public function handle()
     {
-        $val = $this->data;
-        // check Company or not
-        $company_status = false;
-        $associate_id = \App\Helpers\Helper::getOnlyIntegerValue($val[16]);
-        $branch = true;
-        if(empty($val[16])){
-            $company_status = true;
-        }
-        else{
-            $asociates = explode(',',$val[16]);
-            $company_status = (count($asociates) > 1)?true:false;
-            $branch = ($company_status)?false:$branch;
-        }
+        try {
+            $val = $this->data;
+            // check Company or not
+            $company_status = false;
+            //$associate_id = \App\Helpers\Helper::getOnlyIntegerValue($val[16]);
+            $associate_id = $val[16];
+            $branch = true;
+            if(empty($val[16])){
+                $company_status = true;
+            }
+            else{
+                $asociates = explode(',',$val[16]);
+                $company_status = (count($asociates) > 1)?true:false;
+                $branch = ($company_status)?false:$branch;
+            }
 
-        $phone = \App\Helpers\Helper::getOnlyIntegerValue($val[5]);
-        $company = null;
-        if($company_status){
-            $company = Company::where(['company_number' => $val[0]])->first();
+            $phone = \App\Helpers\Helper::getOnlyIntegerValue($val[5]);
+            $company = null;
+            if($company_status){
+                $company = Company::where(['company_number' => $val[0]])->first();
 
-            if(!$company){
+                if(!$company){
+                    $addressData = [
+                        'addressline1' => $val[7].', '.$val[6],
+                        'locality' => $val[7],
+                        'state' => $val[6],
+                        'country' => $val[8]
+                    ];
+
+                    $address = AddressData::create($addressData);
+
+                    $address_id = ($address)?$address->id:null;
+
+                    $company_data = [
+                        //'company_number' => \App\Helpers\Helper::getOnlyIntegerValue($val[0]),
+                        'company_number' => $val[0],
+                        'company_name' => $val[1],
+                        'phone' => $phone,
+                        'email' => null,
+                        'addressdata_id' => $address_id,
+                        'lead_source' =>  $val[3],
+                        'leadsource_2' => $val[4],
+                        'owner' => $val[2]
+                    ];
+
+                    $company = Company::create($company_data);
+                    CompanyBranch::where('company_number',$val[0])->update(['company_id' => $company->id]);
+
+                    $associate_id = $val[0];
+                    $specialities = explode(',',$val[9]);
+
+                    foreach($specialities as $key=>$spval){
+                        $existing = \App\Models\Speciality::where(['name' => $spval])->first();
+                        if(!$existing){
+                            $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
+                        }
+                        if($existing && $company){
+                            \App\Models\CompanySpeciality::create([
+                                'company_id' => $company->id,
+                                'specality_id' => $existing->id
+                            ]);
+                        }
+                    }
+                }
+            }
+            if($branch){
                 $addressData = [
                     'addressline1' => $val[7].', '.$val[6],
                     'locality' => $val[7],
                     'state' => $val[6],
                     'country' => $val[8]
                 ];
-
                 $address = AddressData::create($addressData);
-
                 $address_id = ($address)?$address->id:null;
 
                 $company_data = [
-                    'company_number' => \App\Helpers\Helper::getOnlyIntegerValue($val[0]),
-                    'company_name' => $val[1],
+                    'uniq_id' => \App\Helpers\Helper::getOnlyIntegerValue($val[0]),
+                    'company_number' => $associate_id,
+                    'name' => $val[1],
                     'phone' => $phone,
-                    'email' => null,
                     'addressdata_id' => $address_id,
                     'lead_source' =>  $val[3],
                     'leadsource_2' => $val[4],
                     'owner' => $val[2]
                 ];
 
-                $company = Company::create($company_data);
-                self::createDefaultTranctionalPackage($company->id);
-                $associate_id = $val[0];
+                $companyBranch = CompanyBranch::create($company_data);
                 $specialities = explode(',',$val[9]);
-
                 foreach($specialities as $key=>$spval){
+
                     $existing = \App\Models\Speciality::where(['name' => $spval])->first();
                     if(!$existing){
                         $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
                     }
-                    if($existing && $company){
-                        \App\Models\CompanySpeciality::create([
-                            'company_id' => $company->id,
-                            'specality_id' => $existing->id
+                    if($existing && $companyBranch){
+                        \App\Models\BranchSpecialty::create([
+                            'specality_id' => $existing->id,
+                            'company_branch_id' => $companyBranch->id
                         ]);
                     }
                 }
             }
-        }
-        if($branch){
-            $addressData = [
-                'addressline1' => $val[7].', '.$val[6],
-                'locality' => $val[7],
-                'state' => $val[6],
-                'country' => $val[8]
-            ];
-            $address = AddressData::create($addressData);
-            $address_id = ($address)?$address->id:null;
 
-            $company_data = [
-                'uniq_id' => \App\Helpers\Helper::getOnlyIntegerValue($val[0]),
-                'company_number' => $associate_id,
-                'name' => $val[1],
-                'phone' => $phone,
-                'addressdata_id' => $address_id,
-                'lead_source' =>  $val[3],
-                'leadsource_2' => $val[4],
-                'owner' => $val[2]
-            ];
-            $companyBranch = CompanyBranch::create($company_data);
-            $specialities = explode(',',$val[9]);
-            foreach($specialities as $key=>$spval){
+            $findComp = Company::where('company_number', $associate_id)->first();
 
-                $existing = \App\Models\Speciality::where(['name' => $spval])->first();
-                if(!$existing){
-                    $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
-                }
-                if($existing && $companyBranch){
-                    \App\Models\BranchSpecialty::create([
-                        'specality_id' => $existing->id,
-                        'company_branch_id' => $companyBranch->id
-                    ]);
-                }
+            if ($findComp) {
+                CompanyBranch::where('company_number',$associate_id)->update(['company_id' => $findComp->id]);
             }
-        }
-
-        $companies = Company::select(['id','company_number'])->get();
-        foreach($companies as $key=>$val){
-            CompanyBranch::where('company_number',$val->company_number)->update(['company_id' => $val->id]);
+            // $companies = Company::select(['id','company_number'])->get();
+            // foreach($companies as $key=>$val){
+            //     CompanyBranch::where('company_number',$val->company_number)->update(['company_id' => $val->id]);
+            // }
+        } catch (Exception $e) {
+            Log::info($this->data);
         }
     }
 }
