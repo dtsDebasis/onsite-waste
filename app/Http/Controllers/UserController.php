@@ -95,7 +95,7 @@ class UserController extends Controller {
 	public function store(Request $request) {
 		if($request->isMethod('post')){
 			$validator = Validator::make($request->all(), [
-				'email' => 'required|email',
+				'email' => 'required|email|unique',
 				'first_name' => 'required',
 				'last_name' => 'required'
 			]);

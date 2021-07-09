@@ -15,7 +15,7 @@ class ContactRoleController extends Controller
         $this->_module      = 'Contact Role';
         $this->_routePrefix = 'master.contact-roles';
         $this->_model       = new RelationshipRole();
-        $this->_offset = 2;
+        $this->_offset = 10;
     }
 
     /**

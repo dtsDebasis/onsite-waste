@@ -53,7 +53,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label>Access Permission<span class="text-danger" style="user-select: auto;">*</span></label>
+                    <label>Access Level<span class="text-danger" style="user-select: auto;">*</span></label>
                     <select class="form-control" name="role" id="role" required>
                 <option value="">Select</option>
                 @if (!empty($roles))

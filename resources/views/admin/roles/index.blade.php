@@ -11,7 +11,7 @@
             <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
         </div>
 
-        <a href="{{route('roles.create')}}" class="btn btn-primary w-md">Create Role</a>
+        <a href="{{route('roles.create')}}" class="btn btn-primary w-md">Create Access Level</a>
     </div>
 </form>
     <div class="tab-content mt-3 text-muted">
@@ -20,7 +20,7 @@
                 <table class="table table-centered table-nowrap mb-0">
                     <thead class="thead-light">
                         <tr>
-                            <th width="85%">Roles</th>
+                            <th width="85%">Access Level</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

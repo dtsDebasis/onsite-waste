@@ -12,7 +12,7 @@ class RoleController extends Controller {
     {
         parent::__construct($parameters);
 
-		$this->_module      = 'Role';
+		$this->_module      = 'Access Level';
 		$this->_routePrefix = 'roles';
 		$this->_model 		= new Role();
         $this->_offset = 10;
