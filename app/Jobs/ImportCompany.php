@@ -5,8 +5,10 @@ namespace App\Jobs;
 use Exception;
 use App\Helpers\Helper;
 use App\Models\Company;
+use App\Models\LeadSource;
 use App\Models\Speciality;
 use App\Models\AddressData;
+use App\Models\CompanyOwner;
 use App\Models\CompanyBranch;
 use Illuminate\Bus\Queueable;
 use App\Models\BranchSpecialty;
@@ -58,6 +60,39 @@ class ImportCompany implements ShouldQueue
 
             $phone = \App\Helpers\Helper::getOnlyIntegerValue($val[5]);
             $company = null;
+            //CompanyOwner
+            $ownerId = 0;
+            $findCompanyOwner = CompanyOwner::where('name',$val[2])->first();
+            if (!$findCompanyOwner) {
+                $newCompanyOwner = new CompanyOwner;
+                $newCompanyOwner->name = $val[2];
+                $newCompanyOwner->save();
+                $ownerId = $newCompanyOwner->id;
+            }else {
+                $ownerId = $findCompanyOwner->id;
+            }
+
+            $findLeadSource1 = LeadSource::where('name',$val[3])->first();
+            if (!$findLeadSource1) {
+                $newLeadSource1 = new LeadSource;
+                $newLeadSource1->name = $val[3];
+                $newLeadSource1->lead_type = 1;
+                $newLeadSource1->save();
+                $leadSource1 = $newLeadSource1->id;
+            }else {
+                $leadSource1 = $findLeadSource1->id;
+            }
+
+            $findLeadSource2 = LeadSource::where('name',$val[4])->first();
+            if (!$findLeadSource2) {
+                $newLeadSource2 = new LeadSource;
+                $newLeadSource2->name = $val[4];
+                $newLeadSource2->lead_type = 2;
+                $newLeadSource2->save();
+                $leadSource2 = $newLeadSource2->id;
+            }else {
+                $leadSource2 = $findLeadSource2->id;
+            }
             if($company_status){
                 $company = Company::where(['company_number' => $val[0]])->first();
 
@@ -80,27 +115,29 @@ class ImportCompany implements ShouldQueue
                         'phone' => $phone,
                         'email' => null,
                         'addressdata_id' => $address_id,
-                        'lead_source' =>  $val[3],
-                        'leadsource_2' => $val[4],
-                        'owner' => $val[2]
+                        'lead_source' =>  $leadSource1,
+                        'leadsource_2' => $leadSource2,
+                        'owner' => $ownerId
                     ];
 
                     $company = Company::create($company_data);
                     CompanyBranch::where('company_number',$val[0])->update(['company_id' => $company->id]);
 
                     $associate_id = $val[0];
-                    $specialities = explode(',',$val[9]);
+                    $specialities = explode(',',trim($val[9]));
 
                     foreach($specialities as $key=>$spval){
-                        $existing = \App\Models\Speciality::where(['name' => $spval])->first();
-                        if(!$existing){
-                            $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
-                        }
-                        if($existing && $company){
-                            \App\Models\CompanySpeciality::create([
-                                'company_id' => $company->id,
-                                'specality_id' => $existing->id
-                            ]);
+                        if ($spval) {
+                            $existing = \App\Models\Speciality::where(['name' => $spval])->first();
+                            if(!$existing){
+                                $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
+                            }
+                            if($existing && $company){
+                                \App\Models\CompanySpeciality::create([
+                                    'company_id' => $company->id,
+                                    'specality_id' => $existing->id
+                                ]);
+                            }
                         }
                     }
                 }
@@ -121,24 +158,35 @@ class ImportCompany implements ShouldQueue
                     'name' => $val[1],
                     'phone' => $phone,
                     'addressdata_id' => $address_id,
-                    'lead_source' =>  $val[3],
-                    'leadsource_2' => $val[4],
-                    'owner' => $val[2]
+                    'lead_source' =>  $leadSource1,
+                    'leadsource_2' => $leadSource2,
+                    'owner' => $ownerId
                 ];
+                $findBranch = CompanyBranch::where('company_number',$associate_id)->first();
+                if ($findBranch) {
+                    $companyBranch = $findBranch;
+                } else {
+                    $companyBranch = CompanyBranch::create($company_data);
+                }
 
-                $companyBranch = CompanyBranch::create($company_data);
-                $specialities = explode(',',$val[9]);
+                $companyBranch->sh_container_type = $val[15];
+                $companyBranch->sh_rop = $val[14];
+                $companyBranch->rb_container_type = $val[12];
+                $companyBranch->rb_rop = $val[11];
+                $companyBranch->save();
+                $specialities = explode(',',trim($val[9]));
                 foreach($specialities as $key=>$spval){
-
-                    $existing = \App\Models\Speciality::where(['name' => $spval])->first();
-                    if(!$existing){
-                        $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
-                    }
-                    if($existing && $companyBranch){
-                        \App\Models\BranchSpecialty::create([
-                            'specality_id' => $existing->id,
-                            'company_branch_id' => $companyBranch->id
-                        ]);
+                    if ($spval) {
+                        $existing = \App\Models\Speciality::where(['name' => $spval])->first();
+                        if(!$existing){
+                            $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
+                        }
+                        if($existing && $companyBranch){
+                            \App\Models\BranchSpecialty::create([
+                                'specality_id' => $existing->id,
+                                'company_branch_id' => $companyBranch->id
+                            ]);
+                        }
                     }
                 }
             }

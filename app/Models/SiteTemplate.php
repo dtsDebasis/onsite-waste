@@ -187,6 +187,7 @@ class SiteTemplate extends Model {
 					if($replyTo){
 						$m->replyTo($replyTo);
 					}
+
 				if(count($multiple_attachment)){
 					foreach($multiple_attachment as $multiAtt){
 						if (!empty($multiAtt) && $multiAtt['path']) {
@@ -197,8 +198,10 @@ class SiteTemplate extends Model {
 						}
 					}
 				}
+                //dd(str_replace("\\", "/", $attachment['path']));
+
 				if (!empty($attachment) && $attachment['path']) {
-					$m->attach($attachment['path'], [
+					$m->attach(str_replace("\\", "/", $attachment['path']), [
 						'as'   => $attachment['file_name'],
 						'mime' => $attachment['file_mime'],
 					]);

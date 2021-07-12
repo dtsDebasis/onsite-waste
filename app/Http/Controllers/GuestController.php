@@ -30,14 +30,14 @@ class GuestController extends Controller {
 		}
 		if($srch_params['tab'] == "guest_info"){
 			$srch_params['role_slug'] = 'guest-user';
-			$srch_params['with'] = ['company','guest_company'];			
+			$srch_params['with'] = ['company','guest_company'];
 			$this->_data['data']	= $this->_model->getListing($srch_params,$this->_offset);
 		}
 		else if($srch_params['tab'] == "request_info"){
-			$srch_params['with'] = ['user'];	
+			$srch_params['with'] = ['user'];
 			$this->_data['data']	= $requestModelObj->getListing($srch_params,$this->_offset);
 			// dd($this->_data['data']);
-		}		
+		}
 		return view('admin.' . $this->_routePrefix . '.index',$this->_data);
 	}
 
@@ -63,7 +63,8 @@ class GuestController extends Controller {
 		}
 		else{
 			$requestDetails = app('App\Models\GuestRequestInfo')->getListing(['id' => $input['request_id'],'with' => ['user']]);
-			if($requestDetails && $requestDetails->user){
+			//dd($requestDetails);
+            if($requestDetails && $requestDetails->user){
 				$data = \App\Models\RequestReplyInfo::create([
 					'request_id' => $input['request_id'],
 					'to_user_id' => $requestDetails->user_id,
@@ -83,17 +84,18 @@ class GuestController extends Controller {
 						$file = $fileObj->getListing(['id' =>$file['data']->id,'with'=>['cdn']]);
 						if($file){
 							$fileDetails = File::file($file);
+                            //dd($fileDetails);
 							if(count($fileDetails)){
-								// $attach = [
-								// 	'path' => $fileDetails['original'],
-								// 	'file_name' => $file->file_name_original,
-								// 	'file_mime' => $fileDetails['file_mime']
-								// ];
+								$attach = [
+									'path' => $fileDetails['original'],
+									'file_name' => $file->file_name_original,
+									'file_mime' => $fileDetails['file_mime']
+								];
 							}
 						}
 					}
                     $fullName = $mailData['name'];
-                    \App\Models\SiteTemplate::sendMail($requestDetails->user->email, $fullName, $mailData, 'request_reply_mail_from_admin',$attach); //register_provider from db site_template table template_name field  
+                    \App\Models\SiteTemplate::sendMail($requestDetails->user->email, $fullName, $mailData, 'request_reply_mail_from_admin',$attach); //register_provider from db site_template table template_name field
 					return redirect()->back()->with('success','Reply send successfully');
 				}
 			}
@@ -114,7 +116,7 @@ class GuestController extends Controller {
 			} else {
 				$path2 = \Storage::disk($cdn->location_type)->path($cdn->cdn_root . File::$fileType['request_info_document']['location'].'/'.$id);//. '\\' . $fileName;
 			}
-			
+
 			$path2 = str_replace('\\','/',$path2);
 			$path = public_path().'/downloads';
 			$files = CoreFile::files($path);
@@ -129,21 +131,21 @@ class GuestController extends Controller {
 			$uploadesFiles = CoreFile::files($path2);
 			if($zip->open($path.'/'.$fileName, \ZipArchive::CREATE)== TRUE){
 				foreach($uploadesFiles as $value){
-					$relativeName = basename($value);					
+					$relativeName = basename($value);
 					$zip->addFile($value, $relativeName);
-				
-				}				
+
+				}
 				$zip->close();
 				return response()->download($path.'/'.$fileName);
 			}
 			else{
 				return redirect()->back()->with('error','Something went to wrong');
 			}
-			
+
 		}
 		else{
 			return redirect()->back()->with('error','Details not found');
 		}
 	}
-	
+
 }

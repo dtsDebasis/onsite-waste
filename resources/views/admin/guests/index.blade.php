@@ -12,13 +12,13 @@
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {!! ($tab == 'guest_info')?'active':'' !!}" href="{{route($routePrefix.'.index',['tab'=>'guest_info'])}}"  aria-selected="true">
                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                    <span class="d-none d-sm-block">Guest Information</span> 
+                    <span class="d-none d-sm-block">Guest Information</span>
                 </a>
             </li>
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {!! ($tab == 'request_info')?'active':'' !!}" href="{{route($routePrefix.'.index',['tab'=>'request_info'])}}" aria-selected="false">
                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                    <span class="d-none d-sm-block">Request From Guest<i class="rqst-no">{{$newRequestCount}}</i></span> 
+                    <span class="d-none d-sm-block">Request From Guest<i class="rqst-no">{{$newRequestCount}}</i></span>
                 </a>
             </li>
         </ul>
@@ -72,14 +72,14 @@
                                                 <td colspan="6">No record found</td>
                                             </tr>
                                             @endif
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         @if(count($data))
-                        {!! $data->appends(request()->input())->links() !!}
+                        {{-- {!! $data->appends(request()->input())->links() !!} --}}
                         @endif
                         <!-- <div class="row">
                             <div class="col-lg-12">
@@ -165,7 +165,7 @@
                                                                     <tr>
                                                                         <th>File Name</th>
                                                                         <th>Size</th>
-                                                                        <th>Action</th>                                                                    
+                                                                        <th>Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -193,14 +193,14 @@
                                                 <td colspan="7">No record found</td>
                                             </tr>
                                             @endif
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         @if(count($data))
-                        {!! $data->appends(request()->input())->links() !!}
+                        {{-- {!! $data->appends(request()->input())->links() !!} --}}
                         @endif
                         <!-- end table-responsive -->
                     </div>
@@ -220,11 +220,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card">  
-                    {!! Form::open(array('route' => 'request-info.reply','method'=>'POST', 'enctype'=>'multipart/form-data','id'=>'reply-form')) !!}     
+                <div class="card">
+                    {!! Form::open(array('route' => 'request-info.reply','method'=>'POST', 'enctype'=>'multipart/form-data','id'=>'reply-form')) !!}
                     <input type="hidden" name="request_id" value="" id="request_id">
-                    <div class="card-body mb-4"> 
-                        <div class="row">            
+                    <div class="card-body mb-4">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     {!! Form::label('description', 'Description <span class="span-req">*</span>:',array('class'=>'','for'=>'description'),false) !!}
@@ -245,13 +245,13 @@
                             </div>
 
                         </div>
-                    </div> 
+                    </div>
                     <div class="card-footer text-right">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
-                        <button type="submit" class="btn btn-success" id="reply_submit">Submit</button>                         
-                    </div> 
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" id="reply_submit">Submit</button>
+                    </div>
                     {!! Form::close() !!}
-                </div>                               
+                </div>
             </div>
         </div>
         <!-- /.modal-content -->

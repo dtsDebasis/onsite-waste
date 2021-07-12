@@ -91,6 +91,7 @@ class CustomerManagementController extends Controller {
                 if (count($newPayload) > 16) {
                     unset($newPayload[count($newPayload)-1]);
                 }
+                //dd($newPayload);
                 ImportCompany::dispatch($newPayload);
 			}
 
@@ -1437,6 +1438,11 @@ class CustomerManagementController extends Controller {
 			$branch_id = (isset($input['branch_id'])) ? $input['branch_id']:0;
             //dd($branch_id);
             $package = Package::where('branch_id',$branch_id)->first();
+            if (!$package) {
+                return redirect()->back()
+					->withErrors("Please create a package")
+					->withInput();
+            }
             $input['package_id'] = $package->id;
 			$validationRules = \App\Http\Controllers\HaulingController::validationRules($hauling_id);
 			$validator = \Validator::make($request->all(), $validationRules);

@@ -23,6 +23,7 @@ class Company extends Model
         'leadsource_2',
         'addressdata_id',
         'is_active',
+        'owner',
     ];
     protected $hidden = [
         'deleted_at'
@@ -41,13 +42,13 @@ class Company extends Model
         $with_det = [];
         if(isset($srch_params['with'])){
             $with_det = $srch_params['with'];
-        } 
+        }
         $select = '*';
         if(isset($srch_params['select'])){
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
         }
         $listing = self::select($select)->with($with_det)//->where($this->table .'.deleted_at',NULL)
-            
+
             ->when(isset($srch_params['addressdata_id']), function($q) use($srch_params){
                 return $q->where($this->table.".addressdata_id", "=", $srch_params['addressdata_id']);
             })
@@ -83,7 +84,7 @@ class Company extends Model
             }
             if(isset($srch_params['count'])){
                 return $listing->count();
-            }                        
+            }
             if($offset){
                 $listing = $listing->orderBy($this->table .'.id', 'Asc')
                                 ->paginate($offset);
@@ -93,6 +94,6 @@ class Company extends Model
                                 ->get();
             }
         return $listing;
-            
+
     }
 }
