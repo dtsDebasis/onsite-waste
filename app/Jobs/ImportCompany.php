@@ -143,6 +143,7 @@ class ImportCompany implements ShouldQueue
                 }
             }
             if($branch){
+
                 $addressData = [
                     'addressline1' => $val[7].', '.$val[6],
                     'locality' => $val[7],
@@ -152,8 +153,9 @@ class ImportCompany implements ShouldQueue
                 $address = AddressData::create($addressData);
                 $address_id = ($address)?$address->id:null;
 
+                $branchHubId = \App\Helpers\Helper::getOnlyIntegerValue($val[0]);
                 $company_data = [
-                    'uniq_id' => \App\Helpers\Helper::getOnlyIntegerValue($val[0]),
+                    'uniq_id' => $branchHubId,
                     'company_number' => $associate_id,
                     'name' => $val[1],
                     'phone' => $phone,
@@ -162,7 +164,8 @@ class ImportCompany implements ShouldQueue
                     'leadsource_2' => $leadSource2,
                     'owner' => $ownerId
                 ];
-                $findBranch = CompanyBranch::where('company_number',$associate_id)->first();
+
+                $findBranch = CompanyBranch::where('uniq_id',$branchHubId)->first();
                 if ($findBranch) {
                     $companyBranch = $findBranch;
                 } else {
@@ -175,6 +178,7 @@ class ImportCompany implements ShouldQueue
                 $companyBranch->rb_rop = $val[11];
                 $companyBranch->save();
                 $specialities = explode(',',trim($val[9]));
+                Log:info($specialities);
                 foreach($specialities as $key=>$spval){
                     if ($spval) {
                         $existing = \App\Models\Speciality::where(['name' => $spval])->first();
