@@ -165,20 +165,22 @@ class ImportCompany implements ShouldQueue
                     'owner' => $ownerId
                 ];
 
+
                 $findBranch = CompanyBranch::where('uniq_id',$branchHubId)->first();
                 if ($findBranch) {
-                    $companyBranch = $findBranch;
-                } else {
-                    $companyBranch = CompanyBranch::create($company_data);
+                    $findBranch->delete();
                 }
-
+                $companyBranch = CompanyBranch::create($company_data);
                 $companyBranch->sh_container_type = $val[15];
                 $companyBranch->sh_rop = $val[14];
                 $companyBranch->rb_container_type = $val[12];
                 $companyBranch->rb_rop = $val[11];
                 $companyBranch->save();
+
+                Log:info($companyBranch->id);
+
                 $specialities = explode(',',trim($val[9]));
-                Log:info($specialities);
+
                 foreach($specialities as $key=>$spval){
                     if ($spval) {
                         $existing = \App\Models\Speciality::where(['name' => $spval])->first();
