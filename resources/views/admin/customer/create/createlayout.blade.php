@@ -23,11 +23,16 @@
             <div class="col-md-4">
                 <strong> Company Name </strong>:@if(isset($company) && isset($company->company_name) && $company->company_name) {{$company->company_name}} @else NA @endif
             </div>            
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <strong> Company ID </strong>: @if(isset($company) && isset($company->company_number) && $company->company_number) {{$company->company_number}}  @else NA @endif
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <strong> Phone </strong>: @if(isset($company) && isset($company->phone) && $company->phone) {{$company->phone}}  @else NA @endif
+            </div>
+            <div class="col-md-2">
+                 @if(isset($company))
+                    <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('customers.branches', ['id' => $company->id  ] ) }}">View Company</a>
+                 @endif
             </div>
         </div>
     </div>

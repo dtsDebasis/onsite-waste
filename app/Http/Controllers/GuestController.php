@@ -75,8 +75,7 @@ class GuestController extends Controller {
 					$file = app('App\Models\RequestReplyInfo')->uploadReplyDoc($data,$request);
 					$mailData = [
                         'name'       => $requestDetails->user->full_name,
-                        'description' => $input['description'],
-						'reply_to' => \Config::get('settings.request_info_mail')
+                        'description' => $input['description']
                     ];
 					$attach = [];
 					if($file['status'] != 400 && $file['data']){
@@ -94,8 +93,9 @@ class GuestController extends Controller {
 							}
 						}
 					}
-                    $fullName = $mailData['name'];
-                    \App\Models\SiteTemplate::sendMail($requestDetails->user->email, $fullName, $mailData, 'request_reply_mail_from_admin',$attach); //register_provider from db site_template table template_name field
+					$fullName = $mailData['name'];
+						
+                    \App\Models\SiteTemplate::sendMail($requestDetails->user->email, $fullName, $mailData, 'request_reply_mail_from_admin',$attach); //register_provider from db site_template table template_name field  
 					return redirect()->back()->with('success','Reply send successfully');
 				}
 			}

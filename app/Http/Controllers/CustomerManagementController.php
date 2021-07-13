@@ -35,6 +35,7 @@ class CustomerManagementController extends Controller {
 		$this->_module      = 'Customers';
 		$this->_routePrefix = 'customer';
 		$this->_model       = new Company();
+		$this->_offset = 15;
 
 	}
 
@@ -43,7 +44,7 @@ class CustomerManagementController extends Controller {
 		$this->initIndex();
 		$srch_params             = $request->all();
 		$srch_params['with'] = ['addressdata','speciality.speciality'];
-		$this->_data["companies"] = $this->_model->getListing($srch_params, $this->_offset);
+		$this->_data["companies"] = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
 		$this->_data['pageHeading'] = 'CUSTOMER LISTING';
 		return view('admin.customer.index',$this->_data);
 	}
@@ -718,10 +719,14 @@ class CustomerManagementController extends Controller {
 						'end_time' => $srch_params['end_date']
 					]
 				];
+				// $account = $client->getAccount('code-'.$companybranch['uniq_id']);
 				// $accounts = $client->listAccounts($options);
 				// foreach($accounts as $account) {
-				// 	//echo 'Account code: ' . $account->getCode() . PHP_EOL;
+				// 	echo 'Account code: ' . $account->getCode() . PHP_EOL;
 				// 	$accountdetails[] = $account->getId();//
+				// }
+				// dd($account);
+
 
 
 					if($companybranch->recurring_id){
@@ -735,7 +740,6 @@ class CustomerManagementController extends Controller {
 							$invData[$key]['code'] = $invoice->getAccount()->getCode();
 							$invData[$key]['id'] = $invoice->getId();
 							$invData[$key]['company'] = $invoice->getAddress()->getCompany();
-							$invData[$key]['total'] = $invoice->getTotal();
 							$invData[$key]['state'] = $invoice->getState();
 							$invData[$key]['created_at'] = $invoice->getCreatedAt();
 							// $invData[$key]['address'] = $invoice->getAddress();
@@ -781,6 +785,9 @@ class CustomerManagementController extends Controller {
 
 	public function locationInventoryDetails(Request $request) {
 		$input = $request->all();
+		$companyBrancObject = new CompanyBranch();
+		$this->_data['location'] = $companyBrancObject->getListing(['unique_id'=> $input['unique_id']])[0];
+		
 		$this->_data['uniq_id'] = $input['unique_id'];
 		$url = 'locations/'.$input['unique_id'].'/inventory' ;
 		$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
@@ -791,6 +798,9 @@ class CustomerManagementController extends Controller {
 		$te5000 = \App\Helpers\Helper::callAPI('GET',$url,[]);
 		$te5000 = json_decode($te5000, true);
 		$this->_data['te5000'] = $te5000;
+		// echo "<pre>";
+		// print_r($this->_data);
+		// dd();
 		return view('admin.customer.create.tab4.inventory-partial', $this->_data);
 	}
 
@@ -810,11 +820,16 @@ class CustomerManagementController extends Controller {
 			$input = $request->all();
 			//\App\Helpers\Helper::messageSendToSlack('text');
 			// $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/cycles.json';
-			$url = 'locations/'.$input['location_id'].'/devices/'.$input['imie_no'].'/cycleHistory';
-
-			$te5000 = \App\Helpers\Helper::callAPI('GET',$url,[]);
+			$url = 'locations/'.$input['location_id'].'/cycles';
+			// .$input['imie_no'].'/cycleHistory'
+			$te5000 = \App\Helpers\Helper::callAPI('GET',$url,['imei'=>$input['imie_no']]);
 			$te5000 = json_decode($te5000, true);
-			$data = isset($te5000['results'][0]) ? $te5000['results'][0] : [];
+			// echo "<pre>";
+			// print_r(count($te5000['results']));
+			// echo "</pre>";
+			// dd();
+			$last_result = count($te5000['results'])-1;
+			$data = isset($te5000['results']) ? $te5000['results'][$last_result] : [];
 			if(isset($data['startDateTime'])){
 				$data['startDateTime'] = \App\Helpers\Helper::showdate($data['startDateTime'],true,'m-d-Y h:i A');
 			}

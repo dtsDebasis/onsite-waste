@@ -36,7 +36,7 @@ class LoginController extends Controller {
 
 		try {
 			$user  = Auth::user();
-			$query = User::with(['guest_company','company'])->where(function ($q) use ($request) {
+			$query = User::with(['guest_company','company','roles'])->where(function ($q) use ($request) {
 				$q->where('email', strtolower($request->email));
 					//->orWhere('phone',$request->email);
 			})

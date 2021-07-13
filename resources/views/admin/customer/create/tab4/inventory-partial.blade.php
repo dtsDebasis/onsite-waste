@@ -16,8 +16,7 @@
                                                 <th>Serial Number</th>
                                                 <th>Firmware</th>
                                                 <th>Status</th> 
-                                                <th>Last run</th>                                                        
-                                                <th>Action</th>
+                                                <th>Last run</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -30,9 +29,9 @@
                                                         <td>{{isset($val['status']) ? $val['status'] : 'NA'}}</td>
                                                         <td>{{isset($val['lastAnnounceDateTime']) ? \App\Helpers\Helper::showdate($val['lastAnnounceDateTime'],true,'m-d-Y h:i A') : 'NA'}}</td>
                                                         
-                                                        <td>
+                                                        <!-- <td>
                                                             <button type="button" class="btn btn-sm btn-outline-primary waves-effect waves-light last_run_info" data-location_id="{{isset($val['locationId']) ? $val['locationId'] : ''}}" data-imie_no="{{isset($val['imei']) ? $val['imei'] : ''}}">Last Run Info</button>
-                                                        </td>
+                                                        </td> -->
                                                     </tr>
                                                 @endforeach   
                                             @else
@@ -103,25 +102,21 @@
                                             <th>RB Inventory</th>
                                             <th>RB ROP</th>
                                             <th>RB Container Type</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>                                               
                                             <tr class="">
-                                                @php($inventory_details = (array_key_exists("canisterInventory",$containerInventory))?$containerInventory['canisterInventory']: array())
-                                                <td><input class="form-control" type="number" name="sh_inventory[]" id="sh_inventory_{{$uniq_id}}" value="{{isset($inventory_details[1]['availableInventory'])?$inventory_details[1]['availableInventory']:0}}"> </td>
-                                                <td><input class="form-control" type="number" name="sh_rop[]" id="sh_rop_{{$uniq_id}}" value="{{isset($inventory_details[1]['reorderPoint'])?$inventory_details[1]['reorderPoint']:0}}"> </td>
-                                                <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],isset($inventory_details[1]['canisterType'])?$inventory_details[1]['canisterType']:null,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td>
+                                                @php($inventory_details = (array_key_exists("locationId",$containerInventory))?$containerInventory: array())
+                                                <td><input class="form-control" type="number" name="sh_inventory[]" id="sh_inventory_{{$uniq_id}}" value="{{isset($inventory_details['sharps']['containersAtHand'])?$inventory_details['sharps']['containersAtHand']:0}}"> </td>
+                                                <td><input class="form-control" type="number" name="sh_rop[]" id="sh_rop_{{$uniq_id}}" value="{{isset($inventory_details['sharps']['reorderPoint'])?$inventory_details['sharps']['reorderPoint']:0}}"> </td>
+                                                <!-- <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],isset($inventory_details['sharps']['canisterType'])?$inventory_details['sharps']['canisterType']:null,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td> -->
                                                 <!-- <td>{{isset($inventory_details[1]['canisterType'])?$inventory_details[1]['canisterType']:'NA'}} </td> -->
-                                                <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$uniq_id}}" value="{{isset($inventory_details[0]['availableInventory'])?$inventory_details[0]['availableInventory']:0}}"> </td>
-                                                <td><input class="form-control" type="number" name="rb_rop[]" id="rb_rop_{{$uniq_id}}" value="{{isset($inventory_details[0]['reorderPoint'])?$inventory_details[0]['reorderPoint']:0}}"> </td>
+                                                <td>{{($location->sh_container_type)?$location->sh_container_type:'NA'}}</td>
+                                                <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$uniq_id}}" value="{{isset($inventory_details['redbag']['containersAtHand'])?$inventory_details['redbag']['containersAtHand']:0}}"> </td>
+                                                <td><input class="form-control" type="number" name="rb_rop[]" id="rb_rop_{{$uniq_id}}" value="{{isset($inventory_details['redbag']['reorderPoint'])?$inventory_details['redbag']['reorderPoint']:0}}"> </td>
+                                                <td>{{($location->rb_container_type)?$location->rb_container_type:'NA'}}</td>
                                                 <!-- <td>{{isset($inventory_details[0]['canisterType'])?$inventory_details[0]['canisterType']:'NA'}} </td> -->
-                                                <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details[0]['canisterType'])?$inventory_details[1]['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td>
-                                                <td>
-                                                <a href="javascript:;" data-toggle="tooltip" data-id="{{$uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
-                                                    <i class="fa fa-save"></i>
-                                                </a>
-                                                </td>
+                                                <!-- <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details['redbag']['canisterType'])?$inventory_details['redbag']['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td> -->
                                             </tr>                                                
                                     </tbody>
                                 </table>

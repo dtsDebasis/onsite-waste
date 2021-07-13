@@ -41,7 +41,7 @@
         @foreach($form['fields'] as $key => $value)
             @if(isset($value['row_width']))
                 @if($oneElementEachRow)
-                    <div class="col-md-4'">
+                    <div class="form-group row mb-4'">
                 @endif
                 @php ($rowClass =  $value['row_width'])
                 @php ($oneElementEachRow = false)
@@ -49,7 +49,7 @@
                 @if(!$oneElementEachRow)
                     </div>
                 @endif
-                @php ($rowClass = 'col-md-4')
+                @php ($rowClass = 'form-group row mb-4')
                 @php ($oneElementEachRow = true)
             @endif
             @php ($extraWidth = (isset($value['extra']['field_width']) ? $value['extra']['field_width'] : 'col-lg-3 col-md-3 col-xs-12 col-sm-12'))

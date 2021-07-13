@@ -138,10 +138,8 @@ class SiteTemplateController extends Controller
                     'label'         => 'Template Type',
                     'options'       => $templateTypes,
                     'value'         => $data->template_type ? $data->template_type : 1,
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth,
+                    'row_width'  => 'col-md-6',
                     'attributes'    => [
-                        'width' => 'col-lg-4 col-md-4 col-sm-12 col-xs-12'
                     ]
                 ],
                 'template_name'     => [
@@ -150,30 +148,26 @@ class SiteTemplateController extends Controller
                     'help'          => 'Maximum 50 characters',
                     'attributes'    => ['required' => true],
                     'value'         => $data->template_name,
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth
+                    'row_width'  => 'col-md-6',
                 ],
                 'subject'           => [
                     'type'          => 'text',
                     'label'         => 'Email Subject',
                     'help'          => 'Maximum 255 characters',
                     'attributes'    => ['required' => true],
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth
+                    'row_width'  => 'col-md-6',
                 ],
                 'template_content'  => [
                     'type'          => 'editor',
                     'label'         => 'Email Body',
-                    'label_width'   => $labelWidth,
-                    'field_width'   => 'col-lg-10 col-md-10 col-sm-8 col-xs-12',
+                    'row_width'  => 'col-md-12',
                 ],
                 'status'            => [
                     'type'          => 'radio',
                     'label'         => 'Status',
                     'options'       => $status,
                     'value'         => isset($data->status) ? $data->status : 1,
-                    'label_width'   => $labelWidth,
-                    'field_width'   => $fieldWidth
+                    'row_width'  => 'col-md-6',
                 ],
             ],
         ];

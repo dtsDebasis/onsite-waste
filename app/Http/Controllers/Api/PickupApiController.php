@@ -231,11 +231,11 @@ class PickupApiController extends Controller {
             $srch_params['ids'] = $branch_ids;
             $data = app('App\Models\CompanyBranch')->getListing($srch_params,$this->_offset);
             foreach($data as $key=>$val){
-                $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/inventory.json';
-                $devices_url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/devices.json';
+                // $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/inventory.json';
+                // $devices_url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/devices.json';
 
-                // $url = 'locations/'.$val['uniq_id'].'/inventory' ;
-                // $devices_url = 'locations/'.$val['uniq_id'].'/devices';
+                $url = 'locations/'.$val['uniq_id'].'/inventory' ;
+                $devices_url = 'locations/'.$val['uniq_id'].'/devices';
 
                 $containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);
                 $containerInventory = json_decode($containerInventory, true);
@@ -246,7 +246,7 @@ class PickupApiController extends Controller {
                 $val->inventory_details = $containerInventory;
                 $val->devices_details = $devicesInventory;
             }
-            return Helper::rj('List fetch successfully .', $this->successStatus,$data);
+            return Helper::rj('List fetch successfully .', $this->successStatus, $data);
         } catch (Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());
         }
@@ -269,6 +269,12 @@ class PickupApiController extends Controller {
             }
             $invData = [];
             $accountdetails = [];
+            $srch_params = array(
+                'begin_date' => '2021-01-01',
+                'end_date' => '2021-07-31'
+            );
+            $branch_ids = [1,2];
+            
             $api_key = \Config::get('settings.RECURLY_KEY');
             $client = new \Recurly\Client($api_key);
             $options = [
@@ -294,8 +300,15 @@ class PickupApiController extends Controller {
                         $invData[$key]['total'] = $invoice->getTotal();
                         $invData[$key]['state'] = $invoice->getState();
                         $invData[$key]['created_at'] = $invoice->getCreatedAt();
+                        $invData[$key]['balance'] = $invoice->getBalance();
+                        $invData[$key]['subtotal'] = $invoice->getSubtotal();
+                        $invData[$key]['discount'] = $invoice->getDiscount();
                         foreach($invoice->getLineItems() as $line){
-                            $invData[$key]['line_items'][] = $line->getDescription();
+                            $invData[$key]['line_items'][] = array(
+                                'desc' => $line->getDescription(),
+                                'amount' => $line->getAmount(),
+
+                            );
                         }
                         $key++;
                     }

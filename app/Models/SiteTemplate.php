@@ -170,7 +170,7 @@ class SiteTemplate extends Model {
 	public static function sendMail($toemail, $toName, $data, $template, $attachment = [],$multiple_attachment = []) {
 		try{
 			$template = self::__getContent($template, $data, 1);
-
+			// dd($attachment);
 			if (!$template) {
 				return false;
 			}
@@ -179,8 +179,7 @@ class SiteTemplate extends Model {
 			$subject = $template['template']->subject;
 			$subject = str_replace('{{site_name}}', \Config::get('settings.company_name'), $subject);
 			$subject = str_replace('{{site_url}}', url('/'), $subject);
-            //dd($replyTo);
-			\Mail::send('emails.template', $data, function ($m) use ($data, $toemail, $toName, $subject, $attachment,$multiple_attachment,$replyTo) {
+			$mail = \Mail::send('emails.template', $data, function ($m) use ($data, $toemail, $toName, $subject, $attachment,$multiple_attachment,$replyTo) {
 				$m->from('info@onsite.com', 'OnSite Waste Technologies')
 					->to($toemail, $toName)
 					->subject($subject);
@@ -207,6 +206,7 @@ class SiteTemplate extends Model {
 					]);
 				}
 			});
+			// dd($mail);
 		} catch(Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());
         }
@@ -244,6 +244,7 @@ class SiteTemplate extends Model {
 
 		$Content = str_replace('{{site_name}}', \Config::get('settings.company_name'), $Content);
 		$Content = str_replace('{{site_url}}', \Config::get('settings.frontend_url'), $Content);
+		$Content = str_replace('{{admin_url}}', \Config::get('settings.admin_url'), $Content);
 		$Content = str_replace('{{contact_mail}}', \Config::get('settings.contact_mail'), $Content);
 		$Content = str_replace('{{contact_phone}}', \Config::get('settings.contact_phone'), $Content);
 		$Content = str_replace('{{site_logo}}', \Config::get('settings.frontend_url') . 'assets/images/logo-light.png', $Content);
@@ -251,7 +252,7 @@ class SiteTemplate extends Model {
 		$data = [
 			'content'       => $Content,
 			'site_url'      => \Config::get('settings.frontend_url'),
-			'site_logo'     => \Config::get('settings.frontend_url') . 'assets/images/logo-light.png',
+			'site_logo'     => \Config::get('settings.admin_url') . 'assets/images/logo-dark.png',
 			'contact_mail'  => \Config::get('settings.contact_mail'),
 			'contact_phone' => \Config::get('settings.contact_phone'),
 		];

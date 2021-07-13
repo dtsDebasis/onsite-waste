@@ -53,15 +53,17 @@
                                 @foreach($inventories as $ikey => $ival) 
                                     <tr class="">
                                         <td>{{$ival->name}}</td>
-                                        @php($inventory_details = (array_key_exists("canisterInventory",$ival->inventory_details))?$ival->inventory_details['canisterInventory']: array())
-                                        <td><input class="form-control" type="number" name="sh_inventory[]" id="sh_inventory_{{$ival->uniq_id}}" value="{{isset($inventory_details[1]['availableInventory'])?$inventory_details[1]['availableInventory']:0}}"> </td>
-                                        <td><input class="form-control" type="number" name="sh_rop[]" id="sh_rop_{{$ival->uniq_id}}" value="{{isset($inventory_details[1]['reorderPoint'])?$inventory_details[1]['reorderPoint']:0}}"> </td>
-                                        <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],isset($inventory_details[1]['canisterType'])?$inventory_details[1]['canisterType']:null,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td>
+                                        @php($inventory_details = (array_key_exists("locationId",$ival->inventory_details))?$ival->inventory_details: array())
+                                        <td><input class="form-control" type="number" name="sh_inventory[]" id="sh_inventory_{{$ival->uniq_id}}" value="{{isset($inventory_details['sharps']['containersAtHand'])?$inventory_details['sharps']['containersAtHand']:0}}"> </td>
+                                        <td><input class="form-control" type="number" name="sh_rop[]" id="sh_rop_{{$ival->uniq_id}}" value="{{isset($inventory_details['sharps']['reorderPoint'])?$inventory_details['sharps']['reorderPoint']:0}}"> </td>
+                                        <!-- <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],isset($inventory_details['sharps']['canisterType'])?$inventory_details['sharps']['canisterType']:null,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td> -->
                                         <!-- <td>{{isset($inventory_details[1]['canisterType'])?$inventory_details[1]['canisterType']:'NA'}} </td> -->
-                                        <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$ival->uniq_id}}" value="{{isset($inventory_details[0]['availableInventory'])?$inventory_details[0]['availableInventory']:0}}"> </td>
-                                        <td><input class="form-control" type="number" name="rb_rop[]" id="rb_rop_{{$ival->uniq_id}}" value="{{isset($inventory_details[0]['reorderPoint'])?$inventory_details[0]['reorderPoint']:0}}"> </td>
+                                        <td>{{($ival->sh_container_type)?$ival->sh_container_type:'NA'}}</td>
+                                        <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$ival->uniq_id}}" value="{{isset($inventory_details['redbag']['containersAtHand'])?$inventory_details['redbag']['containersAtHand']:0}}"> </td>
+                                        <td><input class="form-control" type="number" name="rb_rop[]" id="rb_rop_{{$ival->uniq_id}}" value="{{isset($inventory_details['redbag']['reorderPoint'])?$inventory_details['redbag']['reorderPoint']:0}}"> </td>
                                         <!-- <td>{{isset($inventory_details[0]['canisterType'])?$inventory_details[0]['canisterType']:'NA'}} </td> -->
-                                        <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details[0]['canisterType'])?$inventory_details[1]['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td>
+                                        <!-- <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details['redbag']['canisterType'])?$inventory_details['redbag']['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td> -->
+                                        <td>{{($ival->rb_container_type)?$ival->rb_container_type:'NA'}}</td>
                                         <td>
                                             <a href="javascript:;" data-toggle="tooltip" data-id="{{$ival->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
                                                 <i class="fa fa-save"></i>

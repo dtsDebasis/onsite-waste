@@ -274,6 +274,7 @@ class UserController extends Controller {
 
 	public function profile(Request $request) {
         $user                    = \Auth::user();
+
         $this->data['user'] = $user;
         $this->data['module'] = 'UPDATE PROFILE';
 		return $this->__formUiGeneration($request, $user->id);
@@ -329,7 +330,7 @@ class UserController extends Controller {
 		if ($id) {
 			$data = $this->_model->getListing([
 				'id'              => $id,
-				'id_greater_than' => \Auth::user()->id,
+				// 'id_greater_than' => \Auth::user()->id,
 			]);
 
 			$return = \App\Helpers\Helper::notValidData($data, $this->_routePrefix . '.index');
@@ -363,6 +364,7 @@ class UserController extends Controller {
 				    'label'      => 'Username',
 				    'help'       => 'Maximum 50 characters',
 				    'attributes' => ['required' => true],
+					'row_width'  => 'col-md-4',
 				    /*'row_width'=> 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
 				    'label_width' => 'col-lg-12 col-sm-12',
 				    'field_width' => 'col-lg-12 col-sm-12'*/
@@ -372,6 +374,7 @@ class UserController extends Controller {
 					'label'      => 'First Name',
 					'help'       => 'Maximum 100 characters',
 					'attributes' => ['required' => true],
+					'row_width'  => 'col-md-4',
 				    /*'row_width'=> 'col-lg-6 col-md-6 col-sm-12 col-xs-12',
 				    'label_width' => 'col-lg-12 col-sm-12',
 				    'field_width' => 'col-lg-12 col-sm-12'*/
@@ -380,27 +383,33 @@ class UserController extends Controller {
 					'type'  => 'text',
 					'label' => 'Last Name',
 					'help'  => 'Maximum 100 characters',
+					'row_width'  => 'col-md-4',
 				],
 				'email'            => [
 					'type'       => 'email',
 					'label'      => 'Email',
 					'help'       => 'Maximum 255 characters',
+					'row_width'  => 'col-md-4',
 					'attributes' => ['required' => true],
 				],
 				'phone'            => [
 					'type'       => 'text',
 					'label'      => 'Phone',
 					'help'       => 'Maximum 12 characters',
+					'row_width'  => 'col-md-4',
 					'attributes' => ['required' => true],
 				],
 				'password'         => [
 					'type'  => 'password',
 					'label' => 'Password',
+					'row_width'  => 'col-md-4',
 					'help'  => \App\Models\User::$passwordRequirementText,
 				],
 				'confirm-password' => [
 					'type'  => 'password',
+					'row_width'  => 'col-md-4',
 					'label' => 'Confirm Password',
+					'help'       => 'Must match password',
 				],
 				// 'avatar'           => [
 				// 	'type'       => 'file',

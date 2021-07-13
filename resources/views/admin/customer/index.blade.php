@@ -104,7 +104,9 @@
                         </div>
                     </div>
                 </div>
-                {{-- {{$companies->links()}}                 --}}
+                <div class="mt-2">
+                    {{$companies->links()}}
+                </div>
             </div>
         </div>
     </div>
