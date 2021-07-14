@@ -643,8 +643,12 @@ class CustomerManagementController extends Controller {
 			$this->_data['billingaddress'] = $billingaddress;
 
 			$this->_data['companybranch'] = $companybranch;
+			$this->_data['sh_container'] = $companybranch->sh_container_type;
+			$this->_data['rb_container'] = $companybranch->rb_container_type;
+
 			$this->_data["contact_list"] = User::where('company_id', '=', $company->id )->get();
-			return view('admin.customer.create.tab4.location', $this->_data);
+			//dd($this->_data);
+            return view('admin.customer.create.tab4.location', $this->_data);
 		}
 		else{
 			return redirect()->route('customers.index');
@@ -787,7 +791,7 @@ class CustomerManagementController extends Controller {
 		$input = $request->all();
 		$companyBrancObject = new CompanyBranch();
 		$this->_data['location'] = $companyBrancObject->getListing(['unique_id'=> $input['unique_id']])[0];
-		
+
 		$this->_data['uniq_id'] = $input['unique_id'];
 		$url = 'locations/'.$input['unique_id'].'/inventory' ;
 		$containerInventory = \App\Helpers\Helper::callAPI('GET',$url,[]);

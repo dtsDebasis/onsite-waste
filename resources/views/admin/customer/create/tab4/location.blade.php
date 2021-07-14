@@ -5,6 +5,17 @@
 <!-- tab3 -->
 @php($rb_container_type = ['Rocker' => 'Rocker', 'Open' => 'Open'])
 @php($sh_container_type = ['Spinner' => 'Spinner', 'Rocker' => 'Rocker'])
+<?php
+if ($sh_container && !in_array($sh_container, $sh_container_type))
+{
+    $sh_container_type[$sh_container] = $sh_container;
+}
+
+if ($rb_container && !in_array($rb_container, $rb_container_type))
+{
+    $rb_container_type[$rb_container] = $rb_container;
+}
+?>
 <div class="tab-pane active" id="profile-1" role="tabpanel">
     <div class="card">
         <div class="card-body mb-4">

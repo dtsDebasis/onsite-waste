@@ -13,7 +13,7 @@
 				name="addressline1"
 				required
 				autocomplete="off"
-				value="{{ $addressdata->addressline1 ?? '' }}"
+				value="{{ $addressdata->addressline1 ?? '' }}, {{ $addressdata->country ?? '' }}"
 			  />
 		</div>
 	</div>
@@ -24,35 +24,35 @@
 			<input  class="form-control" id="address1" name="address1"  value="{{ $addressdata->address1  ?? '' }}" />
 		</div>
 	</div>
-	
+
 	<div class="col-md-6" style="display:none;" >
 		<div class="form-group">
 			<span class="form-label">Street/ locality</span>
 			<input  class="form-control" id="address2" name="address2" value="{{ $addressdata->address2 ?? '' }}" />
 		</div>
 	</div>
-	
+
 	<div class="col-md-6" style="display:none;" >
 		<div class="form-group">
 			<span class="form-label">City*</span>
 			<input class="form-control" id="locality" name="locality" value="{{ $addressdata->locality ?? '' }}"/>
 		</div>
 	</div>
-	
+
 	<div class="col-md-6" style="display:none;" >
 		<div class="form-group">
 			<span class="form-label">State/Province*</span>
 			<input class="form-control" id="state" name="state" value="{{ $addressdata->state ?? '' }}"/>
 		</div>
 	</div>
-	
+
 	<div class="col-md-6" style="display:none;" >
 		<div class="form-group">
 			<span class="form-label">Postal code*</span>
 			<input class="form-control" id="postcode" name="postcode" value="{{ $addressdata->postcode ?? '' }}"/>
 		</div>
 	</div>
-	
+
 	<div class="col-md-6" style="display:none;" >
 		<div class="form-group">
 			<span class="form-label">Country/Region*</span>
@@ -73,7 +73,7 @@
 			<input class="form-control" id="longitude" name="longitude" value="{{ $addressdata->longitude ?? '' }}"/>
 		</div>
 	</div>
-	
+
 
 
 
