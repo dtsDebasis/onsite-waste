@@ -269,12 +269,6 @@ class PickupApiController extends Controller {
             }
             $invData = [];
             $accountdetails = [];
-            $srch_params = array(
-                'begin_date' => '2021-01-01',
-                'end_date' => '2021-07-31'
-            );
-            $branch_ids = [1,2];
-            
             $api_key = \Config::get('settings.RECURLY_KEY');
             $client = new \Recurly\Client($api_key);
             $options = [
@@ -339,13 +333,20 @@ class PickupApiController extends Controller {
                 $ids = explode(',',$srch_params['ids']);
                 $invData = [];
                 foreach( $ids as $key=>$id){
+                    $lineitems=[];
                     $api_key = \Config::get('settings.RECURLY_KEY');
                     $client = new \Recurly\Client($api_key);
                     $invoice = $client->getInvoice($id);
+                    $invData[$key]['id'] = $invoice->getId();
                     $invData[$key]['code'] = $invoice->getAccount()->getCode();
                     $invData[$key]['created_at'] = \App\Helpers\Helper::dateConvert($invoice->getCreatedAt());
                     $invData[$key]['company'] = $invoice->getAddress()->getCompany();
+                    $invData[$key]['amount'] = $invoice->getTotal();
                     $invData[$key]['state'] = $invoice->getState();
+                    foreach($invoice->getLineItems() as $line){
+                        $lineitems[] = $line->getDescription();
+                    }
+                    $invData[$key]['lineItems'] = implode(',',$lineitems);
                 }
                 $file_name = 'invoice_'.$this->_user->id;
                 Excel::store(new InvoiceExport($invData), $file_name . '.xlsx', 'excel');
@@ -361,13 +362,15 @@ class PickupApiController extends Controller {
         try{
             $srch_params = $request->all();
             $branch_ids = [];
-            if(isset($srch_param['location']) && $srch_param['location']){
-                $branch_ids[] = explode(',',$srch_param['location']);
+            if(isset($srch_params['location']) && $srch_params['location']){
+                $branch_ids = explode(',',$srch_params['location']);
             }
             else{
                 $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
             }
+
             $data = app('App\Models\Package')->getListing(['branch_id' => $branch_ids,'with' => ['companybranch' => function($q){return $q->select('id','name');}]]);
+            
             return Helper::rj('Package successfully .', $this->successStatus,$data);
         } catch (Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());

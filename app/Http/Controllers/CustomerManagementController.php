@@ -1452,14 +1452,14 @@ class CustomerManagementController extends Controller {
 		$company = Company::where('id', '=', $id)->first();
 		if($company){
 			$input = $request->all();
-
+			
 			$hauling_id = (isset($input['hauling_id'])) ? $input['hauling_id']:0;
 			$branch_id = (isset($input['branch_id'])) ? $input['branch_id']:0;
             //dd($branch_id);
             $package = Package::where('branch_id',$branch_id)->first();
             if (!$package) {
                 return redirect()->back()
-					->withErrors("Please create a package")
+					->withError("Please assign a package to the location.")
 					->withInput();
             }
             $input['package_id'] = $package->id;

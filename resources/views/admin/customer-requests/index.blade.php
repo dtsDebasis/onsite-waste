@@ -5,7 +5,8 @@
 @endpush
 
 @section('content')
-@php($types = ['1'=>'Request Additional Pickup','2' => 'Cancel Upcoming Pickup','3' => 'Request Package Change', '4'=> 'Request Additional Containers', '5'=> 'Switch Container Types','6'=> 'Adjust Re-order Point','7' =>'Adjust Current Inventory','8' => 'Schedule Spend Consultation'])
+@php($types = ['1'=>'Request Additional Pickup','2' => 'Cancel Upcoming Pickup','3' => 'Request Package Change', '4'=> 'Request Additional Containers', '5'=> 'Switch Container Types','7' =>'Adjust Current Inventory','8' => 'Schedule Spend Consultation'])
+<!-- ,'6'=> 'Adjust Re-order Point' -->
 <div class="row">
     <div class="col-lg-12">
         <div class="card">

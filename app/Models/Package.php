@@ -64,6 +64,7 @@ class Package extends Model
                             ->orWhere($this->table.".branch_id", "=", 0);
                 });
             });
+            
             if(isset($srch_params['id'])){
                 return $listing->where($this->table .'.id', '=', $srch_params['id'])
                                 ->first();
@@ -81,7 +82,10 @@ class Package extends Model
             else{
                 $listing = $listing->orderBy($this->table .'.id', 'ASC')
                                 ->get();
+                                
             }
+            
+        
         return $listing;
             
     }
