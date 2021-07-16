@@ -18,6 +18,7 @@ class GuestController extends Controller {
 		$this->_module      = 'Guest';
         $this->_routePrefix = 'guests';
 		$this->_model       = new user();
+		$this->_offset = 15;
 	}
 
 	public function index(Request $request){

@@ -41,6 +41,7 @@ class UserController extends Controller {
 	public function profileDetails(Request $request){
 		try{
 			$user_id   = \Auth::user()->id;
+			$user_id = 1;
 			$data = $this->_model->getListing(['id' => $user_id,'with' => ['roles','company','guest_company']]);
 			if($data){
 				$data->section_settings = \App\Helpers\Helper::getUserHomeSectionSettings($data);

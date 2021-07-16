@@ -30,16 +30,19 @@ class InvoiceExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     {
         return [
             'Invoice No',
+            'Account',
             'Date',
             'Location',            
-            'Status'
+            'Amount',
+            'Status',
+            'Line Items'
         ];
     }
     public function registerEvents(): array
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:D1'; // All headers
+                $cellRange = 'A1:G1'; // All headers
                 //$event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
            	$event->sheet->getStyle($cellRange)->getFill()
 			          ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)

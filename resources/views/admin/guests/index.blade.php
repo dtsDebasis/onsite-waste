@@ -87,6 +87,11 @@
                                 </div>
                                 @endif
 
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        {{ $data->appends(request()->input())->links() }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @if(count($data))
@@ -234,7 +239,11 @@
                             </div>
                         </div>
                         @if(count($data))
-                        {{-- {!! $data->appends(request()->input())->links() !!} --}}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ $data->appends(request()->input())->links() }}
+                            </div>
+                        </div>
                         @endif
                         <!-- end table-responsive -->
                     </div>

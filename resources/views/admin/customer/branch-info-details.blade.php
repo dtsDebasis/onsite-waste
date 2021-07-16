@@ -530,7 +530,7 @@
                                             <table class="table table-centered table-nowrap mb-0">
                                                 <thead class="thead-light">
                                                     <tr>
-                                                        <th>Location</th>
+                                                        <!-- <th>Location</th> -->
                                                         <th>Location</th>
                                                         <th>Number Of Boxes</th>
                                                         <th>Package</th>
@@ -542,9 +542,10 @@
                                                 </thead>
                                                 <tbody>
                                                     @if(count($hauling_list))
+                                                    @php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
                                                         @foreach($hauling_list as $hkey => $hval)
                                                             <tr class="">
-                                                                <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td>
+                                                                <!-- <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td> -->
                                                                 @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
                                                                 <td> <span class="color-b">{{$hval->branch_details->addressdata->locality}} {{$hval->branch_details->addressdata->state}}</span> <br> <i class="bx bx-map"></i> {{$hval->branch_details->addressdata->addressline1}} </td>
                                                                 @else
@@ -558,7 +559,7 @@
                                                                 @endif
                                                                 <td>{{($hval->driver_name)?$hval->driver_name:'NA'}}</td>
                                                                 <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
-                                                                <td><span class="badge badge-pill badge-soft-success">Confirm</span></td>
+                                                                <td><a href="javascript:;" data-id="{{$hval->id}}" data-status="{{$hval->status}}" data-driver_name="{{$hval->driver_name}}" class="change-status"><span class="badge badge-pill badge-soft-success">{{(isset($hval->status) && $hval->status!=0)?$status_arr[$hval->status]:'NA'}}</span></a></td>
                                                                 <td>
                                                                     <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
                                                                         <i class="bx bx-plus-medical"></i>
@@ -1238,7 +1239,12 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on('click','#manifest_submit', function(){
+    $('body').on('click','#manifest_submit', function(e){
+        if (!$('#manifest-form')[0].checkValidity()) {
+            return;
+        } else {
+            e.preventDefault();
+        }
         //let form_data = $("#manifest-form").serialize();
         var form_data = new FormData($('#manifest-form')[0]);
         $.ajax({
