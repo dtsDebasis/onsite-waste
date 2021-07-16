@@ -24,12 +24,13 @@
         </ul>
 
         <div class="tab-content pt-3 text-muted">
-            @if($tab == 'guest_info')
+            @if($tab == 'guest_info' && can('Guest List'))
             <div class="tab-pane {!! ($tab == 'guest_info')?'active':'' !!}" id="home-1" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div class="input-group mw-30">
+                            @if (can('Guest Search'))
+                                <div class="input-group mw-30">
                             {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form')) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name="search_by" value="{{(Request::get('search_by'))?Request::get('search_by'):null}}">
@@ -37,10 +38,13 @@
                                 <a href="{{route($routePrefix.'.index',['tab' => $tab])}}" class="btn btn-danger">Reset</a>
                                 {!! Form::close() !!}
                             </div>
+                            @endif
+
                         </div>
                         <div class="tab-content mt-3 text-muted">
                             <div class="tab-pane {!! ($tab == 'guest_info')?'active':'' !!}" id="home1" role="tabpanel">
-                                <div class="table-responsive">
+                                @if (can('Guest List'))
+                                                                    <div class="table-responsive">
                                     <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>
@@ -64,7 +68,12 @@
                                                     <td>{{ $val->email }}</td>
                                                     <td><a href="tel:{{ $val->phone }}">{{ $val->phone }}</a></td>
                                                     <td>{!! ($val->status == 0)?'<span class="badge badge-pill badge-soft-primary">Pending</span>':(($val->status == 1)?'<span class="badge badge-pill badge-soft-success">Active</span>':'<span class="badge badge-pill badge-soft-danger">Inactive</span>') !!}</td>
-                                                    <td><a href="{{route('customers.create',['0','guest'=>$val->id,'company_name'=>$company_name,'company_phone'=>$company_phone,'compnay_email'=>$company_email])}}" class="btn btn-outline-primary waves-effect waves-light">Convert To Customer</a></td>
+                                                    <td>
+                                                    @if (can('Guest Convert To Customer'))
+                                                     <a href="{{route('customers.create',['0','guest'=>$val->id,'company_name'=>$company_name,'company_phone'=>$company_phone,'compnay_email'=>$company_email])}}" class="btn btn-outline-primary waves-effect waves-light">Convert To Customer</a>
+
+                                                    @endif
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             @else
@@ -76,6 +85,8 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                @endif
+
                             </div>
                         </div>
                         @if(count($data))
@@ -113,25 +124,29 @@
                 </div>
             </div>
             @endif
-            @if($tab == 'request_info')
+            @if($tab == 'request_info'  && can('Request From Guest List'))
             <div class="tab-pane {!! ($tab == 'request_info')?'active':'' !!}" id="profile-1" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
                             <div class="input-group mw-30">
-                            {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form')) !!}
+                            @if (can('Request From Guest Search'))
+                                {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form')) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name="search_by" value="{{(Request::get('search_by'))?Request::get('search_by'):null}}">
                                 <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                                 <a href="{{route($routePrefix.'.index',['tab' => $tab])}}" class="btn btn-danger">Reset</a>
-                            {!! Form::close() !!}
+                                {!! Form::close() !!}
+                            @endif
+
                             </div>
                         </div>
                         @php($request_types = ['1' => 'Emission calculator','2'=>'Cost Analysis'])
                         <div class="tab-content mt-3 text-muted">
                             <div class="tab-pane {!! ($tab == 'request_info')?'active':'' !!}" id="home1" role="tabpanel">
                                 <div class="table-responsive">
-                                    <table class="table table-centered table-nowrap mb-0">
+                                    @if (can('Request From Guest List'))
+                                        <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>Request Type</th>
@@ -153,9 +168,24 @@
                                                     <td>{!! ($val->company_name)?$val->company_name:'NA' !!}</td>
                                                     <td>{{ $val->company_email }}</td>
                                                     <td><a href="tel:{{ $val->company_phone }}">{{ $val->company_phone }}</a></td>
-                                                    <td class="font-22"><a href="{{route($routePrefix.'.request-file-download',['invoice',$val->id])}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a></td>
-                                                    <td class="font-22"><a href="{{route($routePrefix.'.request-file-download',['manifest',$val->id])}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a></td>
-                                                    <td><button type="button" class="btn btn-outline-primary waves-effect waves-light reply_to_button" data-id="{{$val->id}}" data-email="{{$val->company_email}}">Reply</button></td>
+                                                    <td class="font-22">
+                                                        @if (can('Request From Guest Invoice Download'))
+                                                        <a href="{{route($routePrefix.'.request-file-download',['invoice',$val->id])}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a>
+
+                                                        @endif
+                                                    </td>
+                                                    <td class="font-22">
+                                                        @if (can('Request From Guest Manifest Download'))
+                                                        <a href="{{route($routePrefix.'.request-file-download',['manifest',$val->id])}}" class="" data-id="{{$val->id}}"><i class="bx bx-cloud-download"></i></a>
+
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if (can('Request From Guest Reply'))
+                                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light reply_to_button" data-id="{{$val->id}}" data-email="{{$val->company_email}}">Reply</button>
+
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                                 <tr class="d-none" id="file_details_{{$val->id}}">
                                                     <td colspan="7">
@@ -174,7 +204,9 @@
                                                                         <tr>
                                                                             <td>{{$flVal['file_name_original']}}</td>
                                                                             <td>{{$flVal['file_size']}}</td>
-                                                                            <td><a href="{{$flVal['original']}}" target="_blank"><i class="fa fa-eye"></i></a></td>
+                                                                            <td>
+                                                                                <a href="{{$flVal['original']}}" target="_blank"><i class="fa fa-eye"></i></a>
+                                                                            </td>
                                                                         </tr>
                                                                         @endforeach
                                                                     @else
@@ -196,6 +228,8 @@
 
                                         </tbody>
                                     </table>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\Permission;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\ServiceProvider;
+use App\Observers\PermissionModelObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        Permission::observe(PermissionModelObserver::class);
     }
 }

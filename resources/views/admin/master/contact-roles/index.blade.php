@@ -5,14 +5,19 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-    <form class="form-inline" method="get" action="{{route('master.contact-roles.index')}}">
+    @if (can('Contact Role Search'))
+        <form class="form-inline" method="get" action="{{route('master.contact-roles.index')}}">
         <div class="input-group mw-30">
             <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
             <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
         </div>
-    </form> 
-        
+    </form>
+    @endif
+
+        @if (can('Contact Role Add'))
         <a href="{{route('master.contact-roles.create')}}" class="btn btn-primary w-md">Add New</a>
+
+        @endif
     </div>
 
     <div class="tab-content mt-3 text-muted">
@@ -32,12 +37,12 @@
                         <tr>
                           <td>{{ $val->name }}</td>
                           <td><span class="badge badge-pill badge-soft-{{ $val->statuses[$val->status]['badge'] }} font-size-12">{!! $val->statuses[$val->status]['name'] !!}</span></td>
-                          @if($permission['edit'] || $permission['destroy'])
+                          @if(can('Contact Role Edit') || can('Contact Role Delete'))
                           <td class="text-right">
-                            @if($permission['edit'])
+                            @if(can('Contact Role Edit'))
                             <a href="{{ route($routePrefix . '.edit',$val->id) }}" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-original-title="Edit">{!! \Config::get('settings.icon_edit') !!}</a>
                             @endif
-                            @if($permission['destroy'])
+                            @if(can('Contact Role Delete'))
                           <a class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                               document.getElementById('delete-form-{{$val->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
                             {!! Form::open([
@@ -61,8 +66,8 @@
                 </table>
             </div>
             <div style="margin-top: 15px;">
-              {{$data->links()}}                
-            </div>                   
+              {{$data->links()}}
+            </div>
         </div>
     </div>
 </div>

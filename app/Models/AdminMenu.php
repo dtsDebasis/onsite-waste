@@ -139,7 +139,7 @@ class AdminMenu extends Model
                 $menus[$key]['child']           = self::getMenu($val['id']);
             }
         }
-        
+
         return $menus;
     }
 

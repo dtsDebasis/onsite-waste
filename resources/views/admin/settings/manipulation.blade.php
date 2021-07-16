@@ -13,6 +13,7 @@
         @endforeach
     </ul>
     @endif
+    @if (can('Site Settings Update'))
     <div class="tab-content">
     	<div class="row">
     		@if($permission['settingsImport'] && $importForm)
@@ -20,7 +21,7 @@
 		    	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		    		<div class="card card-default card-post">
 		    			<div class="card-body">
-							<h4 class="card-title">Import Module</h4> 
+							<h4 class="card-title">Import Module</h4>
 		    				<p class="card-title-desc">Import setting file into your application.</p>
 		    				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10">
 		    					@php($form = $importForm)
@@ -35,7 +36,7 @@
 		    	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		    		<div class="card card-default card-post">
 		    			<div class="card-body">
-							<h4 class="card-title">Export Module</h4> 
+							<h4 class="card-title">Export Module</h4>
 		    				<p class="card-title-desc">Export your setting file from your application.</p>
 		    				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10">
 		    					@php($form = $exportForm)
@@ -50,7 +51,7 @@
 		    	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		    		<div class="card card-default card-post">
 		    			<div class="card-body">
-							<h4 class="card-title">Other Modules</h4> 
+							<h4 class="card-title">Other Modules</h4>
 		    				<p class="card-title-desc">List of helper modules to build your site better.</p>
 							<div class="row">
 								@if($permission['uiIcons'])
@@ -69,7 +70,7 @@
 									</div>
 								@endif
 							</div>
-		    				
+
 		    			</div>
 		    		</div>
 		    	</div>
@@ -87,6 +88,8 @@
     		@endif
     	</div>
     </div>
+    @endif
+
 </div>
-  
+
 @endsection

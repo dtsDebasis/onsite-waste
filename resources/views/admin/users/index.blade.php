@@ -6,19 +6,22 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+                @if (can('Employee Search'))
                 <form method="get" action="{{route('users.index')}}">
 
                     <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div class="input-group mw-30">
-                            <input type="text" value="{{$search}}" name="name" class="form-control"
-                                placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                            <input type="text" value="{{$search}}" name="name" class="form-control" placeholder="Search"
+                                aria-label="Search" aria-describedby="button-addon2">
                             <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                         </div>
                         <a href="{{route('users.create')}}" type="submit" class="btn btn-primary w-md">Add Employee</a>
                     </div>
                 </form>
+                @endif
 
-                <div class="tab-content mt-3 text-muted">
+                @if (can('Employee List'))
+                                    <div class="tab-content mt-3 text-muted">
                     <div class="tab-pane active" id="home1" role="tabpanel">
                         <div class="table-responsive">
                             <table class="table table-centered table-nowrap mb-0">
@@ -74,17 +77,23 @@
                                             btn-sm btn-rounded waves-effect waves-light">
                                             <i class="far fa-eye"></i>
                                             </a> --}}
-                                            <a href="{{ route('users.edit', $user->id) }}"
+                                            @if (can('Employee Edit'))
+                                                <a href="{{ route('users.edit', $user->id) }}"
                                                 class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
                                                 <i class="bx bx-edit-alt"></i>
                                             </a>
-                                            <a data-toggle="tooltip" title=""
+                                            @endif
+
+                                            @if (can('Employee Delete'))
+                                                <a data-toggle="tooltip" title=""
                                                 data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?"
                                                 data-confirm-yes="event.preventDefault();
                   document.getElementById('delete-form-{{$user->id}}').submit();" data-original-title="Delete"
                                                 class="btn btn-danger btn-sm btn-rounded waves-effect waves-light">
                                                 <i class="bx bx-trash-alt"></i>
                                             </a>
+                                            @endif
+
                                             {!! Form::open([
                                             'method' => 'DELETE',
                                             'route' => [
@@ -109,6 +118,8 @@
                     </div>
                 </div>
                 {{$data->links()}}
+                @endif
+
                 <!-- <div class="row">
                   <div class="col-lg-12">
                       <ul class="pagination pagination-rounded justify-content-center mt-4">

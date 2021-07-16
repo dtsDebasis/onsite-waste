@@ -11,31 +11,35 @@
             <div class="card-body">
                 <div class="col-sm-12">
                     <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div class="col-md-9">                            
+                        @if (can('Inventory Search'))
+                            <div class="col-md-9">
                             {!! Form::open(['method' => 'GET','route' => $routePrefix.'.index','id' => 'srch-form']) !!}
-                            
+
                             <div class="row">
-                                {{-- <div class="col-md-5">                    
+                                {{-- <div class="col-md-5">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="company" value="{{Request::get('company')?Request::get('company'):null}}" placeholder="Search by company" aria-label="Search">
                                     </div>
                                 </div>                                     --}}
-                                <div class="col-md-5">                    
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="location" value="{{Request::get('location')?Request::get('location'):null}}" placeholder="Search by location" aria-label="Search">
                                     </div>
                                 </div>
-                                <div class="col-md-4"> 
+                                <div class="col-md-4">
                                     <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                                     <a class="btn btn-danger" href="{{route($routePrefix.'.index')}}">Reset</a>
                                 </div>
                             </div>
                             {!! Form::close() !!}
                         </div>
-                        
+                        @endif
+
+
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-centered table-nowrap mb-0" id="inventories_table">
+                        @if (can('Inventory List'))
+                            <table class="table table-centered table-nowrap mb-0" id="inventories_table">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Location</th>
@@ -50,7 +54,7 @@
                             </thead>
                             <tbody>
                             @if(count($inventories))
-                                @foreach($inventories as $ikey => $ival) 
+                                @foreach($inventories as $ikey => $ival)
                                     <tr class="">
                                         <td>{{$ival->name}}</td>
                                         @php($inventory_details = (array_key_exists("locationId",$ival->inventory_details))?$ival->inventory_details: array())
@@ -65,9 +69,12 @@
                                         <!-- <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details['redbag']['canisterType'])?$inventory_details['redbag']['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td> -->
                                         <td>{{($ival->rb_container_type)?$ival->rb_container_type:'NA'}}</td>
                                         <td>
-                                            <a href="javascript:;" data-toggle="tooltip" data-id="{{$ival->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
+                                            @if (can('Inventory Update'))
+                                                <a href="javascript:;" data-toggle="tooltip" data-id="{{$ival->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
                                                 <i class="fa fa-save"></i>
                                             </a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,6 +85,8 @@
                             @endif
                             </tbody>
                         </table>
+                        @endif
+
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
@@ -99,7 +108,7 @@
                 </button>
             </div>
             <div class="modal-body" id="cyclingBody">
-                                              
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -128,15 +137,15 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#cyclingBody').html(data.html);
                     $('#cycle_modal').modal('show');
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Last Cycle Run Information",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -145,13 +154,13 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Last Cycle Run Information",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
     });
     $('body').on('click','.cycling_details_status_change', function(){
-        
+
         var branch_id = $(this).attr('data-branch_id');
         var info_id = $(this).attr('data-info_id');
         $.ajax({
@@ -165,14 +174,14 @@ $(document).ready(function () {
             },
             success: function(data) {
                 $('.loader').hide();
-                if (data.success) {                    
+                if (data.success) {
                     $('#cycle_modal').find('#ping_data_body').html(data.msg);
-                } 
-                else {                                        
+                }
+                else {
                     bootbox.alert({
                         title:"Cycling Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -181,7 +190,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Cycling Details",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -212,20 +221,20 @@ $(document).ready(function () {
                 $('.loader').show();
             },
             success: function (data) {
-                $('.loader').hide();                       
+                $('.loader').hide();
                 if (data.success) {
                     bootbox.alert({
                         title:"Inventory Update Successful",
                         message: data.msg ,
                         size: 'small',
-                        type:"success"                   
+                        type:"success"
                     });
                 } else {
                     bootbox.alert({
                         title:"Inventory update failed",
                         message:  data.msg ,
                         size: 'small',
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -234,7 +243,7 @@ $(document).ready(function () {
                 bootbox.alert({
                     title:"Inventory update",
                     message:  data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });

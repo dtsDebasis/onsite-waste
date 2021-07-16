@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Database\Seeders\PermissionTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,10 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(PermissionTableSeeder::class);
 
-        Eloquent::unguard();
-        $path = 'database/dumps/initial.sql';
-        \DB::unprepared(file_get_contents($path));
+        // Eloquent::unguard();
+        // $path = 'database/dumps/initial.sql';
+        // \DB::unprepared(file_get_contents($path));
     }
 }
