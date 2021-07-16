@@ -97,7 +97,7 @@ class KnowledgeCenterController extends Controller
 
     public function getKnowledgeContent(Request $request) {
         try {
-            
+
             $input = $request->all();
             $modelObj = new KnowledgeContent();
             if(isset($input['content_id'])) {
@@ -108,7 +108,7 @@ class KnowledgeCenterController extends Controller
                 $input['with'] = ['tags'];
                 $data =$modelObj->getListing($input,9);
             }
-            
+
             return Helper::rj($this->message, $this->successStatus, $data);
         } catch (Exception $e) {
             return Helper::rj($e->getMessage(), $e->getCode());
@@ -116,7 +116,7 @@ class KnowledgeCenterController extends Controller
     }
     public function getTagList(Request $request) {
         try {
-            
+
             $input = $request->all();
             $modelObj = new KnowledgeContentTag();
             $input['groupby'] = 'tag';
@@ -166,7 +166,31 @@ class KnowledgeCenterController extends Controller
                 //,'with'=>['knowledge_content'=>function($q){return $q->orderBy('rank','ASC')->limit(5);}]
                 $data = app('App\Models\KnowledgeCategory')->getListing(['kw_category_id'=>0]);
                 foreach($data as $key => $val){
-                    $val->knowledge_content = \App\Models\KnowledgeContent::where('category_id',$val->id)->skip(0)->take(5)->orderBy('rank','ASC')->get();
+                    $qry =  \App\Models\KnowledgeContent::where('category_id',$val->id);
+
+                    $current_user = auth()->user();
+                    $company = \App\Models\Company::where('id',$current_user->company_id)->first();
+
+                    if ($company) {
+                        $company_address = $company->addressdata;
+                        $state = $company_address ? $company_address->state : null;
+
+                        if ($state) {
+                            $sateIds = \App\Models\LocationState::where('state_code',$state)->pluck('id')->toArray();
+                            $qry = $qry->whereHas('kcstates', function ($query) use ($sateIds) {
+                                $query->whereIn('state_id',$sateIds);
+                            });
+                        }
+                        $company_speciality = $company->speciality->pluck('specality_id')->toArray();
+                        if ($company_speciality) {
+                            $qry = $qry->whereHas('kcspecialities', function ($query) use ($company_speciality) {
+                                $query->whereIn('speciality_id',$company_speciality);
+                            });
+                        }
+                    }
+                     $knowledge_content = $qry->skip(0)->take(5)->orderBy('rank','ASC')->get();
+
+                     $val->knowledge_content = $knowledge_content;
                 }
             }
             return Helper::rj('List fetch successfully', $this->successStatus, $data);
@@ -174,6 +198,6 @@ class KnowledgeCenterController extends Controller
             return Helper::rj($e->getMessage(), $e->getCode());
         }
     }
-    
+
 
 }

@@ -41,7 +41,6 @@ class UserController extends Controller {
 	public function profileDetails(Request $request){
 		try{
 			$user_id   = \Auth::user()->id;
-			$user_id = 1;
 			$data = $this->_model->getListing(['id' => $user_id,'with' => ['roles','company','guest_company']]);
 			if($data){
 				$data->section_settings = \App\Helpers\Helper::getUserHomeSectionSettings($data);
@@ -88,13 +87,13 @@ class UserController extends Controller {
 			$validationRules = [
 				'first_name' => 'required|max:100',
 				'last_name' => 'required|max:100',
-				'email'     => 'email|max:255|unique:users,email,'.$user_id.',id,deleted_at,NULL',			
+				'email'     => 'email|max:255|unique:users,email,'.$user_id.',id,deleted_at,NULL',
 			];
 			if(isset($input['password'])){
 				$validationRules['password'] = 'required|min:6|max:25';
 			}
 			$validator = \Validator::make($request->all(),$validationRules);
-			if ($validator->fails()) {	
+			if ($validator->fails()) {
 				throw new Exception($validator->errors()->first(), 200);
 			}
 			else{
@@ -111,7 +110,7 @@ class UserController extends Controller {
 					throw new Exception('Not update', 400);
 				}
 			}
-		
+
 		} catch (Exception $e) {
 			return Helper::rj($e->getMessage(), 500);
 		}

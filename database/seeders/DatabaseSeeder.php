@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Database\Seeders\MenuPermissionSeeder;
 use Database\Seeders\PermissionTableSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PermissionTableSeeder::class);
+        $this->call(MenuPermissionSeeder::class);
 
         // Eloquent::unguard();
         // $path = 'database/dumps/initial.sql';

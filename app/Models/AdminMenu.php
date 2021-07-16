@@ -128,9 +128,9 @@ class AdminMenu extends Model
         $menu     = $menu->toArray();
         $menus    = array();
         foreach ($menu as $key => $val) {
-            if ($val['class'] && $val['method']) {
+            if ($val['class'] && $val['method'] && $val['permission']) {
                 $permission = \App\Models\Permission::checkPermission($val['class'], $val['method']);
-                if ($permission) {
+                if (can($val['permission'])) {
                     $menus[$key]                = $val;
                     $menus[$key]['child']       = self::getMenu($val['id']);
                 }

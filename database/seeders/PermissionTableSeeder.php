@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdminMenu;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 
@@ -34,8 +35,24 @@ class PermissionTableSeeder extends Seeder
         self::packageNameMaster();
         self::siteContent();
         self::siteSettings();
+        self::masterMenu();
     }
 
+
+    public function masterMenu()
+    {
+        Permission::updateOrCreate([
+            'p_type' => 'Manage Permission', //Never Change This
+            'class' => 'Roles & Permission Management',
+            'method' => 'dummy'
+        ]);
+
+        Permission::updateOrCreate([
+            'p_type' => 'Manage Access Levels', //Never Change This
+            'class' => 'Roles & Permission Management',
+            'method' => 'dummy'
+        ]);
+    }
     //Site Settings
     public function siteSettings()
     {
@@ -481,6 +498,11 @@ class PermissionTableSeeder extends Seeder
         ]);
         Permission::updateOrCreate([
             'p_type' => 'Knowledge Category Edit', //Never Change This
+            'class' => 'Knowledge Category',
+            'method' => 'dummy'
+        ]);
+        Permission::updateOrCreate([
+            'p_type' => 'Knowledge Category Delete', //Never Change This
             'class' => 'Knowledge Category',
             'method' => 'dummy'
         ]);

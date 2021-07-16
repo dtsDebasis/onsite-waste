@@ -10,7 +10,7 @@ class KnowledgeContent extends Model
     use SoftDeletes;
 
     protected $table        = 'kw_content';
-    
+
     protected $fillable = [
         'status',
         'category_id',
@@ -21,7 +21,7 @@ class KnowledgeContent extends Model
         'location',
         'type',
 		'rank',
-        'waste_type',
+        //'waste_type',
         'service_type'
     ];
 
@@ -54,14 +54,14 @@ class KnowledgeContent extends Model
 
     public $waste_types = [
         "te" => "TE Only",
-        "pickup" => "Pickup Only", 
+        "pickup" => "Pickup Only",
         "hybrid" => "Both TE and Pickup"
     ];
 
     protected $appends = [
 		'dispimage'
 	];
-    
+
 
     public $orderBy = [];
 
@@ -131,8 +131,12 @@ class KnowledgeContent extends Model
     public function specialities(){
         return $this->hasManyThrough('App\Models\KnowledgeContentTag', 'knowledge_content_id', 'id');
     }
-
-    
+    public function kcstates(){
+        return $this->hasMany('App\Models\KnowledgeContentState');
+    }
+    public function kcspecialities(){
+        return $this->hasMany('App\Models\KnowledgeContentSpeciality');
+    }
     public function getListing($srch_params = [], $offset = 0)
     {
         $listing = self::select(
@@ -210,7 +214,7 @@ class KnowledgeContent extends Model
                             ->first();
         }
 
-   
+
         if(isset($srch_params['orderBy'])){
             $this->orderBy = \App\Helpers\Helper::manageOrderBy($srch_params['orderBy']);
             foreach ($this->orderBy as $key => $value) {
@@ -246,7 +250,7 @@ class KnowledgeContent extends Model
 		$file   = \App\Models\File::upload($request, 'dsp_img', 'kw_content', $data->id);
 		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $data);
     }
-    
+
     public function remove($id = null)
 	{
 		$data = $this->getListing([

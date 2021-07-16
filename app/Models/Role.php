@@ -37,7 +37,7 @@ class Role extends Authenticatable {
 	}
 
 	public function permissions() {
-		return $this->hasMany('App\Models\PermissionRole', 'rid', 'id');
+		return $this->hasMany('App\Models\PermissionRole', 'rid', 'id')->orderBy('id','ASC');
 	}
 
 	public function getListing($srch_params = [], $offset = 0) {

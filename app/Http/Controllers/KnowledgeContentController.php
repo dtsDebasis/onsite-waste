@@ -12,7 +12,7 @@ class KnowledgeContentController extends Controller
     public function __construct($parameters = array())
     {
         parent::__construct($parameters);
-        
+
         $this->_module      = 'Knowledge Content';
         $this->_routePrefix = 'knowledgecontent';
         $this->_model       = new KnowledgeContent();
@@ -145,7 +145,7 @@ class KnowledgeContentController extends Controller
             $existingSpeciality = \App\Models\KnowledgeContentSpeciality::where('knowledge_content_id',$id)->pluck('speciality_id')->toArray();
             $existingState = \App\Models\KnowledgeContentState::where('knowledge_content_id',$id)->pluck('state_id')->toArray();
             //$existingLocation = \App\Models\KnowledgeContentLocation::where('knowledge_content_id',$id)->pluck('branch_id')->toArray();
-           
+
         }
         extract($this->_data);
         $this->_data['breadcrumb'] = [
@@ -169,7 +169,7 @@ class KnowledgeContentController extends Controller
 
         $status = \App\Helpers\Helper::makeSimpleArray($this->_model->statuses, 'id,name');
         $types = $this->_model->types;
-        $waste_types = $this->_model->waste_types;
+        //$waste_types = $this->_model->waste_types;
         $service_types = ['TE-Only' => 'TE-Only', 'Hauling Only' => 'Hauling Only', 'TE and Hauling' => 'TE and Hauling'];
         $this->_data['pageHeading'] = $moduleName;
         $this->_data['form'] = [
@@ -233,7 +233,7 @@ class KnowledgeContentController extends Controller
                     'value'         => $existingSpeciality,
                     'label'         => 'Specialities'
                 ],
-                
+
                 //knowledge_locations
                 'location'      => [
                     'row_width'     => 'col-md-6',
@@ -284,16 +284,16 @@ class KnowledgeContentController extends Controller
                     'value'         => isset($data->type) ? $data->type : '',
                     'label'         => 'Type'
                 ],
-                'waste_type' => [
-                    'row_width'     => 'col-md-3',
-                    'type'          => 'select',
-                    'options'       => $waste_types,
-                    'attributes'    => [
-                        'class' => 'form-control select2',
-                    ],
-                    'value'         => isset($data->waste_type) ? $data->waste_type : '',
-                    'label'         => 'Waste Type'
-                ],
+                // 'waste_type' => [
+                //     'row_width'     => 'col-md-3',
+                //     'type'          => 'select',
+                //     'options'       => $waste_types,
+                //     'attributes'    => [
+                //         'class' => 'form-control select2',
+                //     ],
+                //     'value'         => isset($data->waste_type) ? $data->waste_type : '',
+                //     'label'         => 'Waste Type'
+                // ],
                 'service_type' => [
                     'row_width'     => 'col-md-3',
                     'type'          => 'select',
@@ -318,7 +318,7 @@ class KnowledgeContentController extends Controller
                 ],
             ],
         ];
-     
+
         // dd($this->_data['form']);
 
         return view('admin.components.admin-form', $this->_data);
@@ -402,9 +402,9 @@ class KnowledgeContentController extends Controller
     public function getChildCategory(Request $request,$id){
         try{
             $data = \App\Models\KnowledgeCategory::where(['kw_category_id' => $id,'status' => 1])->pluck('title','id')->toArray();
-            
+
             return Response::json(['success'=>true,'msg'=>'List generate success fully','data'=>$data]);
-            
+
         } catch (Exception $e) {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], $e->getCode());
         }

@@ -158,6 +158,7 @@ class UserController extends Controller {
             "last_name" => $request->last_name,
             "email" => $request->email,
             "phone" => $request->phone,
+            "verified" => 1,
             "designation" => $request->designation,
             "status" => (!empty($request->status))?1:2,
             "user_type" => 'admin'
