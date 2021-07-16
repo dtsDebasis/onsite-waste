@@ -84,7 +84,7 @@ class PickupApiController extends Controller {
         try{
             $srch_params = $request->all();
             $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
-            $srch_params['with'] = ['branch_details.addressdata','package_details' => function($q){return $q->select('id','name');}];
+            $srch_params['with'] = ['branch_details','branch_details.addressdata','package_details' => function($q){return $q->select('id','name');}];
             $srch_params['branch_id'] = $branch_ids;
             $date = date('Y-m-d');
             $srch_params['start_date'] = date('Y-m-d', strtotime($date . ' +1 day'));
@@ -267,6 +267,10 @@ class PickupApiController extends Controller {
             else{
                 $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
             }
+
+            $branch_ids = [1,10];
+            $srch_params['begin_date'] = '2021-01-01';
+            $srch_params['end_date'] = '2021-07-01';
             $invData = [];
             $accountdetails = [];
             $api_key = \Config::get('settings.RECURLY_KEY');
@@ -278,14 +282,16 @@ class PickupApiController extends Controller {
                     'end_time' => $srch_params['end_date']
                 ]
             ];
-            foreach($branch_ids as $key => $val){
+            $key = 0;
+            foreach($branch_ids as $key1 => $val){
                 $companybranch = \App\Models\CompanyBranch::select('name','uniq_id','recurring_id')->where('id',$val)->first();
 
                 if($companybranch && $companybranch->recurring_id){
                     $account = $client->getAccount($companybranch->recurring_id);
-                    $invoices = $client->listAccountInvoices($account->getId(),$options);
-                    $key = 0;	
+                    $invoices = $client->listAccountInvoices($account->getId(),$options);	
+                    
                     foreach($invoices as $invoice) {
+                        // print_r($invoice);
                         $invData[$key]['branch_name'] = $companybranch->name;
                         $invData[$key]['branch_code'] = $companybranch->uniq_id;
                         $invData[$key]['code'] = $invoice->getAccount()->getCode();
@@ -307,7 +313,7 @@ class PickupApiController extends Controller {
                         $key++;
                     }
                 }
-            }            
+            }         
             $data = $invData;
             return Helper::rj('List fetch successfully .', $this->successStatus,$data);
         } catch (Exception $e) {

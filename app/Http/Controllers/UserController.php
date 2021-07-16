@@ -95,7 +95,7 @@ class UserController extends Controller {
 	public function store(Request $request) {
 		if($request->isMethod('post')){
 			$validator = Validator::make($request->all(), [
-				'email' => 'required|email|unique',
+				'email' => 'required|email|unique:users',
 				'first_name' => 'required',
 				'last_name' => 'required'
 			]);
@@ -114,6 +114,7 @@ class UserController extends Controller {
 					"phone" => $request->phone,
 					"designation" => $request->designation,
 					"status" => (!empty($request->status))?1:2,
+					"verified" => 1,
 					"user_type" => 'admin'
 				];
 				$user_id = DB::table('users')->insertGetId($usrTblData);
