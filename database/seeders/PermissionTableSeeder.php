@@ -36,8 +36,18 @@ class PermissionTableSeeder extends Seeder
         self::siteContent();
         self::siteSettings();
         self::masterMenu();
+        self::dashboard();
     }
 
+
+    public function dashboard()
+    {
+        Permission::updateOrCreate([
+            'p_type' => 'View Dashboard', //Never Change This
+            'class' => 'Dashboard',
+            'method' => 'dummy'
+        ]);
+    }
 
     public function masterMenu()
     {

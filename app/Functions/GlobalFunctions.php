@@ -24,3 +24,27 @@ function can($permission)
     }
     return in_array($permission,$permissions);
 }
+
+function checkRouteAccess($request)
+{
+    $current_user = Auth::user();
+    if (!$current_user) {
+        return false;
+    }
+    $current_route_name = $request->route()->getName();
+    if ($current_route_name) {
+        $permission = Permission::where('method',$current_route_name)->first();
+        if ($permission) {
+            $permission_name = $permission->p_type;
+            if(can($permission_name)){
+                return true;
+            }
+            return abort('403');
+        }else {
+            return true;
+            //dd($current_route_name);
+        }
+    }else {
+        return true; //May need to change to false
+    }
+}

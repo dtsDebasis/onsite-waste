@@ -8,7 +8,8 @@
 @php($tab = Request::get('tab')?Request::get('tab'):'active')
 @php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
 <div class="row">
-    <div class="col-lg-12">
+    @if (can('Pickup List'))
+            <div class="col-lg-12">
         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{($tab == 'active')?'active':''}}" href="{{route('pickups.index',['tab' => 'active'])}}"  aria-selected="true">
@@ -29,7 +30,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div class="col-md-9">
+                            @if (can('Pickup Search'))
+                                                            <div class="col-md-9">
                                 {!! Form::open(['method' => 'GET','route' => 'pickups.index','id' => 'srch-form']) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <div class="row">
@@ -57,12 +59,17 @@
                                 </div>
                                 {!! Form::close() !!}
                             </div>
-                            <div class="col-md-9">
+                            @endif
+                            @if (can('Pickup Add'))
+                                <div class="col-md-9">
                                 <a href="{{route('pickups.create')}}"  class="btn btn-primary w-md">Add Pick Up Schedule</a>
                             </div>
+                            @endif
+
                         </div>
                         <div class="tab-content mt-3 text-muted">
-                            <div class="tab-pane active" id="home1" role="tabpanel">
+                            @if (can('Pickup List'))
+                                <div class="tab-pane active" id="home1" role="tabpanel">
                                 <div class="table-responsive">
                                     <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
@@ -96,15 +103,21 @@
                                                         <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
                                                         <td><a href="javascript:;" data-id="{{$hval->id}}" data-status="{{$hval->status}}" data-driver_name="{{$hval->driver_name}}" class="change-status"><span class="badge badge-pill badge-soft-success">{{(isset($hval->status) && $hval->status!=0)?$status_arr[$hval->status]:'NA'}}</span></a></td>
                                                         <td>
-
-                                                            <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
+                                                            @if (can('Pickup Add Manifest'))
+                                                               <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
                                                                 <i class="bx bx-plus-medical"></i>
                                                             </a>
-                                                            <a href="{{route('pickups.edit',$hval->id)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
+                                                            @endif
+                                                            @if (can('Pickup Edit'))
+                                                                <a href="{{route('pickups.edit',$hval->id)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
                                                                 <i class="bx bx-edit-alt"></i>
                                                             </a>
-                                                            <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
+                                                            @endif
+                                                            @if (can('Pickup Delete'))
+                                                                <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                                             document.getElementById('delete-form-{{$hval->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
+                                                            @endif
+
                                                             {!! Form::open([
                                                                 'method' => 'DELETE',
                                                                 'route' => [
@@ -126,6 +139,8 @@
                                     </table>
                                 </div>
                             </div>
+                            @endif
+
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
@@ -142,7 +157,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div class="col-md-9">
+                            @if (can('Pickup Search'))
+                                <div class="col-md-9">
                                 {!! Form::open(['method' => 'GET','route' => 'pickups.index','id' => 'srch-form']) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <div class="row">
@@ -165,6 +181,8 @@
                                 </div>
                                 {!! Form::close() !!}
                             </div>
+                            @endif
+
 
                         </div>
                         <div class="tab-content mt-3 text-muted">
@@ -204,9 +222,12 @@
                                                         <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
                                                         <td><span class="badge badge-pill badge-soft-success">Completed</span></td>
                                                         <td>
+                                                            @if (can('Pickup Add Manifest'))
                                                             <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
                                                                 <i class="bx bx-plus-medical"></i>
                                                             </a>
+                                                            @endif
+
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -233,6 +254,8 @@
             @endif
         </div>
     </div>
+    @endif
+
 </div>
 <div class="modal fade" id="all_status_update_modal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">

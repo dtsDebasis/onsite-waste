@@ -19,10 +19,10 @@
 </style>
 @if($id)
     <div class="card-body card">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <strong> Company Name </strong>:@if(isset($company) && isset($company->company_name) && $company->company_name) {{$company->company_name}} @else NA @endif
-            </div>            
+            </div>
             <div class="col-md-3">
                 <strong> Company ID </strong>: @if(isset($company) && isset($company->company_number) && $company->company_number) {{$company->company_number}}  @else NA @endif
             </div>
@@ -38,7 +38,7 @@
     </div>
 @endif
 <div class="row">
-    
+
     <div class="col-md-12">
         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
             <li class="nav-item waves-effect waves-light">
@@ -48,40 +48,43 @@
                 </a>
             </li>
             <li class="nav-item waves-effect waves-light">
-                
+
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} contact"  @if($id !=0 ) href="{{ route('customers.create.contact',  ['id' => $id ] ) }}" @else href="#" @endif   >
                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                     <span class="d-none d-sm-block">CONTACT</span>
                 </a>
             </li>
             <li class="nav-item waves-effect waves-light">
-                
+
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} package"  @if($id !=0 ) href="{{ route('customers.create.package',  ['id' => $id ]) }}" @else href="#" @endif >
                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                     <span class="d-none d-sm-block">PACKAGE </span>
                 </a>
             </li>
             <li class="nav-item waves-effect waves-light">
-                
+
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} site"  @if($id !=0 ) href="{{ route('customers.create.location',  ['id' => $id ]) }}" @else href="#" @endif  >
                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                     <span class="d-none d-sm-block">LOCATION</span>
                 </a>
             </li>
-            
-            {{--<li class="nav-item waves-effect waves-light">                
+
+            {{--<li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} inventory"  href="#" >
                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                     <span class="d-none d-sm-block">INVENTORY </span>
                 </a>
             </li> --}}
             @if($id !=0 )
-            <li class="nav-item waves-effect waves-light">               
+            @if (can('Pickup Edit') && can('Pickup Add') && can('Pickup Delete') && can('Pickup Add Manifest'))
+                <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} hauling" @if($id !=0 ) href="{{ route('customers.create.hauling',  ['id' => $id ] ) }}" @else href="#" @endif >
                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
                     <span class="d-none d-sm-block">PICKUP </span>
                 </a>
             </li>
+            @endif
+
             @endif
             {{--<li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} document" href="#">
@@ -142,10 +145,10 @@
                             <div class="form-group">
                                 <label for="formrow-email-input">Container Type</label>
                                 <select class="form-control" name="eqp_ownership_id" id="eqp_ownership_id">
-                                    <option value="">Select</option>        
-                                    <option value="1" data-attr="COMPANY_OWNED" class="eqp_ownership_id">Additional Trip Price</option> 
-                                    <option value="2" data-attr="LEASED" class="eqp_ownership_id">Additional Box Price</option> 
-                                    <option value="3" data-attr="OWNER_OPERATED" class="eqp_ownership_id">Additional Waste Type + Box Type</option> 
+                                    <option value="">Select</option>
+                                    <option value="1" data-attr="COMPANY_OWNED" class="eqp_ownership_id">Additional Trip Price</option>
+                                    <option value="2" data-attr="LEASED" class="eqp_ownership_id">Additional Box Price</option>
+                                    <option value="3" data-attr="OWNER_OPERATED" class="eqp_ownership_id">Additional Waste Type + Box Type</option>
                                 </select>
                             </div>
                         </div>

@@ -1,27 +1,27 @@
 
     @if($id)
     <div class="card-body card">
-        <div class=" row"> 
+        <div class=" row">
                 <div class="col-md-3">
                     <Strong> Company ID </strong>: @if(isset($company) && isset($company->company_number) && $company->company_number) {{$company->company_number}}  @else NA @endif
                 </div>
                 <div class="col-md-4">
                     <strong> Company Name </strong>:@if(isset($company) && isset($company->company_name) && $company->company_name) {{$company->company_name}} @else NA @endif
-                </div>   
+                </div>
                 <div class="col-md-3">
                     <strong> Phone </strong>:@if(isset($company) && isset($company->phone) && $company->phone) {{$company->phone}} @else NA @endif
-                </div>             
-                
-                @if(isset($company) && isset($company->id) && $company->id)
+                </div>
+
+                @if(isset($company) && isset($company->id) && $company->id && can('Customer Edit'))
                 <div class="col-md-2">
                     <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('customers.create', ['id' => $company->id  ] ) }}" >Edit Company</a>
                 </div>
                 @endif
         </div>
     </div>
-    @endif    
-    
-    <div class="card card-body">
+    @endif
+    @if (can('Customer Branch List'))
+           <div class="card card-body">
         <div class="table-responsive">
             <table class="table table-centered table-nowrap mb-0">
                 <thead class="thead-light">
@@ -43,12 +43,12 @@
                                 <td>{{ $companybranch->uniq_id }}</td>
                                 <td><a href="{{route('customers.branche-info-details',[$id,$companybranch->id])}}">{{ $companybranch->name }}</a></td>
                                 <td>{{($companybranch->created_at)?\App\Helpers\Helper::showdate($companybranch->created_at):'NA'}}</td>
-                               
+
                                 @php($onsitePartners = \App\Helpers\Helper::getOnsitePartners($companybranch->company_id,$companybranch->id))
                                 <td> {{($onsitePartners)?implode(',',$onsitePartners):'NA'}}</td>
                                 <td>{{($companybranch->phone)?$companybranch->phone:'NA'}}</td>
                                 <td>{{ ($companybranch->addressdata)?$companybranch->addressdata->addressline1:'NA' }}</td>
-                                
+
                                 @php($comSpecialt = [])
                                 @if(isset($companybranch->branchspecialty) && count($companybranch->branchspecialty))
                                     @foreach($companybranch->branchspecialty as $sp)
@@ -69,7 +69,9 @@
                 </tbody>
             </table>
         </div>
-    </div>    
+    </div>
+    @endif
+
 
 @include('admin.customer.create.tab4.modal-content')
 <input type="hidden" id="page_type" value="view_details">

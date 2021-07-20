@@ -5,7 +5,8 @@
 @extends('admin.layouts.layout', $headerOption)
 
 @section('content')
-<div class="row">
+@if (can('View Dashboard1'))
+    <div class="row">
     <div class="col-sm-3">
         <div class="card">
             <div class="card-body bg-soft-success">
@@ -366,7 +367,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <!-- <div class="col-xl-4">
         <div class="card bg-soft-primary">
@@ -390,10 +391,22 @@
             </div>
         </div>
     </div> -->
-    
+
         <!-- end row -->
     </div>
 </div>
+
+@else
+<div class="row">
+<div class="col-sm-12">
+<div class="alert alert-warning" role="alert">
+  Sorry! you don't have permission to view dashboard
+</div>
+</div>
+
+</div>
+@endif
+
 
 
 @endsection

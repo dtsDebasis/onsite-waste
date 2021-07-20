@@ -9,18 +9,23 @@
 <div class="row">
     <div class="col-lg-12">
         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+            @if (can('Guest List'))
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {!! ($tab == 'guest_info')?'active':'' !!}" href="{{route($routePrefix.'.index',['tab'=>'guest_info'])}}"  aria-selected="true">
                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                     <span class="d-none d-sm-block">Guest Information</span>
                 </a>
             </li>
-            <li class="nav-item waves-effect waves-light">
+            @endif
+            @if (can('Request From Guest List'))
+<li class="nav-item waves-effect waves-light">
                 <a class="nav-link {!! ($tab == 'request_info')?'active':'' !!}" href="{{route($routePrefix.'.index',['tab'=>'request_info'])}}" aria-selected="false">
                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                     <span class="d-none d-sm-block">Request From Guest<i class="rqst-no">{{$newRequestCount}}</i></span>
                 </a>
             </li>
+            @endif
+
         </ul>
 
         <div class="tab-content pt-3 text-muted">
