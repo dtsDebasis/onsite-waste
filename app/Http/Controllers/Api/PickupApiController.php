@@ -268,9 +268,9 @@ class PickupApiController extends Controller {
                 $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
             }
 
-            $branch_ids = [1,10];
-            $srch_params['begin_date'] = '2021-01-01';
-            $srch_params['end_date'] = '2021-07-01';
+            // $branch_ids = [1,10];
+            // $srch_params['begin_date'] = '2021-01-01';
+            // $srch_params['end_date'] = '2021-07-01';
             $invData = [];
             $accountdetails = [];
             $api_key = \Config::get('settings.RECURLY_KEY');
