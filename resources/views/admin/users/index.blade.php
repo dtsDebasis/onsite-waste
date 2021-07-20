@@ -15,7 +15,10 @@
                                 aria-label="Search" aria-describedby="button-addon2">
                             <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                         </div>
+                        @if (can('Employee Add'))
                         <a href="{{route('users.create')}}" type="submit" class="btn btn-primary w-md">Add Employee</a>
+
+                        @endif
                     </div>
                 </form>
                 @endif
