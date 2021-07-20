@@ -45,6 +45,7 @@
                                             class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                             name="email" value="{{ old('email') }}" required>
                                     </div>
+                                    
                                     @if ($errors->has('email'))
                                     <label class="error" for="email">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -60,6 +61,7 @@
                                             class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                             name="password" required>
                                     </div>
+                                    <label class="text-info text-small" style="font-size:10px">Password must have atleast 8 characters</label>
                                     @if ($errors->has('password'))
                                     <label class="error" for="password">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -74,6 +76,7 @@
                                         <input placeholder="Confirm Password" id="password-confirm" type="password"
                                             class="form-control" name="password_confirmation" required>
                                     </div>
+                                    <label class="text-info text-small" style="font-size:10px">Retype your password</label>
                                 </div>
                                 <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">RESET
                                     PASSWORD</button>

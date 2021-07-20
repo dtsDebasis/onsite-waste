@@ -323,7 +323,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         {!! Form::label('monthly_rate', 'Monthly Rate <span class="span-req">*</span>:',array('class'=>'','for'=>'monthly_rate'),false) !!}
                                         {!! Form::number('monthly_rate',null,['class'=>'form-control','placeholder'=>'Enter amount','id'=>'monthly_rate','required'=>'required','step'=>'0.01']) !!}
@@ -332,7 +332,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         {!! Form::label('compliance', 'Compliance Included <span class="span-req">*</span>:',array('class'=>'','for'=>'compliance'),false) !!}
                                         {!! Form::select('compliance',$yes_no_arr,null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'compliance','required'=>'required']) !!}

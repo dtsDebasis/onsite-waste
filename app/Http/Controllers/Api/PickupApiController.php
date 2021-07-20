@@ -41,7 +41,8 @@ class PickupApiController extends Controller {
         try{
             $srch_params = $request->all();
             $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
-            $srch_params['with'] = ['hauling_details'];
+            $srch_params['with'] = ['hauling_details', 'hauling_details.branch_details'];
+            // $branch_ids = [1];
             $srch_params['branch_id'] = $branch_ids;
             $data = app('App\Models\Manifest')->getListing($srch_params,$this->_offset);
             return Helper::rj('List fetch successfully .', $this->successStatus,$data);

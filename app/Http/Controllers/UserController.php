@@ -72,7 +72,10 @@ class UserController extends Controller {
 	}
 
 	public function create(Request $request) {
-		$this->data['roles'] = DB::table('roles')->get();
+		// $this->data['roles'] = DB::table('roles')->get();
+		$this->data['roles'] = app('App\Models\Role')->getListing(['status'=>1,'is_visible'=>1]);
+		// print_r($this->data['roles']);
+		// dd();
 		$this->data['module'] = 'EMPLOYEE ADD';
         $module     = 'Employee add';
         $breadcrumb = [
@@ -255,7 +258,7 @@ class UserController extends Controller {
 	 */
 	public function edit(Request $request, $id) {
         $this->data['id'] = $id;
-        $this->data['roles'] = DB::table('roles')->get();
+        $this->data['roles'] = app('App\Models\Role')->getListing(['status'=>1,'is_visible'=>1]);
         $user = User::find($id);
         $role = $user->roles->first();
         $role_id = $role ? $role->id : 0;

@@ -38,7 +38,7 @@ class RoleController extends Controller {
 		if(!$request->has('orderBy')){
 			$srch_params['orderBy'] 	= 'roles__level';
 		}
-		$this->_data['data']       	= $this->_model->getListing($srch_params, $this->_offset);
+		$this->_data['data']       	= $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
         $this->_data['search'] = $request->search ?? '' ;
 		$this->_data['orderBy']     = $this->_model->orderBy;
 		return view('admin.' . $this->_routePrefix . '.index', $this->_data)
@@ -140,6 +140,7 @@ class RoleController extends Controller {
 					'label'      => 'Title',
 					'help'       => 'Maximum 255 characters',
 					'attributes' => ['required' => true],
+					'row_width'  => 'col-md-6',
 				],
 			],
 		];

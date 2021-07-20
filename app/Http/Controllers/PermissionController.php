@@ -16,7 +16,7 @@ class PermissionController extends Controller {
 		$this->_module      = 'Permission';
 		$this->_routePrefix = 'permissions';
 		$this->_model 		= new Permission();
-        $this->_offset = 20;
+        $this->_offset = 10;
 	}
 
 	/**
@@ -31,7 +31,7 @@ class PermissionController extends Controller {
 		if(!$request->has('orderBy')){
 			$this->_data['srch_params']['orderBy'] = 'permissions__class,permissions__id';
 		}
-		$this->_data['data'] 	= $this->_model->getListing($this->_data['srch_params'], $this->_offset);
+		$this->_data['data'] 	= $this->_model->getListing($this->_data['srch_params'], $this->_offset)->appends($request->input());
 		$this->_data['filters'] = $this->_model->getFilters();
 		$this->_data['orderBy'] = $this->_model->orderBy;
 		$this->_data['search'] = $request->search ?? '' ;

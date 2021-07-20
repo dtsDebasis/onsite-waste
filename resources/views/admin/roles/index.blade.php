@@ -73,7 +73,9 @@
                     </tbody>
                 </table>
             </div>
-
+            <div style="margin-top: 15px;">
+              {{$data->links()}}
+            </div>                  
         </div>
     </div>
 </div>

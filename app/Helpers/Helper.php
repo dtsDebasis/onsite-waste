@@ -836,7 +836,7 @@ class Helper
 			$status = 0;
 			$setings = app('App\Models\HomeSectionSetting')->getListing(['section_id'=>$val->id,'customer_type' => $user->customer_type,'single_record' => true]);
 			if($setings){
-				if($setings->locations){
+				if(($setings->customer_type == 1 || ($setings->customer_type == 0 && $user->customer_type == 1)) && $setings->locations){
 					$all_branch_id = self::getUserAllBranchId($user);
 					$locations = explode(',',$setings->locations);
 					if(array_intersect($all_branch_id, $locations)){
