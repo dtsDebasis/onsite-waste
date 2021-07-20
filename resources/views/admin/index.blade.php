@@ -5,7 +5,7 @@
 @extends('admin.layouts.layout', $headerOption)
 
 @section('content')
-@if (can('View Dashboard1'))
+@if (can('View Dashboard'))
     <div class="row">
     <div class="col-sm-3">
         <div class="card">
