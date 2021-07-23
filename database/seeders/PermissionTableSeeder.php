@@ -37,6 +37,7 @@ class PermissionTableSeeder extends Seeder
         self::siteSettings();
         self::masterMenu();
         self::dashboard();
+        self::customerPackageTab();
     }
 
 
@@ -45,6 +46,35 @@ class PermissionTableSeeder extends Seeder
         Permission::updateOrCreate([
             'p_type' => 'View Dashboard', //Never Change This
             'class' => 'Dashboard',
+            'method' => 'dummy'
+        ]);
+    }
+
+    public function customerPackageTab()
+    {
+        Permission::updateOrCreate([
+            'p_type' => 'Package List', //Never Change This
+            'class' => 'Package',
+            'method' => 'dummy'
+        ]);
+        Permission::updateOrCreate([
+            'p_type' => 'Package Add', //Never Change This
+            'class' => 'Package',
+            'method' => 'dummy'
+        ]);
+        Permission::updateOrCreate([
+            'p_type' => 'Package Edit', //Never Change This
+            'class' => 'Package',
+            'method' => 'dummy'
+        ]);
+        Permission::updateOrCreate([
+            'p_type' => 'Package Delete', //Never Change This
+            'class' => 'Package',
+            'method' => 'dummy'
+        ]);
+        Permission::updateOrCreate([
+            'p_type' => 'Package Price Update', //Never Change This
+            'class' => 'Package',
             'method' => 'dummy'
         ]);
     }

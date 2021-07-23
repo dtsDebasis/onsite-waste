@@ -31,7 +31,9 @@
             </div>
             <div class="col-md-2">
                  @if(isset($company))
-                    <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('customers.branches', ['id' => $company->id  ] ) }}">View Company</a>
+                    @if (can('Customer Branch List'))
+                        <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('customers.branches', ['id' => $company->id  ] ) }}">View Company</a>
+                    @endif
                  @endif
             </div>
         </div>
@@ -54,14 +56,16 @@
                     <span class="d-none d-sm-block">CONTACT</span>
                 </a>
             </li>
+            @if (can('Package List'))
             <li class="nav-item waves-effect waves-light">
-                @if (can('Product Default Price Update'))
+
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} package"  @if($id !=0 ) href="{{ route('customers.create.package',  ['id' => $id ]) }}" @else href="#" @endif >
                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                     <span class="d-none d-sm-block">PACKAGE </span>
                 </a>
-                @endif
+
             </li>
+             @endif
             <li class="nav-item waves-effect waves-light">
 
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} site"  @if($id !=0 ) href="{{ route('customers.create.location',  ['id' => $id ]) }}" @else href="#" @endif  >

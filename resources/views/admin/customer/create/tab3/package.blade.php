@@ -7,7 +7,8 @@
     @php($frequency_types = ['1'=>'Days','2'=>'Weeks','3'=>'Months','4'=>'Years'])
     @php($yes_no_arr = ['0' => 'No','1' => 'Yes'])
     @php($service_types = ['TE-5000' => 'TE-5000','Pick-up' => 'Pick-up', 'Hybrid' => 'Hybrid'])
-    <div class="card">
+    @if ('Package Price Update')
+<div class="card">
         <div class="card-body mb-4">
             @if($transactionalpackages)
                 {!! Form::model($transactionalpackages, [
@@ -143,7 +144,9 @@
             {!! Form::close() !!}
         </div>
     </div>
+    @endif
 
+    @if (can('Package Edit'))
     <div class="card {{(Request::get('fnc') && (Request::get('fnc') == 'create' || Request::get('fnc') == 'edit'))?'':'d-none'}}" id="package-form-dev">
         <div class="card-body mb-4">
             @if((isset($editPackage) && $editPackage))
@@ -230,13 +233,18 @@
             {!! Form::close() !!}
         </div>
     </div>
+    @endif
+
+    @if (can('Package List'))
     <div class="card">
         <div class="card-body mb-4">
             <div class="col-md-12">
                 <div class="col-sm-12">
                     <div class="d-flex flex-column flex-md-row justify-content-between custom-heading-wrapper align-items-center">
                         <h3>Package List</h3>
-                        <a href="{{ route('customers.create.package',[$id,'fnc'=>'create']) }}" class="btn btn-primary w-md" id="add_package">Add Package</a>
+                        @if (can('Package Add'))
+                            <a href="{{ route('customers.create.package',[$id,'fnc'=>'create']) }}" class="btn btn-primary w-md" id="add_package">Add Package</a>
+                        @endif
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -273,9 +281,16 @@
                                 </td>
                                 --}}
                                 <td>
+                                    @if (can('Package Edit'))
                                     <a href="{{ route('customers.create.package',[$id,'package_id'=>$pval->id,'fnc'=>'edit']) }}" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"><i class="bx bx-edit-alt"></i></a>
+
+                                    @endif
+                                    @if (can('Package Delete'))
                                     <a class="btn btn-sm btn-rounded btn-danger waves-effect" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                         document.getElementById('delete-form-{{$pval->id}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
+
+                                    @endif
+
                                         {!! Form::open([
                                             'method' => 'DELETE',
                                             'route' => [
@@ -295,6 +310,8 @@
             </div>
         </div>
     </div>
+    @endif
+
 
 </div>
 
