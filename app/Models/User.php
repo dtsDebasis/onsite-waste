@@ -380,8 +380,7 @@ class User extends Authenticatable
 				unset($input['email']);
 			}
 			$data = $this->getListing([
-				'id'              => $id,
-				'id_greater_than' => $user_id,
+				'id'              => $id
 			]);
 
 			if (!$data) {
@@ -396,16 +395,16 @@ class User extends Authenticatable
 			}
 		}
 
-		$this->uploadAvatar($data, $id, $request);
+		// $this->uploadAvatar($data, $id, $request);
 
-		if(isset($input['delete_files'])) {
-			$entityType = isset(File::$fileType['user_avatar']['type']) ? File::$fileType['user_avatar']['type'] : 0;
-			\App\Models\File::deleteFiles([
-				'id_in' 		=> $input['delete_files'],
-				'entity_type' 	=> $entityType,
-				'entity_id'		=> $data->id
-			], true);
-		}
+		// if(isset($input['delete_files'])) {
+		// 	$entityType = isset(File::$fileType['user_avatar']['type']) ? File::$fileType['user_avatar']['type'] : 0;
+		// 	\App\Models\File::deleteFiles([
+		// 		'id_in' 		=> $input['delete_files'],
+		// 		'entity_type' 	=> $entityType,
+		// 		'entity_id'		=> $data->id
+		// 	], true);
+		// }
 
 
 

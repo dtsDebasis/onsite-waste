@@ -170,7 +170,8 @@ class KnowledgeContentController extends Controller
         $status = \App\Helpers\Helper::makeSimpleArray($this->_model->statuses, 'id,name');
         $types = $this->_model->types;
         //$waste_types = $this->_model->waste_types;
-        $service_types = ['TE-Only' => 'TE-Only', 'Hauling Only' => 'Hauling Only', 'TE and Hauling' => 'TE and Hauling'];
+        // $service_types = ['TE-Only' => 'TE-Only', 'Hauling Only' => 'Hauling Only', 'TE and Hauling' => 'TE and Hauling'];
+        $service_types = $this->_model->waste_types;
         $this->_data['pageHeading'] = $moduleName;
         $this->_data['form'] = [
             'route'         => $this->_routePrefix . ($id ? '.update' : '.store'),

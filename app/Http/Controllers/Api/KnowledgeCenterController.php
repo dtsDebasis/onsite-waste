@@ -170,6 +170,8 @@ class KnowledgeCenterController extends Controller
 
                     $current_user = auth()->user();
                     $company = \App\Models\Company::where('id',$current_user->company_id)->first();
+                    $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
+                    $branch_details = \App\Models\CompanyBranch::getListing(['ids'=>$branch_ids, 'with'=>['package_details','addressdata','branchspecialty']]);
 
                     if ($company) {
                         $company_address = $company->addressdata;

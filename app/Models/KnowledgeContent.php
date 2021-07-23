@@ -53,9 +53,9 @@ class KnowledgeContent extends Model
     ];
 
     public $waste_types = [
-        "te" => "TE Only",
-        "pickup" => "Pickup Only",
-        "hybrid" => "Both TE and Pickup"
+        "TE-5000" => "TE-5000",
+        "Pick-up" => "Pick-up",
+        "Hybrid" => "Hybrid"
     ];
 
     protected $appends = [
