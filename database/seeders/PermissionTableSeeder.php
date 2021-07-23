@@ -307,11 +307,11 @@ class PermissionTableSeeder extends Seeder
 
     public function productManagement()
     {
-        Permission::updateOrCreate([
-            'p_type' => 'Product Default Price Update', //Never Change This
-            'class' => 'Product',
-            'method' => 'dummy'
-        ]);
+        // Permission::updateOrCreate([
+        //     'p_type' => 'Product Default Price Update', //Never Change This
+        //     'class' => 'Product',
+        //     'method' => 'dummy'
+        // ]);
     }
 
     public function customerRequest()
@@ -546,11 +546,11 @@ class PermissionTableSeeder extends Seeder
             'class' => 'Knowledge Category',
             'method' => 'dummy'
         ]);
-        Permission::updateOrCreate([
-            'p_type' => 'Knowledge Category Update', //Never Change This
-            'class' => 'Knowledge Category',
-            'method' => 'dummy'
-        ]);
+        // Permission::updateOrCreate([
+        //     'p_type' => 'Knowledge Category Update', //Never Change This
+        //     'class' => 'Knowledge Category',
+        //     'method' => 'dummy'
+        // ]);
         Permission::updateOrCreate([
             'p_type' => 'Knowledge Category Search', //Never Change This
             'class' => 'Knowledge Category',
