@@ -27,7 +27,7 @@ class MenuPermissionSeeder extends Seeder
         self::updateMenuPermission('PickUp Management','Pickup List');
         self::updateMenuPermission('Inventory Management','Inventory List');
         self::updateMenuPermission('Customer Requests','Customer Request List');
-        self::updateMenuPermission('Product Management','Product Default Price Update');
+        self::updateMenuPermission('Product Management','Package Price Update');
         self::updateMenuPermission('Employee Management','Employee List');
 
         self::updateMenuPermission('Lead Source','Lead Source List');

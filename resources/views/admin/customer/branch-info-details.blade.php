@@ -53,14 +53,14 @@
                         <span class="d-none d-sm-block">Contact Information</span>
                     </a>
                 </li>
-                @if (can('Product Default Price Update'))
+                @if (can('Package List'))
                     <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'pricing')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'pricing'])}}" role="tab" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                         <span class="d-none d-sm-block">Pricing Details</span>
                     </a>
                 </li>
-                @endif
+
 
                 <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'package')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'package'])}}" role="tab" aria-selected="false">
@@ -68,6 +68,7 @@
                         <span class="d-none d-sm-block">Package Details</span>
                     </a>
                 </li>
+                @endif
                 @if (can('Inventory List'))
                    <li class="nav-item waves-effect waves-light">
                         <a class="nav-link {{($tab == 'inventory')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'inventory'])}}" role="tab" aria-selected="false">
