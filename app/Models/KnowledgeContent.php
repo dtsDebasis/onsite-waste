@@ -132,6 +132,7 @@ class KnowledgeContent extends Model
         return $this->hasManyThrough('App\Models\KnowledgeContentTag', 'knowledge_content_id', 'id');
     }
     public function kcstates(){
+        // return $this->hasManyThrough('App\Models\LocationState', 'kw_content_states', 'kw_content_id', 'state_id');
         return $this->hasMany('App\Models\KnowledgeContentState');
     }
     public function kcspecialities(){

@@ -20,7 +20,9 @@
                 </div>
                 @if(isset($company) && isset($company->id) && $company->id)
                 <div class="col-md-2">
-                    <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('customers.create', ['id' => $company->id  ] ) }}" >Edit Company</a>
+                    @if (can('Customer Edit'))
+                        <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('customers.create', ['id' => $company->id  ] ) }}" >Edit Company</a>
+                    @endif
                 </div>
                 @endif
         </div>
@@ -51,30 +53,39 @@
                         <span class="d-none d-sm-block">Contact Information</span>
                     </a>
                 </li>
-                <li class="nav-item waves-effect waves-light">
+                @if (can('Product Default Price Update'))
+                    <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'pricing')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'pricing'])}}" role="tab" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                         <span class="d-none d-sm-block">Pricing Details</span>
                     </a>
                 </li>
+                @endif
+
                 <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'package')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'package'])}}" role="tab" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                         <span class="d-none d-sm-block">Package Details</span>
                     </a>
                 </li>
-                <li class="nav-item waves-effect waves-light">
-                    <a class="nav-link {{($tab == 'inventory')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'inventory'])}}" role="tab" aria-selected="false">
-                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
-                        <span class="d-none d-sm-block">Inventory </span>
-                    </a>
-                </li>
-                <li class="nav-item waves-effect waves-light">
-                    <a class="nav-link {{($tab == 'hauling')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'hauling'])}}" role="tab" aria-selected="false">
-                        <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
-                        <span class="d-none d-sm-block">Pickup </span>
-                    </a>
-                </li>
+                @if (can('Inventory List'))
+                   <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link {{($tab == 'inventory')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'inventory'])}}" role="tab" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">Inventory </span>
+                        </a>
+                    </li>
+                @endif
+
+                @if (can('Pickup List'))
+                   <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link {{($tab == 'hauling')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'hauling'])}}" role="tab" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Pickup </span>
+                        </a>
+                    </li>
+                @endif
+
                 <!-- <li class="nav-item waves-effect waves-light">
                     <a class="nav-link {{($tab == 'document')?'active':''}}"  href="{{route('customers.branche-info-details',[$company->id,$id,'tab'=>'document'])}}" role="tab" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
@@ -501,9 +512,12 @@
                                                     <td>{{($companybranch->rb_container_type)?$companybranch->rb_container_type:'NA'}}</td>
                                                     <!-- <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details['redbag']['canisterType'])?$inventory_details['redbag']['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td> -->
                                                     <td>
-                                                    <a href="javascript:;" data-toggle="tooltip" data-id="{{$companybranch->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
+                                                    @if (can('Inventory Update'))
+                                                        <a href="javascript:;" data-toggle="tooltip" data-id="{{$companybranch->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
                                                         <i class="fa fa-save"></i>
                                                     </a>
+                                                    @endif
+
                                                     </td>
                                                 </tr>
                                         </tbody>
@@ -561,9 +575,12 @@
                                                                 <td>{{($hval->date)?\App\Helpers\Helper::dateConvert($hval->date):'NA'}}</td>
                                                                 <td><a href="javascript:;" data-id="{{$hval->id}}" data-status="{{$hval->status}}" data-driver_name="{{$hval->driver_name}}" class="change-status"><span class="badge badge-pill badge-soft-success">{{(isset($hval->status) && $hval->status!=0)?$status_arr[$hval->status]:'NA'}}</span></a></td>
                                                                 <td>
-                                                                    <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
+                                                                    @if (can('Pickup Add Manifest'))
+                                                                      <a href="javascript:;" data-hauling_id="{{$hval->id}}" data-branch_id="{{$hval->branch_id}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Manifest" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light add_edit_manifest">
                                                                         <i class="bx bx-plus-medical"></i>
                                                                     </a>
+                                                                    @endif
+
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -771,7 +788,7 @@
                 @if($tab == 'invoices')
                 <div class="tab-pane {{($tab == 'invoices')?'active':''}}" id="invoices" role="tabpanel">
                     <div class="card">
-                        <div class="card-body mb-4">    
+                        <div class="card-body mb-4">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <h3 class="custom-heading">List of customer invoices</h3>

@@ -55,11 +55,12 @@
                 </a>
             </li>
             <li class="nav-item waves-effect waves-light">
-
+                @if (can('Product Default Price Update'))
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} package"  @if($id !=0 ) href="{{ route('customers.create.package',  ['id' => $id ]) }}" @else href="#" @endif >
                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                     <span class="d-none d-sm-block">PACKAGE </span>
                 </a>
+                @endif
             </li>
             <li class="nav-item waves-effect waves-light">
 
