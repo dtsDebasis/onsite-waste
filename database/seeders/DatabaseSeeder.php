@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MenuPermissionSeeder::class);
         $this->call(UpdatePermissionMethodName::class);
 
-        // Eloquent::unguard();
-        // $path = 'database/dumps/initial.sql';
-        // \DB::unprepared(file_get_contents($path));
+        Eloquent::unguard();
+        $path = 'database/dumps/initial.sql';
+        \DB::unprepared(file_get_contents($path));
     }
 }

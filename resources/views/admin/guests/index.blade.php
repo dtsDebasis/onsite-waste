@@ -35,11 +35,11 @@
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
                             @if (can('Guest Search'))
-                                <div class="input-group mw-30">
-                            {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form')) !!}
+                                <div class="input-group mw-60">
+                            {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form', 'class'=>"form-inline")) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name="search_by" value="{{(Request::get('search_by'))?Request::get('search_by'):null}}">
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                                <button class="btn btn-primary mr-2" type="submit" id="button-addon2">Search</button>
                                 <a href="{{route($routePrefix.'.index',['tab' => $tab])}}" class="btn btn-danger">Reset</a>
                                 {!! Form::close() !!}
                             </div>
@@ -94,7 +94,9 @@
 
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        @if(count($data))
                                         {{ $data->appends(request()->input())->links() }}
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -139,12 +141,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div class="input-group mw-30">
+                            <div class="input-group mw-60">
                             @if (can('Request From Guest Search'))
-                                {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form')) !!}
+                                {!! Form::open(array('route' => $routePrefix.'.index','method'=>'GET', 'enctype'=>'multipart/form-data','id'=>'guest_info_srch_form','class'=>"form-inline")) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name="search_by" value="{{(Request::get('search_by'))?Request::get('search_by'):null}}">
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                                <button class="btn btn-primary mr-2" type="submit" id="button-addon2">Search</button>
                                 <a href="{{route($routePrefix.'.index',['tab' => $tab])}}" class="btn btn-danger">Reset</a>
                                 {!! Form::close() !!}
                             @endif

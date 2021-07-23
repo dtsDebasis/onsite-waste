@@ -62,7 +62,7 @@ class CustomerManagementController extends Controller {
 	public function importData(Request $request){
 		$input  = $request->all();
 		$validationRules = [
-			//'import_file' =>'mimes:csv',
+			'import_file' =>'required|mimes:csv',
 		];
 		$validator = \Validator::make($request->all(), $validationRules);
 		if ($validator->fails()) {
@@ -866,6 +866,10 @@ class CustomerManagementController extends Controller {
 			$input['uniq_id'] = \App\Helpers\Helper::getOnlyIntegerValue($input['uniq_id']);
 			$validator = Validator::make($input, [
 				'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id',
+			],[
+				'uniq_id.required' => 'The Branch Code field is required',
+				'uniq_id.numeric' => 'The Branch Code field must be numeric',
+				'uniq_id.unique' => 'The Branch Code has already been taken'
 			]);
 			if ($validator->fails()) {
 				return redirect()->back()
