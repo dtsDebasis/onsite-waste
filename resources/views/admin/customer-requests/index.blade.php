@@ -88,7 +88,9 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
+                            @if(count($data))
                             {{ $data->appends(request()->input())->links() }}
+                            @endif
                         </div>
                     </div>
                 </div>

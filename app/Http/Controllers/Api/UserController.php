@@ -117,7 +117,7 @@ class UserController extends Controller {
 	}
 
 	public function uploadAvatar(Request $request) {
-		$fileValidations = \App\File::$fileValidations['image'];
+		$fileValidations = \App\Models\File::$fileValidations['image'];
 		$validationRules = [
 			'user_id' => 'nullable|exists:users,id',
 			'avatar'  => 'required|mimes:' . $fileValidations['mime'] . '|max:' . $fileValidations['max'],
@@ -146,7 +146,8 @@ class UserController extends Controller {
 			$data = $this->_model->getListing([
 				'id' => $userId,
 			]);
-			$data = $this->_model->userInit($data, false);
+			// $data = $this->_model->userInit($data, false);
+			$data = $this->_model->getListing(['id' => $userId,'with' => ['roles','company','guest_company']]);
 		}
 		return Helper::rj($response['message'], $status, [
 			'details' => $data,

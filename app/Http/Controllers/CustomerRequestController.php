@@ -18,6 +18,7 @@ class CustomerRequestController extends Controller
         $this->_module      = 'Customer Requests';
         $this->_routePrefix = 'customer-requests';
         $this->_model       = new CustomerRequest;
+        $this->_offset = 20;
     }
 
     
@@ -35,8 +36,8 @@ class CustomerRequestController extends Controller
         
         $srch_params['with'] = ['branch_details.addressdata','user_details' => function($q){return $q->select('id','email','phone','first_name','last_name');},'company_details' => function($q){return $q->select('company_number','company_name');}];
         $this->_data['pageHeading'] = $this->_module;
-        $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset);
-        
+        $this->_data['data']            = $this->_model->getListing($srch_params, 20);
+        //dd($this->_data['data']);
         $this->_data['orderBy']         = $this->_model->orderBy;
         $this->_data['filters']         = null;
 
