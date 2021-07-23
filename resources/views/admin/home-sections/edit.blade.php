@@ -15,7 +15,7 @@
             </ul>
         </div>
         @endif
-        @if (can('Home Selection Update'))
+        @if (can('Home Section Management'))
         <div class="card">
             <div class="card-body mb-4">
                 @php($customer_types = ['0' => 'All','1'=>'Customer','2' => 'Guest'])

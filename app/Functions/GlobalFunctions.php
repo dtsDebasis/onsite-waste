@@ -22,7 +22,19 @@ function can($permission)
     if (count($permissions) <= 0) {
         return false;
     }
-    return in_array($permission,$permissions);
+    $permissionArray = explode(',',$permission);
+    if (count($permissionArray) == 1) {
+        return in_array($permission,$permissions);
+    } elseif (count($permissionArray) > 1) {
+        foreach ($permissionArray as $key => $value) {
+            if (in_array($value,$permissions)) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        return false;
+    }
 }
 
 function checkRouteAccess($request)

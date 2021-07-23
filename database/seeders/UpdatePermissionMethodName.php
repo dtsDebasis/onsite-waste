@@ -17,7 +17,7 @@ class UpdatePermissionMethodName extends Seeder
         //self::updateMethod('View Dashboard','admin.home');
         self::updateMethod('Banner List','banners.index');
         self::updateMethod('Tip List','tips.index');
-        self::updateMethod('Home Selection Update','home-sections.index');
+        self::updateMethod('Home Section Management','home-sections.index');
         self::updateMethod('Knowledge Category List','knowledgecategories.index');
         self::updateMethod('Knowledge Content List','knowledgecontent.index');
         self::updateMethod('Knowledge Wizard List','knowledgewizard.index');

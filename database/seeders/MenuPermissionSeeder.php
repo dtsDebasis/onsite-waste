@@ -16,14 +16,14 @@ class MenuPermissionSeeder extends Seeder
     {
         self::updateMenuPermission('Banner Management','Banner List');
         self::updateMenuPermission('Tips Management','Tip List');
-        self::updateMenuPermission('Home section Management','Home Selection Update');
+        self::updateMenuPermission('Home section Management','Home Section Management');
 
         self::updateMenuPermission('Knowledge Categories','Knowledge Category List');
         self::updateMenuPermission('Knowledge Wizard','Knowledge Wizard List');
         self::updateMenuPermission('Knowledge Content','Knowledge Content List');
 
         self::updateMenuPermission('Customer Management','Customer List');
-        self::updateMenuPermission('Guest Management','Guest List');
+        self::updateMenuPermission('Guest Management','Guest List,Request From Guest List');
         self::updateMenuPermission('PickUp Management','Pickup List');
         self::updateMenuPermission('Inventory Management','Inventory List');
         self::updateMenuPermission('Customer Requests','Customer Request List');

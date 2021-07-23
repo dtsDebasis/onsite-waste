@@ -531,7 +531,7 @@ class PermissionTableSeeder extends Seeder
     public function homeSelection()
     {
         Permission::updateOrCreate([
-            'p_type' => 'Home Selection Update', //Never Change This
+            'p_type' => 'Home Section Management', //Never Change This
             'class' => 'Home Selection',
             'method' => 'dummy'
         ]);
