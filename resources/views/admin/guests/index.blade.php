@@ -17,7 +17,7 @@
                 </a>
             </li>
             @endif
-            @if (can('Request From Guest List'))
+            @if (can('Guest List'))
 <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {!! ($tab == 'request_info')?'active':'' !!}" href="{{route($routePrefix.'.index',['tab'=>'request_info'])}}" aria-selected="false">
                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
@@ -136,7 +136,7 @@
                 </div>
             </div>
             @endif
-            @if($tab == 'request_info'  && can('Request From Guest List'))
+            @if($tab == 'request_info'  && can('Guest List'))
             <div class="tab-pane {!! ($tab == 'request_info')?'active':'' !!}" id="profile-1" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
@@ -157,7 +157,7 @@
                         <div class="tab-content mt-3 text-muted">
                             <div class="tab-pane {!! ($tab == 'request_info')?'active':'' !!}" id="home1" role="tabpanel">
                                 <div class="table-responsive">
-                                    @if (can('Request From Guest List'))
+                                    @if (can('Guest List'))
                                         <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>

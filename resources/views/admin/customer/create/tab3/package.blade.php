@@ -7,7 +7,7 @@
     @php($frequency_types = ['1'=>'Days','2'=>'Weeks','3'=>'Months','4'=>'Years'])
     @php($yes_no_arr = ['0' => 'No','1' => 'Yes'])
     @php($service_types = ['TE-5000' => 'TE-5000','Pick-up' => 'Pick-up', 'Hybrid' => 'Hybrid'])
-    @if ('Package Price Update')
+    @if (can('Package Price Update'))
 <div class="card">
         <div class="card-body mb-4">
             @if($transactionalpackages)

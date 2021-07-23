@@ -81,7 +81,7 @@
                 </a>
             </li> --}}
             @if($id !=0 )
-            @if (can('Pickup Edit') && can('Pickup Add') && can('Pickup Delete') && can('Pickup Add Manifest'))
+            @if (can('Pickup List'))
                 <li class="nav-item waves-effect waves-light">
                 <a class="nav-link {{ $navlink_isactive ? 'active' : '' }} hauling" @if($id !=0 ) href="{{ route('customers.create.hauling',  ['id' => $id ] ) }}" @else href="#" @endif >
                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>

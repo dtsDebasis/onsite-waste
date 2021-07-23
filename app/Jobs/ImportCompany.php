@@ -145,7 +145,7 @@ class ImportCompany implements ShouldQueue
             if($branch){
 
                 $addressData = [
-                    'addressline1' => $val[7].', '.$val[6],
+                    'addressline1' => $val[7].', '.$val[6].', '.$val[8],
                     'locality' => $val[7],
                     'state' => $val[6],
                     'country' => $val[8]
