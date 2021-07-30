@@ -119,8 +119,8 @@
                             {{--<label>Lead Source 1</label>
                             <input type="text" class="form-control" name="leadsource_1" value="{{ $company->lead_source ?? '' }}">--}}
                             @php($leadsource_1 = (Request::old('leadsource_1')) ? Request::old('leadsource_1') : (($company->lead_source) ? $company->lead_source : null))
-                            {!! Form::label('leadsource_1', 'Lead Source 1 :',array('class'=>'','for'=>'leadsource_1'),false) !!}
-                            {!! Form::select('leadsource_1',$lead_sources1,$leadsource_1,['class'=>'form-control select2','id'=>'leadsource_1','placeholder'=>'Choose ...']) !!}
+                            {!! Form::label('leadsource_1', 'Lead Source 1 *:',array('class'=>'','for'=>'leadsource_1'),false) !!}
+                            {!! Form::select('leadsource_1',$lead_sources1,$leadsource_1,['class'=>'form-control select2','id'=>'leadsource_1','placeholder'=>'Choose ...','required' => 'required']) !!}
                             @if ($errors->has('leadsource_1'))
                                 <span class="help-block">{{ $errors->first('leadsource_1') }}</span>
                             @endif

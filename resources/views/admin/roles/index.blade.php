@@ -31,21 +31,21 @@
                         <td>{{ $value->title }}</td>
 
                         <td>
-                           @if($permission['manageRole'])
+                           
                            <a href="{{ route('permissions.manage_role',$value->id) }}">
                            <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
                                 <i class="far fa-eye"></i>
                             </button>
                             </a>
-                            @endif
-                            @if($permission['edit'] && $value['user_id'] == $userId)
+                           
+                            
                             <a href="{{ route($routePrefix . '.edit',$value->id) }}">
                               <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
                                   <i class="bx bx-edit-alt"></i>
                               </button>
                             </a>
-                            @endif
-                            @if($permission['destroy'] && $value['user_id'] == $userId)
+                           
+                            
                             <a  data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
               document.getElementById('delete-form-{{$value->id}}').submit();" data-original-title="Delete">
                               <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light">
@@ -63,7 +63,7 @@
                           {!! Form::close() !!}
 
 
-                            @endif
+                           
                         </td>
                     </tr>
                     @endforeach

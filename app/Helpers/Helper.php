@@ -834,20 +834,49 @@ class Helper
 		$sections = app('App\Models\HomeSection')->getListing([]);
 		foreach($sections as $key => $val){
 			$status = 0;
-			$setings = app('App\Models\HomeSectionSetting')->getListing(['section_id'=>$val->id,'customer_type' => $user->customer_type,'single_record' => true]);
+			$setings = app('App\Models\HomeSectionSetting')->getListing(['section_id'=>$val->id,'single_record' => true]);
+			//return $user->customer_type;
 			if($setings){
-				if(($setings->customer_type == 1 || ($setings->customer_type == 0 && $user->customer_type == 1)) && $setings->locations){
-					$all_branch_id = self::getUserAllBranchId($user);
-					$locations = explode(',',$setings->locations);
-					if(array_intersect($all_branch_id, $locations)){
-						$status = 1;
+
+				
+				if(($setings->customer_type == 1 || $setings->customer_type == 0)){
+				
+					if ($setings->customer_type == 0) {
+						$user_roles = $user->roles->pluck('slug')->toArray();
+						
+						if ($setings->locations && $user->customer_type == 1) {
+							$all_branch_id = self::getUserAllBranchId($user);
+							$locations = explode(',',$setings->locations);
+							if(array_intersect($all_branch_id, $locations)){
+								$status = 1;
+							}
+							else{
+								$status = 0;
+							}
+						} else {
+							$status = 1;
+						}
 					}
-					else{
+					if ($setings->locations && $setings->customer_type == 1) {
+						$all_branch_id = self::getUserAllBranchId($user);
+						$locations = explode(',',$setings->locations);
+						if(array_intersect($all_branch_id, $locations)){
+							$status = 1;
+						}
+						else{
+							$status = 0;
+						}
+					}
+					
+				} elseif ($setings->customer_type == 2){
+					if ($user->customer_type == 1) {
 						$status = 0;
+					} else {
+						$status = 1;
 					}
 				}
 				else{
-					$status = 1;
+					$status = 0;
 				}
 			}
 			$data[$val->slug] = $status;

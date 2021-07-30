@@ -930,15 +930,18 @@ class CustomerManagementController extends Controller {
 					$data->update(['addressdata_id' => $addressdata->id]);
 				}
 
-				if($billingaddress){
-					$billingaddress->update($billing_data);
+				if ($billing_data) {
+					if($billingaddress){
+						$billingaddress->update($billing_data);
+					}
+					else{
+						$billingaddress = AddressData::create($billing_data);
+					}
+					if($addressdata){
+						$data->update(['billingaddress_id' => $billingaddress->id]);
+					}
 				}
-				else{
-					$billingaddress = AddressData::create($billing_data);
-				}
-				if($addressdata){
-					$data->update(['billingaddress_id' => $billingaddress->id]);
-				}
+
 
 				$branchspecialty_old = BranchSpecialty::where(['company_branch_id' => $data->id])->delete();
 				if( isset($input['specialities']) && is_array($input['specialities']) ){

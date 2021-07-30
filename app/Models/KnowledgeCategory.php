@@ -90,7 +90,7 @@ class KnowledgeCategory extends Model
 
 		
 		if (isset($srch_params['id'])) {
-			return $listing->where($this->table . '.id', '=', $srch_params['id'])
+			return $listing->where($this->table . '.id', '=', $srch_params['id'])->where($this->table . '.status', '=', 1)
 				->first();
 		}
 

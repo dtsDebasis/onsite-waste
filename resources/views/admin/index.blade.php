@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <!-- <div class="col-sm-3">
         <div class="card">
             <div class="card-body bg-soft-primary">
                 <div class="d-flex align-items-center mb-2">
@@ -366,7 +366,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <!-- <div class="col-xl-4">

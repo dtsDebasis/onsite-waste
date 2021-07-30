@@ -216,6 +216,13 @@ class KnowledgeCategoryController extends Controller
         $this->validate($request, $validationRules);
 
         if ($id) {
+            $contentCount =  \App\Models\KnowledgeContent::where('category_id',$id)
+                    ->where('status',1)->count();
+            if ($contentCount > 0 && $request->status == 0) {
+                return redirect()
+                    ->route($this->_routePrefix . '.index', $input['kw_category_id'])
+                    ->with('error', 'Sorry you can`t disable this category as you have active content in this category');
+            }
             $data       = $this->_model->find($id);
 
             if (!$data) {

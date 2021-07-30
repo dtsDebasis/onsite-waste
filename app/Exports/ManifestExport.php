@@ -35,6 +35,7 @@ class ManifestExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
             $field['boxes'] = $hval->number_of_container;
             $data[] = $field;
         }
+
         return collect($data);
     }
     public function headings(): array

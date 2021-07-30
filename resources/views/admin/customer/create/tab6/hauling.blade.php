@@ -6,7 +6,7 @@
 @php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
 
 <div class="tab-pane active" id="settings-1" role="tabpanel">
-    @if (can('Pickup Add'))
+    @if (can('Pickup Add') || ($hauling && can('Pickup Edit')))
     <div class="card">
         <div class="card-body mb-4">
             @if($hauling)

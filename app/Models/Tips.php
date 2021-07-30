@@ -14,7 +14,7 @@ class Tips extends Model
     protected $fillable = [
         'title',
         'short_desc',
-        'artical_link',
+        'article_link',
         'rank',
         'status',
     ];
@@ -113,6 +113,7 @@ class Tips extends Model
 	{
 		$data 						= null;
         $icon = null;
+        
         if ($id) {
             $data = $this->getListing(['id' => $id]);
 

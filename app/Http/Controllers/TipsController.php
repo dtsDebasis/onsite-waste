@@ -128,6 +128,7 @@ class TipsController extends Controller
         $pageHeading     = $this->_module;
         extract($this->_data);
         $status = \App\Helpers\Helper::makeSimpleArray($this->_model->statuses, 'id,name');
+
         $form = [
             'route'      => $this->_routePrefix . ($id ? '.update' : '.store'),
             'back_route' => route($this->_routePrefix . '.index'),
@@ -207,6 +208,7 @@ class TipsController extends Controller
         $this->validate($request, $validationRules);
 
         $input      = $request->all();
+        //dd($input);
         $response   = $this->_model->store($input, $id, $request);
         
         if($response['status'] == 200){

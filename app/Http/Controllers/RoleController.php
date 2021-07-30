@@ -26,8 +26,8 @@ class RoleController extends Controller {
 	public function index(Request $request) {
 		$this->initIndex();
 
-		$manageRole 				= \App\Models\Permission::checkModulePermissions(['manageRole'], 'PermissionController');
-		$this->_data['permission'] 	= array_merge($this->_data['permission'], $manageRole);
+		//$manageRole 				= \App\Models\Permission::checkModulePermissions(['manageRole'], 'PermissionController');
+		//$this->_data['permission'] 	= array_merge($this->_data['permission'], ['manageRole']);
 		$this->_data['userId']     	= \Auth::user()->id;
 		$userModel  				= new \App\Models\User();
 		$myLevel    				= $userModel->myRoleMinLevel($this->_data['userId']);
@@ -123,12 +123,12 @@ class RoleController extends Controller {
 
 		if ($id) {
 			$userId = \Auth::user()->id;
-			$data   = $this->_model->getListing(['id' => $id, 'user_id' => $userId]);
+			$data   = $this->_model->getListing(['id' => $id]);
 
-			$return = \App\Helpers\Helper::notValidData($data, $this->_routePrefix . '.index');
-			if ($return) {
-				return $return;
-			}
+			// $return = \App\Helpers\Helper::notValidData($data, $this->_routePrefix . '.index');
+			// if ($return) {
+			// 	return $return;
+			// }
 		}
 
 		$form = [
@@ -164,12 +164,12 @@ class RoleController extends Controller {
 		$userId = \Auth::user()->id;
 
 		if ($id) {
-			$data   = $this->_model->getListing(['id' => $id, 'user_id' => $userId]);
+			$data   = $this->_model->getListing(['id' => $id]);
 
-			$return = \App\Helpers\Helper::notValidData($data, $this->_routePrefix . '.index');
-			if ($return) {
-				return $return;
-			}
+			// $return = \App\Helpers\Helper::notValidData($data, $this->_routePrefix . '.index');
+			// if ($return) {
+			// 	return $return;
+			// }
 
 			$data->update($input);
 		} else {

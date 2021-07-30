@@ -160,43 +160,110 @@ class KnowledgeCenterController extends Controller
             $input = $request->all();
             $data = [];
             if(isset($input['category_id']) && $input['category_id']){
-                $data = app('App\Models\KnowledgeCategory')->getListing(['id' => $input['category_id'],'with'=>['knowledge_content'=>function($q){return $q->orderBy('rank','ASC');}]]);
+                $data = app('App\Models\KnowledgeCategory')->getListing(['id' => $input['category_id'],'status' => 1,'with'=>['knowledge_content'=>function($q){return $q->orderBy('rank','ASC');}]]);
             }
             else{
                 //,'with'=>['knowledge_content'=>function($q){return $q->orderBy('rank','ASC')->limit(5);}]
                 $data = app('App\Models\KnowledgeCategory')->getListing(['kw_category_id'=>0]);
                 foreach($data as $key => $val){
-                    $qry =  \App\Models\KnowledgeContent::where('category_id',$val->id);
-
-                    $current_user = auth()->user();
-                    $company = \App\Models\Company::where('id',$current_user->company_id)->first();
-                    $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
-                    $branch_details = \App\Models\CompanyBranch::getListing(['ids'=>$branch_ids, 'with'=>['package_details','addressdata','branchspecialty']]);
-
-                    if ($company) {
-                        $company_address = $company->addressdata;
-                        $state = $company_address ? $company_address->state : null;
-
-                        if ($state) {
-                            $sateIds = \App\Models\LocationState::where('state_code',$state)->pluck('id')->toArray();
-                            $qry = $qry->whereHas('kcstates', function ($query) use ($sateIds) {
-                                $query->whereIn('state_id',$sateIds);
-                            });
+                    if ($val->status == 1) {
+                        $qry =  \App\Models\KnowledgeContent::withCount(['kcstates','kcspecialities'])->with(['kcstates','kcspecialities'])
+                        ->where('category_id',$val->id)
+                        ->where('status',1);
+                        // ->having('kcstates_count', 0)
+                        // ->having('kcspecialities_count', 0);
+                        // $kcstates_count = $qry->first()->kcstates_count;
+                        // $kcspecialities_count = $qry->first()->kcspecialities_count;
+                        $current_user = auth()->user();
+                        //$company = \App\Models\Company::where('id',$current_user->company_id)->first();
+                        $branch_ids = \App\Helpers\Helper::getUserAllBranchId($this->_user);
+                        $branch = new \App\Models\CompanyBranch;
+                        $branch_details = $branch->getListing(['ids'=>$branch_ids, 'with'=>['package_details','addressdata','branchspecialty']]);
+    
+                        if (count($branch_details) > 0) {
+                            //$company_address = $company->addressdata;
+                            //$state = $company_address ? $company_address->state : null;
+                            $stateArray = [];
+                            $specialityArray = [];
+                            $packageArray = [];
+                            
+                            foreach ($branch_details as $key => $branch) {
+                                if ($branch->addressdata) {
+                                    $stateArray[$key] = $branch->addressdata->state;
+                                }
+                                if ($branch->package_details) {
+                                    $packageArray[$key] = $branch->package_details->service_type;
+                                }
+                                if ($branch->branchspecialty) {
+                                    $speciality = $branch->branchspecialty->pluck('specality_id')->toArray();
+                                    $specialityArray = array_merge($speciality,$specialityArray);
+                                }
+                            }
+                            array_unshift($packageArray,'all');
+                            
+    
+                            if (count($stateArray) > 0) {
+                                $sateIds = \App\Models\LocationState::whereIn('state_code',$stateArray)->pluck('id')->toArray();
+                                array_unshift($sateIds,0);
+                                $qry = $qry->whereHas('kcstates', function ($query) use ($sateIds) {
+                                    $query->whereIn('state_id',$sateIds);
+                                }); 
+                                // $qry = $qry->withCount('kcstates')
+                                //     ->orWhere(function ($query) use ($val) {
+                                //         $query->where('category_id',$val->id);
+                                //         $query->having('kcstates_count', 0);
+                                //     })->orWhere(function ($query) use ($sateIds,$val) {
+                                //         $query->where('category_id',$val->id);
+                                //         $query->WhereHas('kcstates', function ($query) use ($sateIds) {
+                                //             $query->whereIn('state_id',$sateIds);
+                                //         });
+                                //     });
+                            }
+                            //$company_speciality = $company->speciality->pluck('specality_id')->toArray();
+                            if (count($specialityArray) > 0) {
+                                $specialityArray = array_unique($specialityArray);
+                                array_unshift($specialityArray,0);
+                                $qry = $qry->whereHas('kcspecialities', function ($query) use ($specialityArray) {
+                                    $query->whereIn('speciality_id',$specialityArray);
+                                });
+                                
+                                
+                                // $qry = $qry->withCount('kcspecialities')
+                                //     ->orWhere(function ($query) use ($val) {
+                                //         $query->where('category_id',$val->id);
+                                //         $query->having('kcspecialities_count', 0);
+                                //     })->orWhere(function ($query) use ($specialityArray,$val) {
+                                //         $query->where('category_id',$val->id);
+                                //         $query->WhereHas('kcspecialities', function ($query) use ($specialityArray) {
+                                //             $query->whereIn('speciality_id',$specialityArray);
+                                //         });
+                                //     });
+                            }
+    
+                            if (count($packageArray) > 0) {
+                                $packageArray = array_unique($packageArray);
+                                
+                                $qry = $qry->whereIn('service_type',$packageArray);
+    
+                                // $qry = $qry->orWhere(function ($query) use ($packageArray) {
+                                //             $query->whereIn('service_type',$packageArray);
+                                //         })->orWhere(function ($query){
+                                //             $query->where('service_type',null);
+                                //         });
+                            }
                         }
-                        $company_speciality = $company->speciality->pluck('specality_id')->toArray();
-                        if ($company_speciality) {
-                            $qry = $qry->whereHas('kcspecialities', function ($query) use ($company_speciality) {
-                                $query->whereIn('speciality_id',$company_speciality);
-                            });
-                        }
+                         $knowledge_content = $qry->skip(0)->take(5)->orderBy('rank','ASC')->get();
+                         $val->specialityMatch = $specialityArray;
+                         $val->packageMatch = $packageArray;
+                         $val->stateMatch = $sateIds;
+                         $val->knowledge_content = $knowledge_content;
                     }
-                     $knowledge_content = $qry->skip(0)->take(5)->orderBy('rank','ASC')->get();
 
-                     $val->knowledge_content = $knowledge_content;
                 }
             }
             return Helper::rj('List fetch successfully', $this->successStatus, $data);
         } catch (Exception $e) {
+            return $e;
             return Helper::rj($e->getMessage(), $e->getCode());
         }
     }

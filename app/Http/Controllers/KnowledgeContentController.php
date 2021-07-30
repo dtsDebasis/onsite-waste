@@ -137,8 +137,8 @@ class KnowledgeContentController extends Controller
             return $response;
         }
         $tags = null;
-        $existingSpeciality = null;
-        $existingState = null;
+        $existingSpeciality = ['All'];
+        $existingState = ['All'];
         $existingLocation = null;
         if($id){
             $tags = implode(",",\App\Models\KnowledgeContentTag::where('knowledge_content_id',$id)->pluck('tag')->toArray());
@@ -154,24 +154,30 @@ class KnowledgeContentController extends Controller
         ];
 
         $categoryModel   = new \App\Models\KnowledgeCategory;
-        $categories      = $categoryModel->getListing(['kw_category_id' => 0])->pluck('title', 'id');
+        $categories      = $categoryModel->getListing(['kw_category_id' => 0,'status'=>1])->pluck('title', 'id');
 
         $stateModel   = new \App\Models\LocationState;
-        $states      = $stateModel->getListing(['status' => 1])->pluck('state_name', 'id');
+        $states      = $stateModel->getListing(['status' => 1])->pluck('state_name', 'id')->toArray();
+        //array_unshift($states,"All");
+        $states[0] = "All";
+        ksort($states);
 
         $locationsModel   = new \App\Models\CompanyBranch;
         //$locations      = $locationsModel->getListing(['status' => 1])->pluck('name', 'id');
         $locations = ['Single Location' => 'Single Location','Multiple Locations' => 'Multiple Locations'];
 
         $specialityModel   = new \App\Models\Speciality;
-        $specialities      = $specialityModel->getListing(['status' => 1])->pluck('name', 'id');
-
-
+        $specialities      = $specialityModel->getListing(['status' => 1])->pluck('name', 'id')->toArray();
+        //array_unshift($specialities,"All");
+        $specialities[0] = "All";
+        ksort($specialities);
+        
         $status = \App\Helpers\Helper::makeSimpleArray($this->_model->statuses, 'id,name');
         $types = $this->_model->types;
         //$waste_types = $this->_model->waste_types;
         // $service_types = ['TE-Only' => 'TE-Only', 'Hauling Only' => 'Hauling Only', 'TE and Hauling' => 'TE and Hauling'];
         $service_types = $this->_model->waste_types;
+        $service_types['all'] = "Display All";
         $this->_data['pageHeading'] = $moduleName;
         $this->_data['form'] = [
             'route'         => $this->_routePrefix . ($id ? '.update' : '.store'),
@@ -214,7 +220,7 @@ class KnowledgeContentController extends Controller
                     'row_width'     => 'col-md-6',
                     'type'          => 'select',
                     'options'       => $states,
-                    'help'          => 'Leave blank for All',
+                    'help'          => '',
                     'attributes'    => [
                         'class' => 'form-control select2',
                         'multiple' =>  true,
@@ -226,7 +232,7 @@ class KnowledgeContentController extends Controller
                     'row_width'     => 'col-md-6',
                     'type'          => 'select',
                     'options'       => $specialities,
-                    'help'          => 'Leave blank for All',
+                    'help'          => '',
                     'attributes'    => [
                         'class' => 'form-control select2',
                         'multiple' =>  true,
@@ -344,6 +350,8 @@ class KnowledgeContentController extends Controller
         $this->validate($request, $validationRules);
 
         $input      = $request->all();
+        $input['service_type'] = $input['service_type'] ?? 'all';
+
         $response   = $this->_model->store($input, $id, $request);
         $this->__routeParams();
         if($response['status'] == 200){
@@ -366,6 +374,11 @@ class KnowledgeContentController extends Controller
                         'state_id' => $kval
                     ]);
                 }
+            } else {
+                \App\Models\KnowledgeContentState::create([
+                    'knowledge_content_id' => $response['data']->id,
+                    'state_id' => 0
+                ]);
             }
             \App\Models\KnowledgeContentSpeciality::where('knowledge_content_id',$response['data']->id)->delete();
             if(isset($input['knowledge_specialities']) && count($input['knowledge_specialities'])){
@@ -375,6 +388,11 @@ class KnowledgeContentController extends Controller
                         'speciality_id' => $kval
                     ]);
                 }
+            } else {
+                \App\Models\KnowledgeContentSpeciality::create([
+                    'knowledge_content_id' => $response['data']->id,
+                    'speciality_id' => 0
+                ]);
             }
             // \App\Models\KnowledgeContentLocation::where('knowledge_content_id',$response['data']->id)->delete();
             // if(isset($input['knowledge_locations']) && count($input['knowledge_locations'])){

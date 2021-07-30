@@ -95,8 +95,8 @@ class GuestController extends Controller {
 						}
 					}
 					$fullName = $mailData['name'];
-						
-                    \App\Models\SiteTemplate::sendMail($requestDetails->user->email, $fullName, $mailData, 'request_reply_mail_from_admin',$attach); //register_provider from db site_template table template_name field  
+					//dd($requestDetails);
+                    \App\Models\SiteTemplate::sendMail($requestDetails->company_email, $fullName, $mailData, 'request_reply_mail_from_admin',$attach); //register_provider from db site_template table template_name field  
 					return redirect()->back()->with('success','Reply send successfully');
 				}
 			}

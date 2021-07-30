@@ -13,7 +13,7 @@
 				name="addressline1"
 				required
 				autocomplete="off"
-				value="{{ $addressdata->addressline1 ?? '' }}, {{ $addressdata->country ?? '' }}"
+				value="{{ $addressdata->addressline1 ?? '' }}"
 			  />
 		</div>
 	</div>
