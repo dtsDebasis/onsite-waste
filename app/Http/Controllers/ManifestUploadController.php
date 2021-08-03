@@ -131,12 +131,12 @@ class ManifestUploadController extends Controller
         $path =  \Storage::disk('public')->path('manifest_uploads' . '/' . $fileName);
         $file = fopen($path, 'w');
 	    fputcsv($file, $columns);
-        $i = 1;
+        $i = 0;
         foreach ($data as $manifest) {
             fputcsv($file, $manifest);
             if($manifest['locationid']!='') {  
                 if ($manifest['internalid']=='' || $manifest['internalid']=='null') {
-                    $branch_det = app('App\Models\CompanyBranch')->getListing(['uniq_id'=>$manifest['locationid']])->first();
+                    $branch_det = app('App\Models\CompanyBranch')->getListing(['uniq_id'=>$manifest['locationid']]);
                     $company_id = $branch_det->company_id;
                     $branch_id = $branch_det->id;
                 } else {
@@ -161,6 +161,7 @@ class ManifestUploadController extends Controller
                         'person_name' => $manifest['driver'],
                         'date' => date('Y-m-d H:i:s', strtotime($manifest['date'])),
                         'number_of_container' => $manifest['no_of_items'],
+                        'items_weight' => $manifest['weight_of_items'],
                         'branch_address' => $manifest['customer_address'],
                         'status' => 1
                     ]

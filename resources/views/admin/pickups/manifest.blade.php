@@ -15,7 +15,7 @@
         <input type="hidden" name="hauling_id" value="{{($haulingDetails)?$haulingDetails->id:null}}" id="manifest_hauling_id">
         <div class="card-body mb-4"> 
             <div class="row">            
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         @php($person_name = isset($manifest->person_name)?$manifest->person_name:((isset($haulingDetails->driver_name) && $haulingDetails->driver_name)?$haulingDetails->driver_name:null))
                         {!! Form::label('person_name', 'Provider Name <span class="span-req">*</span>:',array('class'=>'','for'=>'driver_name'),false) !!}
@@ -25,7 +25,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         {!! Form::label('date', 'Date <span class="span-req">*</span>:',array('class'=>'','for'=>'manifest_date'),false) !!}
                         {!! Form::date('date',null,['class'=>'form-control','placeholder'=>'Select date','id'=>'manifest_date','required'=>'required']) !!}
@@ -34,12 +34,22 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">                    
+                <div class="col-md-3">                    
                     <div class="form-group">
                         {!! Form::label('number_of_container', 'Number Of Boxes <span class="span-req">*</span>:',array('class'=>'','for'=>'number_of_container'),false) !!}
                         {!! Form::number('number_of_container',null,['class'=>'form-control','placeholder'=>'Enter box number','id'=>'number_of_container','required' => 'required']) !!}
                         @if ($errors->has('number_of_container'))
                             <span class="help-block">{{ $errors->first('number_of_container') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="col-md-3">                    
+                    <div class="form-group">
+                        {!! Form::label('items_weight', 'Weight Of Boxes <span class="span-req">*</span>:',array('class'=>'','for'=>'items_weight'),false) !!}
+                        {!! Form::number('items_weight',null,['class'=>'form-control','placeholder'=>'Enter Weight','id'=>'items_weight','required' => 'required']) !!}
+                        @if ($errors->has('items_weight'))
+                            <span class="help-block">{{ $errors->first('items_weight') }}</span>
                         @endif
                     </div>
                 </div>

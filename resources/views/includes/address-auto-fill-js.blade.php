@@ -109,10 +109,10 @@ function fillInAddress() {
 				break;
 			}
 
-			case "postal_code_suffix": {
-				postcode = `${postcode}-${component.long_name}`;
-				break;
-			}
+			// case "postal_code_suffix": {
+			// 	postcode = `${postcode}-${component.long_name}`;
+			// 	break;
+			// }
 			case "locality":
 				document.querySelector("#locality").value = component.long_name;
 				break;

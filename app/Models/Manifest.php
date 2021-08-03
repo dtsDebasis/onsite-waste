@@ -17,6 +17,7 @@ class Manifest extends Model
         'person_name',
         'date',
         'number_of_container',
+        'items_weight',
         'branch_address',
         'status',
         'created_at'

@@ -102,10 +102,10 @@ function fillInAddress_b() {
 				break;
 			}
 
-			case "postal_code_suffix": {
-				postcode_b = `${postcod_b}-${component.long_name}`;
-				break;
-			}
+			// case "postal_code_suffix": {
+			// 	postcode_b = `${postcod_b}-${component.long_name}`;
+			// 	break;
+			// }
 			case "locality":
 				document.querySelector("#locality_b").value = component.long_name;
 				break;
