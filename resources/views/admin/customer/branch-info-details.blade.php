@@ -545,7 +545,7 @@
                                             <table class="table table-centered table-nowrap mb-0">
                                                 <thead class="thead-light">
                                                     <tr>
-                                                        <!-- <th>Location</th> -->
+                                                        <th>Manifest #</th>
                                                         <th>Location</th>
                                                         <th>Number Of Boxes</th>
                                                         <th>Package</th>
@@ -560,6 +560,7 @@
                                                     @php($status_arr = ['1'=> 'Confirmed','2' => 'Pickup Done', '4' => 'Declined','5' => 'Requested','3' => 'Completed'])
                                                         @foreach($hauling_list as $hkey => $hval)
                                                             <tr class="">
+                                                            <td>{{(isset($hval->manifest_details) && $hval->manifest_details)?$hval->manifest_details->uniq_id:'NA'}}</td>
                                                                 <!-- <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td> -->
                                                                 @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
                                                                 <td> <span class="color-b">{{$hval->branch_details->addressdata->locality}} {{$hval->branch_details->addressdata->state}}</span> <br> <i class="bx bx-map"></i> {{$hval->branch_details->addressdata->addressline1}} </td>

@@ -56,6 +56,9 @@ class Manifest extends Model
             ->when(isset($srch_params['hauling_id']), function($q) use($srch_params){
                 return $q->where($this->table.".hauling_id", "=", $srch_params['hauling_id']);
             })
+            ->when(isset($srch_params['uniq_id']), function($q) use($srch_params){
+                return $q->where($this->table.".uniq_id", "=", $srch_params['uniq_id']);
+            })
 
             ->when(isset($srch_params['date']), function($q) use($srch_params){
                 return $q->whereDate($this->table.".date", "=", $srch_params['date']);
@@ -106,7 +109,7 @@ class Manifest extends Model
 
     }
 
-    public function uploadManifestDoc($data = [], $request)
+    public function uploadManifestDoc($data = [], $request=[])
 	{
 		$avatar = $data->manifest_doc;
         //dd($request->file('manifest_doc'));

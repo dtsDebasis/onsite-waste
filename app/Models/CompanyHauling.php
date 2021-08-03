@@ -59,6 +59,12 @@ class CompanyHauling extends Model
                 });
 
             })
+            ->when(isset($srch_params['manifestid']), function($q) use($srch_params){
+                return $q->whereHas('manifest_details', function($q) use ($srch_params){
+                    return $q->where("uniq_id", "=", $srch_params['manifestid']);
+                });
+
+            })
             ->when(isset($srch_params['branch_id']), function($q) use($srch_params){
                 if(is_array($srch_params['branch_id'])){
                     return $q->whereIn($this->table.".branch_id", $srch_params['branch_id']);

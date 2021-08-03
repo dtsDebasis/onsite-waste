@@ -90,7 +90,8 @@ class KnowledgeCategory extends Model
 
 		
 		if (isset($srch_params['id'])) {
-			return $listing->where($this->table . '.id', '=', $srch_params['id'])->where($this->table . '.status', '=', 1)
+			return $listing->where($this->table . '.id', '=', $srch_params['id'])
+			// ->where($this->table . '.status', '=', 1)
 				->first();
 		}
 
@@ -175,9 +176,7 @@ class KnowledgeCategory extends Model
     }
 
 	public function remove($id = null) {
-		$data = $this->getListing([
-			'id' => $id,
-		]);
+		$data = $this->find($id);
 
 		if (!$data) {
 			return \App\Helpers\Helper::resp('Not a valid data', 400);

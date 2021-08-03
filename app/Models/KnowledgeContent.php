@@ -208,6 +208,19 @@ class KnowledgeContent extends Model
             })
             ->when(isset($srch_params['sub_category_id']), function($q) use($srch_params){
                 return $q->where($this->table . '.sub_category_id', '=', $srch_params['sub_category_id']);
+            })
+            ->when(isset($srch_params['specialityArray']), function($q) use($srch_params){
+                return $q->whereHas('kcspecialities', function ($query) use ($srch_params) {
+                    $query->whereIn('speciality_id',$srch_params['specialityArray']);
+                });
+            })
+            ->when(isset($srch_params['packageArray']), function($q) use($srch_params){
+                return $q->whereIn($this->table . '.service_type', $srch_params['packageArray']);
+            })
+            ->when(isset($srch_params['sateIds']), function($q) use($srch_params){
+                return $q->whereHas('kcstates', function ($query) use ($srch_params) {
+                    $query->whereIn('state_id',$srch_params['sateIds']);
+                });
             });
 
         if(isset($srch_params['id'])){

@@ -242,6 +242,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::get('icons', 'App\Http\Controllers\SiteSettingController@uiIcons')->name('ui.icons');
 	});
 
+	Route::group(['prefix' => 'storage'], function () {
+		Route::get('/', 'App\Http\Controllers\AwsStorageController@index')->name('storage.index');
+		Route::get('download', 'App\Http\Controllers\AwsStorageController@downloadobject')->name('storage.download');
+		Route::post('createfolder', 'App\Http\Controllers\AwsStorageController@createfolder')->name('storage.createfolder');
+		Route::post('uploadfile', 'App\Http\Controllers\AwsStorageController@uploadfile')->name('storage.uploadfile');
+		Route::delete('destroy', 'App\Http\Controllers\AwsStorageController@destroy')->name('storage.destroy');
+	});
+
+	Route::group(['prefix' => 'manifests'], function () {
+		Route::get('/', 'App\Http\Controllers\ManifestUploadController@index')->name('manifests.index');
+		Route::post('processcsv', 'App\Http\Controllers\ManifestUploadController@processcsv')->name('manifests.processcsv');
+		Route::post('savecsv', 'App\Http\Controllers\ManifestUploadController@savecsv')->name('manifests.savecsv');
+	});
+
 	// Ajax URLs
 	Route::get('ajax-get-add-contact-person-template','App\Http\Controllers\CustomerManagementController@getAjaxContactPersonTemplate');
 	Route::get('ajax-get-add-contact-person-details','App\Http\Controllers\CustomerManagementController@getAjaxContactPersonDetails');

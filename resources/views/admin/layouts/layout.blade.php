@@ -43,7 +43,7 @@
             <!-- Modal -->
 
             <!-- end modal -->
-
+            <div id="cover-spin"></div>
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">

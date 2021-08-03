@@ -61,8 +61,9 @@ class CustomerManagementController extends Controller {
 	}
 	public function importData(Request $request){
 		$input  = $request->all();
+		
 		$validationRules = [
-			'import_file' =>'required|mimes:csv',
+			'import_file' =>'required|mimes:csv,txt',
 		];
 		$validator = \Validator::make($request->all(), $validationRules);
 		if ($validator->fails()) {
@@ -76,7 +77,7 @@ class CustomerManagementController extends Controller {
 			}
 			$file = $request->file('import_file');
 			$customerArr = \App\Helpers\Helper::CSVToArray($file);
-            //dd($customerArr);
+           // dd($customerArr);
 			foreach ($customerArr as $key => $val) {
                 // dd($val);
                 //ALTER TABLE `company_branch` CHANGE `company_number` `company_number` VARCHAR(255) NULL DEFAULT NULL;
@@ -93,7 +94,8 @@ class CustomerManagementController extends Controller {
                     unset($newPayload[count($newPayload)-1]);
                 }
                 //dd($newPayload);
-                ImportCompany::dispatch($newPayload);
+                $jobDispatch = ImportCompany::dispatch($newPayload);
+				//dd($jobDispatch);
 			}
 
 			return redirect()->back()->with('success','Please wait import may take few minutes');
@@ -703,7 +705,7 @@ class CustomerManagementController extends Controller {
 				$this->_data['package'] = app('App\Models\Package')->getListing(['company_id' => $company_id,'branch_id' => $id, 'single_record' => true]);
 			}
 			if($srch_params['tab'] == 'hauling'){
-				$this->_data["hauling_list"] = app('App\Models\CompanyHauling')->getListing(['company_id' => $company_id,'branch_id' => $id, 'with' => ['branch_details.addressdata','package_details']]);
+				$this->_data["hauling_list"] = app('App\Models\CompanyHauling')->getListing(['company_id' => $company_id,'branch_id' => $id, 'with' => ['branch_details.addressdata','package_details','manifest_details']]);
 			}
 			if($srch_params['tab'] == 'invoices'){
 				if(!isset($srch_params['begin_date']) || (isset($srch_params['begin_date']) && empty($srch_params['begin_date']))){
@@ -1445,7 +1447,7 @@ class CustomerManagementController extends Controller {
 				$hauling = app('App\Models\CompanyHauling')->getListing(['id' => $input['hid']]);
 			}
 			$this->_data["hauling"] = $hauling;
-			$this->_data["hauling_list"] = app('App\Models\CompanyHauling')->getListing(['company_id' => $id,'with' => ['branch_details.addressdata','package_details']]);
+			$this->_data["hauling_list"] = app('App\Models\CompanyHauling')->getListing(['company_id' => $id,'with' => ['branch_details.addressdata','package_details','manifest_details']]);
 			$this->_data['pageHeading'] = 'Pickup';
 			return view('admin.customer.create.tab6.hauling', $this->_data);
 		}

@@ -65,14 +65,21 @@ class CompanyBranch extends Model
 
     public function getListing($srch_params = [], $offset = ''){
         $with_det = [];
+        $wherehas = '';
         if(isset($srch_params['with'])){
             $with_det = $srch_params['with'];
+        } 
+        if(isset($srch_params['wherehas'])){
+            $wherehas = $srch_params['wherehas'];
         } 
         $select = '*';
         if(isset($srch_params['select'])){
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
         }
         $listing = self::select($select)->with($with_det)//->where($this->table .'.deleted_at',NULL)
+            ->when(isset($wherehas) && $wherehas!='', function($q) use($wherehas){
+                return $q->whereHas($wherehas[0],$wherehas[1]);
+            })
             ->when(isset($srch_params['company_id']), function($q) use($srch_params){
                 return $q->where($this->table.".company_id", "=", $srch_params['company_id']);
             })

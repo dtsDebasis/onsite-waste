@@ -105,7 +105,12 @@ class KnowledgeCategoryController extends Controller
     public function destroy($kw_category_id = 0, $id)
     {
         $data = KnowledgeCategory::find($id);
-
+        $content =  \App\Models\KnowledgeContent::where('category_id', $id)->count();
+        if ($content > 0) {
+            return redirect()
+                    ->route($this->_routePrefix . '.index')
+                    ->with('error', "Sorry!! You have content under this category");
+        }
         if (!$data) {
             return \App\Helpers\Helper::resp('Not a valid data', 400);
         }

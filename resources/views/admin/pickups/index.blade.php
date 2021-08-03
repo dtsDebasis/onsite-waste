@@ -30,42 +30,48 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
+                            <div class="row">
                             @if (can('Pickup Search'))
-                                                            <div class="col-md-9">
+                                <div class="col-md-10">
                                 {!! Form::open(['method' => 'GET','route' => 'pickups.index','id' => 'srch-form']) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="search" value="{{Request::get('search')?Request::get('search'):null}}" placeholder="Search" aria-label="Search">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="manifestid" value="{{Request::get('manifestid')?Request::get('manifestid'):null}}" placeholder="Manifest #" aria-label="Manifest ID">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             @php($stch_st = Request::get('status')?Request::get('status'):null)
                                             {!! Form::select('status',$status_arr,$stch_st,['class'=>'form-control select2','placeholder'=> 'Choose ...','id'=>'srch_status',]) !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             @php($stch_dt = Request::get('date')?Request::get('date'):null)
                                             {!! Form::date('date',$stch_dt,['class'=>'form-control','placeholder'=> 'select date','id'=>'srch_date',]) !!}
                                         </div>
                                     </div>
-                                </div>
-                                <div class="text-right">
-                                    <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
-                                    <a class="btn btn-danger" href="{{route($routePrefix.'.index',['tab'=>$tab])}}">Reset</a>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                                        <a class="btn btn-danger" href="{{route($routePrefix.'.index',['tab'=>$tab])}}">Reset</a>
+                                    </div>
                                 </div>
                                 {!! Form::close() !!}
                             </div>
                             @endif
                             @if (can('Pickup Add'))
-                                <div class="col-md-9">
-                                <a href="{{route('pickups.create')}}"  class="btn btn-primary w-md">Add Pick Up Schedule</a>
-                            </div>
+                                <div class="col-md-2">
+                                    <a href="{{route('pickups.create')}}"  class="btn btn-primary w-md">Add Pick Up</a>
+                                </div>
                             @endif
-
+                            </div>
                         </div>
                         <div class="tab-content mt-3 text-muted">
                             @if (can('Pickup List'))
@@ -74,6 +80,7 @@
                                     <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>
+                                                <th>Manifest #</th>
                                                 <th>Location</th>
                                                 <th>Provider Name</th>
                                                 <th>Package</th>
@@ -86,7 +93,7 @@
                                             @if(count($data))
                                                 @foreach($data as $hkey => $hval)
                                                     <tr class="">
-
+                                                    <td>{{(isset($hval->manifest_details) && $hval->manifest_details)?$hval->manifest_details->uniq_id:'NA'}}</td>
                                                         @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
                                                         <td> <span class="color-b">{{$hval->branch_details->addressdata->locality}} {{$hval->branch_details->addressdata->state}}</span> <br> <i class="bx bx-map"></i> {{$hval->branch_details->addressdata->addressline1}} </td>
                                                         @else
@@ -158,13 +165,18 @@
                     <div class="card-body">
                         <div class="d-flex flex-column flex-md-row justify-content-between">
                             @if (can('Pickup Search'))
-                                <div class="col-md-9">
+                                <div class="col-md-12">
                                 {!! Form::open(['method' => 'GET','route' => 'pickups.index','id' => 'srch-form']) !!}
                                 <input type="hidden" name="tab" value="{{$tab}}">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="search" value="{{Request::get('search')?Request::get('search'):null}}" placeholder="Search" aria-label="Search">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="manifestid" value="{{Request::get('manifestid')?Request::get('manifestid'):null}}" placeholder="Manifest #" aria-label="Manifest ID">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -191,7 +203,7 @@
                                     <table class="table table-centered table-nowrap mb-0">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th>Location</th>
+                                                <th>Manifest #</th>
                                                 <th>Location</th>
                                                 <th>Driver Name</th>
                                                 <th>Number Of Box</th>
@@ -205,7 +217,9 @@
                                             @if(count($data))
                                                 @foreach($data as $hkey => $hval)
                                                     <tr class="">
-                                                        <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td>
+                                                        <!-- <td>{{(isset($hval->branch_details) && $hval->branch_details)?$hval->branch_details->name:'NA'}}</td> -->
+                                                        <td>{{(isset($hval->manifest_details) && $hval->manifest_details)?$hval->manifest_details->uniq_id:'NA'}}</td>
+
                                                         @if(isset($hval->branch_details) && isset($hval->branch_details->addressdata) && $hval->branch_details->addressdata)
                                                         <td> <span class="color-b">{{$hval->branch_details->addressdata->locality}} {{$hval->branch_details->addressdata->state}}</span> <br> <i class="bx bx-map"></i> {{$hval->branch_details->addressdata->addressline1}} </td>
                                                         @else

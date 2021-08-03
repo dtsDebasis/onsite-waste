@@ -51,7 +51,7 @@ class HaulingController extends Controller
         else{
             $srch_params['status'] = [3];
         }
-        $srch_params['with'] = ['branch_details.addressdata','package_details'];
+        $srch_params['with'] = ['branch_details.addressdata','package_details','manifest_details'];
         $this->_data['pageHeading'] = $this->title;
 
         $this->_data['data']            = $this->_model->getListing($srch_params, $this->_offset);

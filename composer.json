@@ -25,7 +25,8 @@
         "mews/captcha": "^3.2",
         "recurly/recurly-client": "^4",
         "hubspot/api-client":"^2.8.1",
-        "zendesk/zendesk_api_client_php":"^2.2.11"  
+        "zendesk/zendesk_api_client_php":"^2.2.11",
+        "aws/aws-sdk-php-laravel": "~3.0"  
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
