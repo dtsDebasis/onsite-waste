@@ -268,3 +268,6 @@ Route::get('/', 'App\Http\Controllers\HomeController@home')->name('home');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 });
+
+//Analytics Routes
+Route::get('sync/analytics/{type?}/{num_of_month?}/{branch_id?}', 'App\Http\Controllers\AnalyticsController@index')->name('analytics.index');

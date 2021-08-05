@@ -23,7 +23,7 @@ return [
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
-    'frontend_url' => 'https://onsitecustomer-live.glohtesting.com/',
+    'frontend_url' => env('APP_URL') == 'https://onsite-waste.glohtesting.com/' ? 'https://onsite-customer.glohtesting.com/' : 'https://onsitecustomer-live.glohtesting.com/',//'https://onsitecustomer-live.glohtesting.com/',
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
