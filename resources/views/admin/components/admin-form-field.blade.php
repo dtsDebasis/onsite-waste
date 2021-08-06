@@ -28,6 +28,8 @@
                 {!! Form::text($key, $inputValue, $attributes) !!}
             @elseif($value['type'] == 'email')
                 {!! Form::email($key, $inputValue, $attributes) !!}
+            @elseif($value['type'] == 'color')
+                {!! Form::color($key, $inputValue, $attributes) !!}    
             @elseif($value['type'] == 'number')
                 {!! Form::number($key, $inputValue, $attributes) !!}
             @elseif($value['type'] == 'date')

@@ -137,6 +137,9 @@ class ManifestUploadController extends Controller
             if($manifest['locationid']!='') {  
                 if ($manifest['internalid']=='' || $manifest['internalid']=='null') {
                     $branch_det = app('App\Models\CompanyBranch')->getListing(['uniq_id'=>$manifest['locationid']]);
+                    if (!$branch_det) {
+                        continue;
+                    }
                     $company_id = $branch_det->company_id;
                     $branch_id = $branch_det->id;
                 } else {
@@ -170,7 +173,7 @@ class ManifestUploadController extends Controller
                 $i++; 
             }   
         }
-        
+
         $awskey= 'manifest-csv-uploads/'.$fileName;
         $awsmodelObj = new AwsStorage();
         $res = $awsmodelObj->uploadFile($path, $awskey);

@@ -102,6 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::resource('packagename', 'App\Http\Controllers\PackageNamesController', ['as' => 'master']);
 		Route::resource('companyowners', 'App\Http\Controllers\CompanyOwnersController', ['as' => 'master']);
 		Route::resource('relationships', 'App\Http\Controllers\RelationshipController', ['as' => 'master']);
+		Route::resource('normalizationtype', 'App\Http\Controllers\NormalisationController', ['as' => 'master']);
 		// Route::resource('tests', 'App\Http\Controllers\MasterTestController', ['as' => 'master']);
 		// Route::resource('tests.options', 'App\Http\Controllers\MasterTestOptionController', ['as' => 'master']);
 		// Route::resource('fixedquestions', 'App\Http\Controllers\MasterFixedQuestionsController', ['as' => 'master']);
@@ -254,6 +255,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::get('/', 'App\Http\Controllers\ManifestUploadController@index')->name('manifests.index');
 		Route::post('processcsv', 'App\Http\Controllers\ManifestUploadController@processcsv')->name('manifests.processcsv');
 		Route::post('savecsv', 'App\Http\Controllers\ManifestUploadController@savecsv')->name('manifests.savecsv');
+	});
+
+	Route::group(['prefix' => 'groupings'], function () {
+		Route::get('', 'App\Http\Controllers\GroupingsController@index')->name('groupings.index');
+		Route::get('create', 'App\Http\Controllers\GroupingsController@create')->name('groupings.create');
+		Route::get('edit/{id}', 'App\Http\Controllers\GroupingsController@edit')->name('groupings.edit');
+		Route::post('store', 'App\Http\Controllers\GroupingsController@store')->name('groupings.store');
+		Route::patch('update/{id}', 'App\Http\Controllers\GroupingsController@update')->name('groupings.update');
+		Route::delete('destroy/{id}', 'App\Http\Controllers\GroupingsController@destroy')->name('groupings.destroy');
+		Route::get('add-locations/{id}', 'App\Http\Controllers\GroupingsController@add_locations')->name('groupings.add-locations');
+		Route::post('save-locations/{id}', 'App\Http\Controllers\GroupingsController@save_locations')->name('groupings.save-locations');
 	});
 
 	// Ajax URLs

@@ -121,6 +121,7 @@ class ImportCompany implements ShouldQueue
                     ];
 
                     $company = Company::create($company_data);
+                    self::createDefaultTranctionalPackage($company->id,0);
                     CompanyBranch::where('company_number',$val[0])->update(['company_id' => $company->id]);
 
                     $associate_id = $val[0];
@@ -133,7 +134,7 @@ class ImportCompany implements ShouldQueue
                                 $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
                             }
                             if($existing && $company){
-                                \App\Models\CompanySpeciality::create([
+                                \App\Models\CompanySpeciality::updateOrCreate([
                                     'company_id' => $company->id,
                                     'specality_id' => $existing->id
                                 ]);
@@ -177,8 +178,8 @@ class ImportCompany implements ShouldQueue
                 $companyBranch->rb_rop = $val[11];
                 $companyBranch->save();
 
-                Log:info($companyBranch->id);
-
+                $findComp = Company::where('company_number', $associate_id)->first();
+                self::createDefaultTranctionalPackage($findComp->id,$companyBranch->id);
                 $specialities = explode(',',trim($val[9]));
 
                 foreach($specialities as $key=>$spval){
@@ -188,9 +189,17 @@ class ImportCompany implements ShouldQueue
                             $existing  = \App\Models\Speciality::create(['name' => $spval,'status' => 1]);
                         }
                         if($existing && $companyBranch){
-                            \App\Models\BranchSpecialty::create([
+                            \App\Models\BranchSpecialty::updateOrCreate([
                                 'specality_id' => $existing->id,
                                 'company_branch_id' => $companyBranch->id
+                            ]);
+                        }
+                        $findComp = Company::where('company_number', $associate_id)->first();
+
+                        if($existing && $findComp){
+                            \App\Models\CompanySpeciality::updateOrCreate([
+                                'company_id' => $findComp->id,
+                                'specality_id' => $existing->id
                             ]);
                         }
                     }
@@ -210,4 +219,24 @@ class ImportCompany implements ShouldQueue
             Log::info($this->data);
         }
     }
+
+    public static function createDefaultTranctionalPackage($company_id, $branch_id=0){
+        Log::info("createDefaultTranctionalPackage");
+        Log::info($company_id);
+        Log::info($branch_id);
+		$transactionPackageDetails = \App\Models\TransactionalPackage::where(['company_id' => $company_id,'branch_id' => $branch_id])->first();
+		Log::info($transactionPackageDetails);
+        if(!$transactionPackageDetails){
+			$tranCompany = ($branch_id)?$company_id:0;
+            Log::info($tranCompany);
+			$defaultDetails = \App\Models\TransactionalPackage::where(['company_id' => $tranCompany,'branch_id' => 0])->first();
+			if($defaultDetails){
+				$newdata = $defaultDetails->toArray();
+				unset($newdata['id']);unset($newdata['created_at']);unset($newdata['updated_at']);
+				$newdata['company_id'] = $company_id;
+				$newdata['branch_id'] = $branch_id;
+				\App\Models\TransactionalPackage::create($newdata);
+			}
+		}
+	}
 }

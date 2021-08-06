@@ -71,6 +71,7 @@ class ImportManifest implements ShouldQueue
                     $manifestres = $manifestmodel->create($manifestdata);
                 }
                 Log::info(date('Y-m-d H:i:s')."import Manifest #".$pickupdata['manifest_data']['uniq_id']." imported successfully");
+                Log::info($manifestdata);
             } else {
                 Log::info(date('Y-m-d H:i:s')."import Manifest #".$pickupdata['manifest_data']['uniq_id']." already exists");
             }
