@@ -111,6 +111,9 @@ class CompanyBranch extends Model
             ->when(isset($srch_params['name']), function($q) use($srch_params){
                 return $q->where($this->table.".name", "LIKE", "%{$srch_params['name']}%");
             })
+            ->when(isset($srch_params['unique_code']), function($q) use($srch_params){
+                return $q->where($this->table.".uniq_id", "LIKE", "%{$srch_params['unique_code']}%");
+            })
             ->when(isset($srch_params['is_primary']), function($q) use($srch_params){
                 return $q->where($this->table.".is_primary", "=", "{$srch_params['is_primary']}");
             })
@@ -133,10 +136,19 @@ class CompanyBranch extends Model
             }
             if(isset($srch_params['count'])){
                 return $listing->count();
-            }                        
+            } 
+            
+            if(isset($srch_params['orderBy'])){
+                $this->orderBy = \App\Helpers\Helper::manageOrderBy($srch_params['orderBy']);
+                foreach ($this->orderBy as $key => $value) {
+                    $listing->orderBy($key, $value);
+                }
+            } else {
+                $listing->orderBy($this->table . '.name', 'ASC');
+            }
+
             if($offset){
-                $listing = $listing->orderBy($this->table .'.id', 'Asc')
-                                ->paginate($offset);
+                $listing = $listing->paginate($offset);
             }
             else{
                 if(isset($srch_params['pluck']) && is_array($srch_params['pluck'])){
@@ -148,8 +160,7 @@ class CompanyBranch extends Model
                     }
                 }
                 else{
-                    $listing = $listing->orderBy($this->table .'.id', 'ASC')
-                                ->get();
+                    $listing = $listing->get();
                 }
             }
         return $listing;

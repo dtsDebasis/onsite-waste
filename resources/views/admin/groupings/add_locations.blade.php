@@ -37,12 +37,18 @@
         <h4 class="text-primary">CUSTOMER LOCATIONS</h4> 
         <div class="row">
             <div class="col-9">
-            <form class="form-inline mb-3" method="get" action="{{route('groupings.index')}}">
-                <div class="input-group mw-30">
-                    <input value="" name="title" type="text" class="form-control" placeholder="Search"
-                        aria-label="Search" aria-describedby="button-addon2">
-                    <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
-                </div>
+            <form class="form-inline mb-3" method="get" action="{{route('groupings.add-locations', $group_det->id)}}">
+            <div class="form-group mx-sm-1">
+                <input value="{{isset($searchParams['name'])?$searchParams['name']:''}}" name="name" type="text" class="form-control" placeholder="Location Name"
+                    aria-label="Search" aria-describedby="button-addon2">
+            </div>    
+            <div class="form-group mx-sm-1">
+                <input value="{{isset($searchParams['unique_code'])?$searchParams['unique_code']:''}}" name="unique_code" type="text" class="form-control" placeholder="Unique Code"
+                    aria-label="Search" aria-describedby="button-addon2">    
+            </div> 
+            <div class="form-group mx-sm-1">   
+                <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
+            </div> 
             </form>
             </div>
             <!-- <div class="col-3">
@@ -55,8 +61,8 @@
                     <thead class="thead-light">
                         <tr>
                             <th><input type="checkbox" class="checkall" name="checkall"></th>
-                            <th>Location Code</th>
-                            <th>Name/Address</th>
+                            <th>Location Code {!! \App\Helpers\Helper::sort($routePrefix . '.add-locations', 'uniq_id', $orderBy, $searchParams) !!}</th>
+                            <th>Name/Address {!! \App\Helpers\Helper::sort($routePrefix . '.add-locations', 'name', $orderBy, $searchParams) !!}</th>
                             <th>Normalization Factor</th>
                             <th>Specialty</th>
                         </tr>

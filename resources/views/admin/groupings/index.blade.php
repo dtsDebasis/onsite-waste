@@ -20,7 +20,7 @@
                 <table class="table table-centered table-condensed table-striped table-nowrap mb-0">
                     <thead class="thead-light">
                         <tr>
-                            <th>Customer </th>
+                            <th>Customer {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'c__name', $orderBy) !!}</th>
                             <th>Group Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'name', $orderBy) !!}</th>
                             <th>Location Count </th>
                             <th>Color Code </th>

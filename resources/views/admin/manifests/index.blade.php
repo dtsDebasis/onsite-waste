@@ -69,7 +69,7 @@
                         }
                         
                         html += '<td class="locationid" contenteditable>'+data.row_data[count].locationid+'</td>';
-                        html += '<td class="internalid" contenteditable>'+data.row_data[count].internalid+'</td>';
+                        html += '<td class="internalid" style="background:#eff2f7 !important;">'+data.row_data[count].internalid+'</td>';
                         html += '<td class="date" contenteditable>'+data.row_data[count].date+'</td>';
                         // html += '<td class="deliveryid" contenteditable>'+data.row_data[count].deliveryid+'</td>';
                         // html += '<td class="disposaldate" contenteditable>'+data.row_data[count].disposaldate+'</td>';

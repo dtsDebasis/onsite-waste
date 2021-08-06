@@ -40,17 +40,27 @@ class GroupingsController extends Controller
 
 
     public function add_locations(Request $request, $group_id = '') {
+        $offset = 5;
         $srch_params                        = $request->all();
+        $this->_data['group_det']           =  $this->_model->getListing(['id'=>$group_id,'with'=>['customer_details','normalization_details'],'withCount'=>['grouplocationmap']]);
         $this->_data['breadcrumb']      =  array(
             route($this->_routePrefix . '.index') => 'Group List',
             '#' => 'Add/Edit Locations'
         );
-        $this->_data['group_det']           =  $this->_model->getListing(['id'=>$group_id,'with'=>['customer_details','normalization_details'],'withCount'=>['grouplocationmap']]);
+        $srch_params['group_id']         = $group_id;
+        $query_params = $srch_params;
+        $query_params['company_id'] = $this->_data['group_det']->customer_details->id;
+        $query_params['with'] = ['addressdata','branchspecialty.speciality_details','group'];
         $this->_data['pageHeading']         =  "Add/Remove locations to group";
+        unset($srch_params['orderBy']);
+        $this->_data['searchParams']         =  $srch_params;
+        
+        $this->_data['routePrefix']         =  $this->_routePrefix;
         $companyBrancObject = new CompanyBranch();
-        $this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$this->_data['group_det']->customer_details->id,'with'=>['addressdata','branchspecialty.speciality_details','group']],$this->_offset);
-        // dd($this->_data["companybranch_list"]);
-        return view('admin.' . $this->_routePrefix . '.add_locations', $this->_data);
+        
+        $this->_data["companybranch_list"] = $companyBrancObject->getListing($query_params, $offset)->appends($request->input());
+        $this->_data['orderBy']             = $companyBrancObject->orderBy;
+        return view('admin.' . $this->_routePrefix . '.add_locations', $this->_data)->with('i', ($request->input('page', 1) - 1) * $this->_offset);
     }
 
     public function save_locations(Request $request, $group_id = '') {
@@ -143,6 +153,12 @@ class GroupingsController extends Controller
      */
     public function destroy($id)
     {
+        $group_det =  $this->_model->getListing(['id'=>$id,'withCount'=>['grouplocationmap']]);
+        if (count($group_det->grouplocationmap) > 0) {
+            return redirect()
+                ->route($this->_routePrefix . '.index')
+                ->with('error', "This group has locations attached to it. Please remove those before deleting.");
+        }
         $response = $this->_model->remove($id);
 
         if($response['status'] == 200) {

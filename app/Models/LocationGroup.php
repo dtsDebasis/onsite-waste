@@ -75,9 +75,17 @@ class LocationGroup extends Model
 
     public function getListing($srch_params = [], $offset = 0)
     {
-        $listing = self::select(
-                $this->table . ".*"
+        // $listing = self::select(
+        //         $this->table . ".*"
+        //     )
+            $listing = self::select(
+                $this->table . ".*",
+                'c.name'
             )
+            ->join("company_branch AS c", function($join){
+                $join->on('c.id', $this->table . '.company_id')
+                    ->whereNull('c.deleted_at');
+            })
             ->when(isset($srch_params['with']), function ($q) use ($srch_params) {
 				return $q->with($srch_params['with']);
 			})
