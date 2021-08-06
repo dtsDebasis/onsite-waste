@@ -15,7 +15,6 @@ class ImportSpendAnalytics implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $hauling_id;
     protected $branch_id;
     protected $start_date;
     protected $end_date;
@@ -25,9 +24,8 @@ class ImportSpendAnalytics implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($hauling_id,$branch_id,$start_date,$end_date,$type)
+    public function __construct($branch_id,$start_date,$end_date,$type)
     {
-        $this->hauling_id = $hauling_id;
         $this->branch_id = $branch_id;
         $this->start_date = $start_date;
         $this->end_date = $end_date;
@@ -41,6 +39,6 @@ class ImportSpendAnalytics implements ShouldQueue
      */
     public function handle()
     {
-        Analytics::addAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
+        Analytics::addSpendAnalytics($this->branch_id,$this->start_date,$this->end_date,$this->type);
     }
 }

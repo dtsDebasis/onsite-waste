@@ -41,6 +41,6 @@ class ImportBoxesAnalytics implements ShouldQueue
      */
     public function handle()
     {
-        Analytics::addAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
+        Analytics::addBoxAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
     }
 }

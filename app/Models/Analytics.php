@@ -50,8 +50,6 @@ class Analytics extends Model
         $branch = $branch_id == 0 ? null : $branch_id;
         $haulingIds = self::getHaulingIds($branch);
         foreach ($haulingIds as $hauling_id => $branch_id) {
-           //Direct Call
-           //TODO::Move to job
            self::addAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
         }
     }
@@ -60,15 +58,19 @@ class Analytics extends Model
     {
         switch ($type) {
             case 'trips':
+                //TODO::Move to job
                 self::addTripAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'boxes':
+                //TODO::Move to job
                 self::addBoxAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'weight':
+                //TODO::Move to job
                 self::addWeightAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'spend':
+                //TODO::Move to job
                 self::addSpendAnalytics($branch_id,$start_date,$end_date,$type);
                 break;
             case 'cycles':
