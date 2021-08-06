@@ -62,6 +62,7 @@ class ImportCompany implements ShouldQueue
             $company = null;
             //CompanyOwner
             $ownerId = 0;
+
             $findCompanyOwner = CompanyOwner::where('name',$val[2])->first();
             if (!$findCompanyOwner) {
                 $newCompanyOwner = new CompanyOwner;
@@ -98,7 +99,8 @@ class ImportCompany implements ShouldQueue
 
                 if(!$company){
                     $addressData = [
-                        'addressline1' => $val[7].', '.$val[6],
+                        //'addressline1' => $val[7].', '.$val[6],
+                        'addressline1' => buildAddressLine($val[7],$val[6]),
                         'locality' => $val[7],
                         'state' => $val[6],
                         'country' => $val[8]
@@ -146,7 +148,7 @@ class ImportCompany implements ShouldQueue
             if($branch){
 
                 $addressData = [
-                    'addressline1' => $val[7].', '.$val[6].', '.$val[8],
+                    'addressline1' => buildAddressLine($val[7],$val[6],$val[8]),
                     'locality' => $val[7],
                     'state' => $val[6],
                     'country' => $val[8]
@@ -216,7 +218,8 @@ class ImportCompany implements ShouldQueue
             //     CompanyBranch::where('company_number',$val->company_number)->update(['company_id' => $val->id]);
             // }
         } catch (Exception $e) {
-            Log::info($this->data);
+            Log::info("Error");
+            Log::info($e);
         }
     }
 

@@ -60,3 +60,22 @@ function checkRouteAccess($request)
         return true; //May need to change to false
     }
 }
+
+function buildAddressLine($locality = null,$state = null,$country = null)
+{
+    $addressArray = [];
+    if ($locality) {
+        array_push($addressArray, $locality);
+    }
+    if ($state) {
+        array_push($addressArray, $state);
+    }
+    if ($country) {
+        array_push($addressArray, $country);
+    }
+
+    if (count($addressArray)) {
+        return null;
+    }
+    return implode(',',$addressArray);
+}
