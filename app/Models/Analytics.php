@@ -69,33 +69,45 @@ class Analytics extends Model
 
     public static function addTripAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type)
     {
-        $getManifestsCount = Manifest::where('hauling_id',$hauling_id)
-        ->whereBetween('date', [$start_date, $end_date])
-        ->where('status',1)
-        ->count();
+        $queryParam = [
+            'hauling_id' => $hauling_id,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'status' => 1
+        ];
 
+        //Dynamic Scope : analyticsQuery Manifest Model
+        $getManifestsCount = Manifest::analyticsQuery($queryParam)->count();
         $analytics = self::getAnalytics($branch_id,$start_date,'trips');
         $analytics->increment('trips',$getManifestsCount);
     }
 
     public static function addBoxAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type)
     {
-        $getManifestsBoxSum = Manifest::where('hauling_id',$hauling_id)
-        ->whereBetween('date', [$start_date, $end_date])
-        ->where('status',1)
-        ->sum('number_of_container');
+        $queryParam = [
+            'hauling_id' => $hauling_id,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'status' => 1
+        ];
 
+        //Dynamic Scope : analyticsQuery Manifest Model
+        $getManifestsBoxSum = Manifest::analyticsQuery($queryParam)->sum('number_of_container');
         $analytics = self::getAnalytics($branch_id,$start_date,'boxes');
         $analytics->increment('boxes',$getManifestsBoxSum);
     }
 
     public static function addWeightAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type)
     {
-        $getManifestsWeightSum = Manifest::where('hauling_id',$hauling_id)
-        ->whereBetween('date', [$start_date, $end_date])
-        ->where('status',1)
-        ->sum('items_weight');
+        $queryParam = [
+            'hauling_id' => $hauling_id,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'status' => 1
+        ];
 
+        //Dynamic Scope : analyticsQuery Manifest Model
+        $getManifestsWeightSum = Manifest::analyticsQuery($queryParam)->sum('items_weight');
         $analytics = self::getAnalytics($branch_id,$start_date,'weight');
         $analytics->increment('weight',$getManifestsWeightSum);
     }
@@ -104,19 +116,17 @@ class Analytics extends Model
     {
         $getTotalInvoiceValue = 0;
         $branch = CompanyBranch::where('id',$branch_id)->first();
-
+        $api_key = \Config::get('settings.RECURLY_KEY');
+        $client = new \Recurly\Client($api_key);
+        $options = [
+            'params' => [
+                //'limit' => 1,
+                'begin_time' => $start_date,
+                'end_time' => $end_date
+            ]
+        ];
         if ($branch && $branch->recurring_id) {
-             $api_key = \Config::get('settings.RECURLY_KEY');
-             $client = new \Recurly\Client($api_key);
-             $options = [
-                 'params' => [
-                     //'limit' => 1,
-                     'begin_time' => $start_date,
-                     'end_time' => $end_date
-                 ]
-             ];
              $account = $client->getAccount($branch->recurring_id);
-
              $invoices = $client->listAccountInvoices($account->getId(),$options);
 
              foreach($invoices as $invoice) {

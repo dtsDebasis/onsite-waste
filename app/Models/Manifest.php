@@ -123,4 +123,15 @@ class Manifest extends Model
 		}
 		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $file);
 	}
+
+    public function scopeAnalyticsQuery($query, $param)
+    {
+        return $query->when(isset($param['hauling_id']), function($q) use($param){
+            return $q->where('hauling_id',$param['hauling_id']);
+        })->when(isset($param['start_date']) && isset($param['end_date']), function($q) use($param){
+            return $q->whereBetween('date', [$param['start_date'], $param['end_date']]);
+        })->when(isset($param['status']), function($q) use($param){
+            return $q->where('status',$param['status']);
+        });
+    }
 }
