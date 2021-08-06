@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Analytics;
 use App\Models\CompanyBranch;
 use App\Models\CompanyHauling;
 use Illuminate\Database\Eloquent\Model;
+use App\Jobs\Analytics\ImportTripAnalytics;
+use App\Jobs\Analytics\ImportBoxesAnalytics;
+use App\Jobs\Analytics\ImportSpendAnalytics;
+use App\Jobs\Analytics\ImportWeightAnalytics;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Analytics extends Model
@@ -21,30 +26,30 @@ class Analytics extends Model
     ];
 
     //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    public static function trips($start_date,$end_date,$branch_id){
-        $type = 'trips';
-        self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    }
+    // public static function trips($start_date,$end_date,$branch_id){
+    //     $type = 'trips';
+    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
+    // }
     //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    public static function boxes($start_date,$end_date,$branch_id){
-        $type = 'boxes';
-        self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    }
+    // public static function boxes($start_date,$end_date,$branch_id){
+    //     $type = 'boxes';
+    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
+    // }
     //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    public static function weight($start_date,$end_date,$branch_id){
-        $type = 'weight';
-        self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    }
+    // public static function weight($start_date,$end_date,$branch_id){
+    //     $type = 'weight';
+    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
+    // }
     //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    public static function spend($start_date,$end_date,$branch_id){
-        $type = 'spend';
-        self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    }
+    // public static function spend($start_date,$end_date,$branch_id){
+    //     $type = 'spend';
+    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
+    // }
     //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    public static function cycles($start_date,$end_date,$branch_id){
-        $type = 'cycles';
-        self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    }
+    // public static function cycles($start_date,$end_date,$branch_id){
+    //     $type = 'cycles';
+    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
+    // }
 
     public static function processAnalytics($start_date,$end_date,$branch_id,$type)
     {
@@ -59,24 +64,31 @@ class Analytics extends Model
     {
         switch ($type) {
             case 'trips':
-                //TODO::Move to job
-                self::addTripAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportTripAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                //self::addTripAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'boxes':
-                //TODO::Move to job
-                self::addBoxAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportBoxesAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                //self::addBoxAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'weight':
-                //TODO::Move to job
-                self::addWeightAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportWeightAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                //self::addWeightAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'spend':
-                //TODO::Move to job
-                self::addSpendAnalytics($branch_id,$start_date,$end_date,$type);
+                ImportSpendAnalytics::dispatch($branch_id,$start_date,$end_date,$type);
+                //self::addSpendAnalytics($branch_id,$start_date,$end_date,$type);
                 break;
             case 'cycles':
                 //TODO::Move to job
                 self::addCycleAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
+                break;
+            case 'all':
+                ImportTripAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportBoxesAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportWeightAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportSpendAnalytics::dispatch($branch_id,$start_date,$end_date,$type);
+
                 break;
         }
     }
