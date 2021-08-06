@@ -41,12 +41,6 @@ class ImportBoxesAnalytics implements ShouldQueue
      */
     public function handle()
     {
-        $getManifestsBoxSum = Manifest::where('hauling_id',$this->hauling_id)
-        ->whereBetween('date', [$this->start_date, $this->end_date])
-        ->where('status',1)
-        ->sum('number_of_container');
-
-        $analytics = Analytics::getAnalytics($this->branch_id,$this->start_date,$this->type);
-        $analytics->increment('boxes',$getManifestsBoxSum);
+        Analytics::addAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
     }
 }

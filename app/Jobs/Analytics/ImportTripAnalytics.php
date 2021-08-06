@@ -41,12 +41,6 @@ class ImportTripAnalytics implements ShouldQueue
      */
     public function handle()
     {
-        $getManifestsCount = Manifest::where('hauling_id',$this->hauling_id)
-        ->whereBetween('date', [$this->start_date, $this->end_date])
-        ->where('status',1)
-        ->count();
-
-        $analytics = Analytics::getAnalytics($this->branch_id,$this->start_date,$this->type);
-        $analytics->increment('trips',$getManifestsCount);
+        Analytics::addAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
     }
 }

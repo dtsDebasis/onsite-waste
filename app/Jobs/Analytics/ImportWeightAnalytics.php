@@ -41,12 +41,6 @@ class ImportWeightAnalytics implements ShouldQueue
      */
     public function handle()
     {
-        $getManifestsWeightSum = Manifest::where('hauling_id',$this->hauling_id)
-        ->whereBetween('date', [$this->start_date, $this->end_date])
-        ->where('status',1)
-        ->sum('items_weight');
-
-        $analytics = Analytics::getAnalytics($this->branch_id,$this->start_date,$this->type);
-        $analytics->increment('weight',$getManifestsWeightSum);
+        Analytics::addAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
     }
 }

@@ -41,32 +41,6 @@ class ImportSpendAnalytics implements ShouldQueue
      */
     public function handle()
     {
-       $getTotalInvoiceValue = 0;
-       $branch = CompanyBranch::where('id',$this->branch_id)->first();
-
-       if ($branch && $branch->recurring_id) {
-            $api_key = \Config::get('settings.RECURLY_KEY');
-            $client = new \Recurly\Client($api_key);
-            $options = [
-                'params' => [
-                    'begin_time' => $this->start_date,
-                    'end_time' => $this->end_date
-                ]
-            ];
-            $account = $client->getAccount($branch->recurring_id);
-
-            $invoices = $client->listAccountInvoices($account->getId(),$options);
-
-            foreach($invoices as $invoice) {
-                if ($invoice->getTotal() && $invoice->getState() == "paid") {
-                    $getTotalInvoiceValue = $getTotalInvoiceValue + $invoice->getTotal();
-                }
-            }
-       }else {
-         $getTotalInvoiceValue = 0;
-       }
-
-       $analytics = Analytics::getAnalytics($this->branch_id,$this->start_date,'spend');
-       $analytics->increment('spend',$getTotalInvoiceValue);
+        Analytics::addAnalytics($this->hauling_id,$this->branch_id,$this->start_date,$this->end_date,$this->type);
     }
 }
