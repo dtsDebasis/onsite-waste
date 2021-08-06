@@ -27,6 +27,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('package_hauling:cron')
                  ->everyMinute();
+
+        $schedule->command('sync:analytics')
+                 ->lastDayOfMonth('15:00');
     }
 
     /**
