@@ -41,6 +41,16 @@ class LocationGroup extends Model
 
     public $orderBy = [];
 
+    public function group()
+    {
+        return $this->hasOneThrough('App\Models\CompanyBranch', 'App\Models\GroupLocations','location_id','id');
+    }
+
+    public function grouplocationmap()
+    {
+        return $this->hasMany('App\Models\GroupLocations','group_id','id');
+    }
+
     public function customer_details(){
         return $this->hasOne('App\Models\Company', 'id','company_id');
     }
@@ -70,6 +80,9 @@ class LocationGroup extends Model
             )
             ->when(isset($srch_params['with']), function ($q) use ($srch_params) {
 				return $q->with($srch_params['with']);
+			})
+            ->when(isset($srch_params['withCount']), function ($q) use ($srch_params) {
+				return $q->withCount($srch_params['withCount']);
 			})
             ->when(isset($srch_params['status']), function($q) use($srch_params){
                 return $q->where($this->table . '.status', '=', $srch_params['status']);

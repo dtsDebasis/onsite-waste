@@ -264,8 +264,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::post('store', 'App\Http\Controllers\GroupingsController@store')->name('groupings.store');
 		Route::patch('update/{id}', 'App\Http\Controllers\GroupingsController@update')->name('groupings.update');
 		Route::delete('destroy/{id}', 'App\Http\Controllers\GroupingsController@destroy')->name('groupings.destroy');
-		Route::get('add-locations/{id}', 'App\Http\Controllers\GroupingsController@add_locations')->name('groupings.add-locations');
-		Route::post('save-locations/{id}', 'App\Http\Controllers\GroupingsController@save_locations')->name('groupings.save-locations');
+		Route::get('add-locations/{group_id}', 'App\Http\Controllers\GroupingsController@add_locations')->name('groupings.add-locations');
+		Route::post('save-locations/{group_id}', 'App\Http\Controllers\GroupingsController@save_locations')->name('groupings.save-locations');
+		Route::post('save_normalization', 'App\Http\Controllers\GroupingsController@save_normalization')->name('groupings.save_normalization');
 	});
 
 	// Ajax URLs

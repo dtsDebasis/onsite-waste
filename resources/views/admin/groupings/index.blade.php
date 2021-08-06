@@ -6,7 +6,7 @@
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <form class="form-inline" method="get" action="{{route('groupings.index')}}">
             <div class="input-group mw-30">
-                <input value="{{$search}}" name="title" type="text" class="form-control" placeholder="Search"
+                <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search"
                     aria-label="Search" aria-describedby="button-addon2">
                 <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
             </div>
@@ -21,7 +21,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Customer </th>
-                            <th>Group Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'title', $orderBy) !!}</th>
+                            <th>Group Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'name', $orderBy) !!}</th>
                             <th>Location Count </th>
                             <th>Color Code </th>
                             <th>Normalization Type </th>
@@ -36,7 +36,7 @@
                         <tr>
                             <td>{{(isset($val->customer_details) && $val->customer_details)?$val->customer_details->company_name:'NA'}}</td>
                             <td>{{ $val->name }}</td>
-                            <td></td>
+                            <td>{{ count($val->grouplocationmap) }}</td>
                             <td><span style="height:10px;padding: 6px;display:block;width:50px;background:{{ $val->colorcode }}"></span></td>
                             <td>{{(isset($val->normalization_details) && $val->normalization_details)?$val->normalization_details->name:'NA'}}</td>
                             <td><span
@@ -48,6 +48,10 @@
                                     class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
                                     data-toggle="tooltip" >{!!
                                     \Config::get('settings.icon_edit') !!}</a>
+
+                                    <a href="{{ route($routePrefix . '.add-locations',$val->id) }}"
+                                    class="btn btn-success btn-sm btn-rounded waves-effect waves-light"
+                                    data-toggle="tooltip" ><i class="bx bx-building"></i></a>
 
 
                                 <a class="btn btn-danger btn-sm btn-rounded waves-effect waves-light"

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\LocationGroup;
+use App\Models\GroupLocations;
+use App\Models\CompanyBranch;
 use App\Helpers\Helper;
 use Aws;
 // date_default_timezone_set("Asia/Kolkata");
@@ -17,7 +19,7 @@ class GroupingsController extends Controller
         $this->_module      = 'Location Grouping';
         $this->_routePrefix = 'groupings';
         $this->_model       = new LocationGroup();
-        $this->_offset = 10;
+        $this->_offset = 15;
         $this->_successStatus = 200;
         $this->_message = "Success!!";
     }
@@ -26,6 +28,7 @@ class GroupingsController extends Controller
         $this->initIndex();
         $srch_params                        = $request->all();
         $srch_params['with'] = ['customer_details','normalization_details'];
+        $srch_params['withCount'] = ['grouplocationmap'];
         $this->_data['data']                = $this->_model->getListing($srch_params, $this->_offset)->appends($request->input());
         $this->_data['orderBy']             = $this->_model->orderBy;
         $this->_data['pageHeading']             = $this->_module;
@@ -33,6 +36,47 @@ class GroupingsController extends Controller
         $this->_data['search']              = isset($srch_params['name'])?$srch_params['name']:null;
         return view('admin.' . $this->_routePrefix . '.index', $this->_data)
             ->with('i', ($request->input('page', 1) - 1) * $this->_offset);
+    }
+
+
+    public function add_locations(Request $request, $group_id = '') {
+        $srch_params                        = $request->all();
+        $this->_data['breadcrumb']      =  array(
+            route($this->_routePrefix . '.index') => 'Group List',
+            '#' => 'Add/Edit Locations'
+        );
+        $this->_data['group_det']           =  $this->_model->getListing(['id'=>$group_id,'with'=>['customer_details','normalization_details'],'withCount'=>['grouplocationmap']]);
+        $this->_data['pageHeading']         =  "Add/Remove locations to group";
+        $companyBrancObject = new CompanyBranch();
+        $this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$this->_data['group_det']->customer_details->id,'with'=>['addressdata','branchspecialty.speciality_details','group']],$this->_offset);
+        // dd($this->_data["companybranch_list"]);
+        return view('admin.' . $this->_routePrefix . '.add_locations', $this->_data);
+    }
+
+    public function save_locations(Request $request, $group_id = '') {
+        $input = $request->all();
+        if ($input['type'] == 'remove') {
+            $res=GroupLocations::where('location_id',$input['location_id'])->delete();
+        } else {
+            GroupLocations::where('location_id',$input['location_id'])->delete();
+            $res = GroupLocations::create(['location_id'=>$input['location_id'], 'group_id' =>$group_id]);
+        }
+        return response()->json(['success'=>true,'msg'=>$res]);
+    }
+
+    public function save_normalization(Request $request) {
+        $input = $request->all();
+        $location_id = $input['location_id'];
+        $normalization_fact = NULL;
+        $companyBrancObject = new CompanyBranch();
+        $location = $companyBrancObject->getListing(['id'=>$location_id]);
+        if ($input['normalization_fact']) {
+            $normalization_fact = $input['normalization_fact'];   
+        }
+        
+        $location->normalization_fact = $normalization_fact;
+        $res = $location->save();
+        return response()->json(['success'=>true,'msg'=>$res]);
     }
 
     /**
@@ -203,6 +247,13 @@ class GroupingsController extends Controller
         $this->validate($request, $validationRules);
 
         $input      = $request->all();
+        $company_id = $input['company_id'];
+        $wordCount = LocationGroup::where('company_id', '=', $company_id )->count();
+        if (!$id && $wordCount >= 5) {
+            return redirect()
+                ->route($this->_routePrefix . '.index')
+                ->with('error', "Cannot create more than 5 groups for a Customer"); 
+        }
         $response   = $this->_model->store($input, $id, $request);
         
         if($response['status'] == 200){

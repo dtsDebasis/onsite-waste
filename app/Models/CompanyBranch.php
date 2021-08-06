@@ -30,6 +30,7 @@ class CompanyBranch extends Model
         'sh_container_type',
         'rb_rop',
         'rb_container_type',
+        'normalization_fact',
         'status'
     ];
     protected $hidden = [
@@ -61,6 +62,18 @@ class CompanyBranch extends Model
 
     public function branchusers(){
         return $this->hasMany('App\Models\BranchUser', 'companybranch_id','id');
+    }
+
+    public function group()
+    {
+        return $this->hasOneThrough(
+            'App\Models\LocationGroup',
+            'App\Models\GroupLocations',
+            'location_id', 
+            'id', 
+            'id', 
+            'group_id'
+        );
     }
 
     public function getListing($srch_params = [], $offset = ''){
