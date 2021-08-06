@@ -20,26 +20,27 @@ class Analytics extends Model
         'cycles'
     ];
 
+    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
     public static function trips($start_date,$end_date,$branch_id){
         $type = 'trips';
         self::processAnalytics($start_date,$end_date,$branch_id,$type);
     }
-
+    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
     public static function boxes($start_date,$end_date,$branch_id){
         $type = 'boxes';
         self::processAnalytics($start_date,$end_date,$branch_id,$type);
     }
-
+    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
     public static function weight($start_date,$end_date,$branch_id){
         $type = 'weight';
         self::processAnalytics($start_date,$end_date,$branch_id,$type);
     }
-
+    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
     public static function spend($start_date,$end_date,$branch_id){
         $type = 'spend';
         self::processAnalytics($start_date,$end_date,$branch_id,$type);
     }
-
+    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
     public static function cycles($start_date,$end_date,$branch_id){
         $type = 'cycles';
         self::processAnalytics($start_date,$end_date,$branch_id,$type);
@@ -74,7 +75,8 @@ class Analytics extends Model
                 self::addSpendAnalytics($branch_id,$start_date,$end_date,$type);
                 break;
             case 'cycles':
-                # TODO
+                //TODO::Move to job
+                self::addCycleAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
         }
     }
@@ -94,6 +96,7 @@ class Analytics extends Model
     {
         $getManifestsBoxSum = Manifest::where('hauling_id',$hauling_id)
         ->whereBetween('date', [$start_date, $end_date])
+        ->where('status',1)
         ->sum('number_of_container');
 
         $analytics = self::getAnalytics($branch_id,$start_date,'boxes');
@@ -104,6 +107,7 @@ class Analytics extends Model
     {
         $getManifestsWeightSum = Manifest::where('hauling_id',$hauling_id)
         ->whereBetween('date', [$start_date, $end_date])
+        ->where('status',1)
         ->sum('items_weight');
 
         $analytics = self::getAnalytics($branch_id,$start_date,'weight');
@@ -144,7 +148,7 @@ class Analytics extends Model
 
     public static function addCycleAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type)
     {
-        //TODO
+        //TODO::Dependency on client
     }
 
     public static function getHaulingIds($branch)
