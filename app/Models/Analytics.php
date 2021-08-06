@@ -64,7 +64,39 @@ class Analytics extends Model
     }
 
     public static function spend($start_date,$end_date,$branch_id){
-        //TODO
+        $branch = $branch_id == 0 ? null : $branch_id;
+        $haulingIds = self::getHaulingIds($branch);
+        foreach ($haulingIds as $hauling_id => $branch_id) {
+            $getTotalInvoiceValue = 0;
+            //sample recurring_id : mqatwc1tc596
+           $branch = CompanyBranch::where('id',$branch_id)->first();
+
+           if ($branch && $branch->recurring_id) {
+                $api_key = \Config::get('settings.RECURLY_KEY');
+                $client = new \Recurly\Client($api_key);
+                $options = [
+                    'params' => [
+                        //'limit' => 1,
+                        'begin_time' => $start_date,
+                        'end_time' => $end_date
+                    ]
+                ];
+                $account = $client->getAccount($branch->recurring_id);
+
+                $invoices = $client->listAccountInvoices($account->getId(),$options);
+               // dd($invoices);
+                foreach($invoices as $invoice) {
+                    if ($invoice->getTotal() && $invoice->getState() == "paid") {
+                        $getTotalInvoiceValue = $getTotalInvoiceValue + $invoice->getTotal();
+                    }
+                }
+           }else {
+             $getTotalInvoiceValue = 0;
+           }
+
+           $analytics = self::getAnalytics($branch_id,$start_date,'spend');
+           $analytics->increment('spend',$getTotalInvoiceValue);
+        }
     }
 
     public static function cycles($start_date,$end_date,$branch_id){
@@ -103,6 +135,9 @@ class Analytics extends Model
                 break;
             case 'weight':
                 $analytics->weight = 0;
+                break;
+            case 'spend':
+                $analytics->spend = 0;
                 break;
         }
 
