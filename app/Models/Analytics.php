@@ -25,32 +25,6 @@ class Analytics extends Model
         'cycles'
     ];
 
-    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    // public static function trips($start_date,$end_date,$branch_id){
-    //     $type = 'trips';
-    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    // }
-    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    // public static function boxes($start_date,$end_date,$branch_id){
-    //     $type = 'boxes';
-    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    // }
-    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    // public static function weight($start_date,$end_date,$branch_id){
-    //     $type = 'weight';
-    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    // }
-    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    // public static function spend($start_date,$end_date,$branch_id){
-    //     $type = 'spend';
-    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    // }
-    //TODO::Can skip this function by calling processAnalytics function directly from AnalyticsController
-    // public static function cycles($start_date,$end_date,$branch_id){
-    //     $type = 'cycles';
-    //     self::processAnalytics($start_date,$end_date,$branch_id,$type);
-    // }
-
     public static function processAnalytics($start_date,$end_date,$branch_id,$type)
     {
         $branch = $branch_id == 0 ? null : $branch_id;
