@@ -2,6 +2,11 @@
 
 
 @section('content')
+<style>
+.tag_font_size {
+    font-size: inherit;
+}
+</style>
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -9,7 +14,8 @@
                 <div class="d-flex flex-column flex-md-row justify-content-between">
                     <div class="col-md-12">
                         @if (can('Customer Search'))
-                                                    {!! Form::open(['method' => 'GET','route' => 'analytics.companylist','id' => 'srch-form','class' =>
+                        {!! Form::open(['method' => 'GET','route' => 'analytics.companylist','id' => 'srch-form','class'
+                        =>
                         'form-controll']) !!}
                         <div class="row">
                             <div class="col-md-2">
@@ -50,15 +56,16 @@
                     <div class="tab-pane active" id="home1" role="tabpanel">
                         <div class="table-responsive">
                             @if (can('Customer List'))
-                                <table class="table table-centered table-condensed table-striped table-nowrap mb-0">
+                            <table class="table table-centered table-condensed table-striped table-nowrap mb-0">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Company ID</th>
                                         <th>Company Name / Address</th>
                                         <th>Specialty</th>
-                                        <th>Groups</th>
+                                        <th>Categories</th>
+                                        {{-- <th>Groups</th>
                                         <th>Locations</th>
-                                        <th>Action</th>
+                                        <th>Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,9 +73,10 @@
                                     @foreach($companies as $company)
                                     <tr class="">
                                         <td> {{$company->company_number}} </td>
-                                        <td> <a target="_blank" href="{{ route('customers.branches', ['id' => $company->id  ] ) }}">{{$company->company_name ?? '' }}</a>
-                                              <br>
-                                              {{(isset($company->addressdata->addressline1) && $company->addressdata->addressline1)?$company->addressdata->addressline1:'NA'}}          
+                                        <td> <a target="_blank"
+                                                href="{{ route('customers.branches', ['id' => $company->id  ] ) }}">{{$company->company_name ?? '' }}</a>
+                                            <br>
+                                            {{(isset($company->addressdata->addressline1) && $company->addressdata->addressline1)?$company->addressdata->addressline1:'NA'}}
                                         </td>
                                         @php($comSpecialt = [])
                                         @if(isset($company->speciality) && count($company->speciality))
@@ -79,13 +87,21 @@
                                         @endforeach
                                         @endif
                                         <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
-                                        <td>5</td>
+                                        <td class="text-justify">
+                                          @foreach ($company->categories as $category)
+                                          <a class="badge badge-primary tag_font_size" href="{{ route('analytics.companydata', ['company_id' => $company->id,'category_id' => $category->id  ] ) }}">{{$category->name}}</a>
+
+                                          @endforeach
+
+                                        </td>
+                                        {{-- <td>5</td>
                                         <td>10</td>
                                         <td>
-                                        <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" href="{{ route('analytics.companydata', ['company_id' => $company->id  ] ) }}">
-                                            <i class="fa fa-eye"></i>
-                                        </a>            
-                                        </td>
+                                            <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                href="{{ route('analytics.companydata', ['company_id' => $company->id  ] ) }}">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td> --}}
                                     </tr>
                                     @endforeach
                                     @endif

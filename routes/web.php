@@ -282,7 +282,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 
 	Route::group(['prefix' => 'analytics'], function () {
 		Route::get('companylist', 'App\Http\Controllers\AnalyticsController@companylist')->name('analytics.companylist');
-		Route::get('companydata/{company_id}', 'App\Http\Controllers\AnalyticsController@companydata')->name('analytics.companydata');
+		Route::get('companydata/{company_id}/{category_id}/{group_id?}/{start_date?}/{end_date?}', 'App\Http\Controllers\AnalyticsController@companydata')->name('analytics.companydata');
 	});
 
 	// Ajax URLs

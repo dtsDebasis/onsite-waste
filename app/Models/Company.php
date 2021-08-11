@@ -96,4 +96,8 @@ class Company extends Model
         return $listing;
 
     }
+
+    public function categories(){
+        return $this->hasMany('App\Models\GroupCategory', 'company_id','id');
+    }
 }

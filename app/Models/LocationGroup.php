@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Aws;
+use App\Models\Analytics;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class LocationGroup extends Model
@@ -114,7 +115,7 @@ class LocationGroup extends Model
                             ->first();
         }
 
-   
+
         if(isset($srch_params['orderBy'])){
             $this->orderBy = \App\Helpers\Helper::manageOrderBy($srch_params['orderBy']);
             foreach ($this->orderBy as $key => $value) {
@@ -147,10 +148,10 @@ class LocationGroup extends Model
         } else {
             $data   = $this->create($input);
 		}
-		
+
 		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $data);
     }
-    
+
     public function remove($id = null)
 	{
 		$data = $this->getListing([
@@ -165,4 +166,28 @@ class LocationGroup extends Model
 
 		return \App\Helpers\Helper::resp('Record has been successfully deleted.', 200, $data);
 	}
+
+    public static function analyticsCount($locations,$type,$start_date,$end_date)
+    {
+        $locationIds = [];
+        if ($locations) {
+            $locationIds = $locations->pluck('location_id');
+        }
+
+        return Analytics::whereIn('branch_id',$locationIds)
+        ->whereBetween('date', [$start_date, $end_date])
+        ->sum($type);
+    }
+
+    public static function analyticsData($locations,$start_date,$end_date)
+    {
+        $locationIds = [];
+        if ($locations) {
+            $locationIds = $locations->pluck('location_id');
+        }
+
+        return Analytics::whereIn('branch_id',$locationIds)
+        ->whereBetween('date', [$start_date, $end_date])
+        ->get();
+    }
 }
