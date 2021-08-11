@@ -4,14 +4,14 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-        <form class="form-inline" method="get" action="{{route('groupings.index', $catid)}}">
+        <form class="form-inline" method="get" action="{{route('groupcategory.index')}}">
             <div class="input-group mw-30">
                 <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search"
                     aria-label="Search" aria-describedby="button-addon2">
                 <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
             </div>
         </form>
-        <a href="{{route('groupings.create', $catid)}}" class="btn btn-primary w-md">Add New</a>
+        <a href="{{route('groupcategory.create')}}" class="btn btn-primary w-md">Add New</a>
     </div>
 
     <div class="tab-content mt-3 text-muted">
@@ -20,13 +20,10 @@
                 <table class="table table-centered table-condensed table-striped table-nowrap mb-0">
                     <thead class="thead-light">
                         <tr>
-                            <th>Customer </th>
-                            <th>Category </th>
-                            <th>Group Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'name', $orderBy, $searchParams ) !!}</th>
-                            <th>Location Count </th>
-                            <th>Color Code </th>
-                            <th>Normalization Type </th>
-                            <th>Status {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'status', $orderBy, $searchParams) !!}
+                            <th>Category Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'name', $orderBy) !!}</th>
+                            <th>Customer {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'c__name', $orderBy) !!}</th>
+                            <th>Groups Count</th>
+                            <th>Status {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'status', $orderBy) !!}
                             </th>
                             <th width="15%" style="text-align: right;">Action</th>
                         </tr>
@@ -35,12 +32,10 @@
                         @if(count($data) != 0)
                         @foreach ($data as $key => $val)
                         <tr>
-                            <td>{{(isset($val->customer_details) && $val->customer_details)?$val->customer_details->company_name:'NA'}}</td>
-                            <td>{{ $val->groupcategory->name }}</td>
+                            
                             <td>{{ $val->name }}</td>
-                            <td>{{ count($val->grouplocationmap) }}</td>
-                            <td><span style="height:10px;padding: 6px;display:block;border: 1px solid;width:50px;background:{{ $val->colorcode }}"></span></td>
-                            <td>{{(isset($val->normalization_details) && $val->normalization_details)?$val->normalization_details->name:'NA'}}</td>
+                            <td>{{(isset($val->customer_details) && $val->customer_details)?$val->customer_details->company_name:'NA'}}</td>
+                            <td>{{ count($val->locationgroup) }}</td>
                             <td><span
                                     class="badge badge-pill badge-soft-{{ $val->statuses[$val->status]['badge'] }} font-size-12">{!!
                                     $val->statuses[$val->status]['name'] !!}</span></td>
@@ -51,9 +46,9 @@
                                     data-toggle="tooltip" >{!!
                                     \Config::get('settings.icon_edit') !!}</a>
 
-                                    <a href="{{ route($routePrefix . '.add-locations',$val->id) }}"
+                                    <a href="{{ route('groupings.index',$val->id) }}"
                                     class="btn btn-success btn-sm btn-rounded waves-effect waves-light"
-                                    data-toggle="tooltip" ><i class="bx bx-building"></i></a>
+                                    data-toggle="tooltip" ><i class="bx bx-copy-alt"></i></a>
 
 
                                 <a class="btn btn-danger btn-sm btn-rounded waves-effect waves-light"

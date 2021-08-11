@@ -7,18 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Aws;
 
 
-class LocationGroup extends Model
+class GroupCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'locationgroups';
+    protected $table = 'groupcategory';
 
     protected $fillable = [
         'name',
         'company_id',
-        'normalization_id',
-        'category_id',
-        'colorcode',
         'status',
     ];
 
@@ -42,35 +39,20 @@ class LocationGroup extends Model
 
     public $orderBy = [];
 
-    public function group()
+    public function locationgroup()
     {
-        return $this->hasManyThrough('App\Models\CompanyBranch', 'App\Models\GroupLocations','location_id','id');
+        return $this->hasMany('App\Models\LocationGroup','category_id','id');
     }
-
-    public function grouplocationmap()
-    {
-        return $this->hasMany('App\Models\GroupLocations','group_id','id');
-    }
-
-    public function groupcategory()
-    {
-        return $this->belongsTo('App\Models\GroupCategory','category_id','id');
-    }
-
 
     public function customer_details(){
         return $this->hasOne('App\Models\Company', 'id','company_id');
-    }
-
-    public function normalization_details(){
-        return $this->hasOne('App\Models\NormalisationType', 'id','normalization_id');
     }
 
     public function getFilters()
 	{
         $status         = \App\Helpers\Helper::makeSimpleArray($this->statuses, 'id,name');
 		return [
-            'reset' => route('master.normalizationtype.index'),
+            'reset' => route('groupcategory.index'),
 			'fields' => [
 				'name'          => [
 		            'type'      => 'text',
@@ -82,9 +64,6 @@ class LocationGroup extends Model
 
     public function getListing($srch_params = [], $offset = 0)
     {
-        // $listing = self::select(
-        //         $this->table . ".*"
-        //     )
             $listing = self::select(
                 $this->table . ".*",
                 'c.name as compname'
@@ -102,11 +81,11 @@ class LocationGroup extends Model
             ->when(isset($srch_params['status']), function($q) use($srch_params){
                 return $q->where($this->table . '.status', '=', $srch_params['status']);
             })
+            ->when(isset($srch_params['company_id']), function($q) use($srch_params){
+                return $q->where($this->table . '.company_id', '=', $srch_params['company_id']);
+            })
             ->when(isset($srch_params['name']), function($q) use($srch_params){
                 return $q->where($this->table . ".name", "LIKE", "%{$srch_params['name']}%");
-            })
-            ->when(isset($srch_params['catid']), function($q) use($srch_params){
-                return $q->where($this->table . ".category_id", "=", $srch_params['catid']);
             });
 
         if(isset($srch_params['id'])){
@@ -121,7 +100,7 @@ class LocationGroup extends Model
                 $listing->orderBy($key, $value);
             }
         } else {
-            $listing->orderBy($this->table . '.name', 'ASC');
+            $listing->orderBy('c.name', 'ASC');
         }
 
         if($offset){

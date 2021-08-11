@@ -66,7 +66,7 @@ class CompanyBranch extends Model
 
     public function group()
     {
-        return $this->hasOneThrough(
+        return $this->hasManyThrough(
             'App\Models\LocationGroup',
             'App\Models\GroupLocations',
             'location_id', 

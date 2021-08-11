@@ -13,6 +13,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th>Customer </th>
+                        <th>Category </th>
                         <th>Group Name </th>
                         <th>Location Count </th>
                         <th>Color Code </th>
@@ -23,6 +24,7 @@
                 <tbody>
                     <tr>
                         <td>{{(isset($group_det->customer_details) && $group_det->customer_details)?$group_det->customer_details->company_name:'NA'}}</td>
+                        <td>{{ $group_det->groupcategory->name }}</td>
                         <td>{{ $group_det->name }}</td>
                         <td>{{count($group_det->grouplocationmap)}}</td>
                         <td><span style="height:10px;padding: 6px;display:block;width:50px;background:{{ $group_det->colorcode }}"></span></td>
@@ -63,6 +65,7 @@
                             <th><input type="checkbox" class="checkall" name="checkall"></th>
                             <th>Location Code {!! \App\Helpers\Helper::sort($routePrefix . '.add-locations', 'uniq_id', $orderBy, $searchParams) !!}</th>
                             <th>Name/Address {!! \App\Helpers\Helper::sort($routePrefix . '.add-locations', 'name', $orderBy, $searchParams) !!}</th>
+                            <th>Assigned Groups</th>
                             <th>Normalization Factor</th>
                             <th>Specialty</th>
                         </tr>
@@ -72,10 +75,18 @@
                             @foreach($companybranch_list as $companybranch )
                                 <tr 
                                     @if(isset($companybranch->group)))
-                                    style = "background: {{$companybranch->group->colorcode}}"
+                                    style = "background: "
                                     @endif
                                 >
-                                    <td><input type="checkbox" @if(isset($companybranch->group))) checked @endif value="{{ $companybranch->id }}" data-location="{{ $companybranch->id }}" id="locationcheckbox{{ $companybranch->id }}" class="locationcheckbox" name="addgroup"></td>
+                                    <td>
+                                        @php($checked = false)
+                                        @foreach($companybranch->group as $gr)
+                                            @if($gr->id == $group_det->id)
+                                                @php($checked = true)
+                                            @endif
+                                        @endforeach
+                                        <input type="checkbox" @if($checked) checked @endif value="{{ $companybranch->id }}" data-location="{{ $companybranch->id }}" data-group="{{$group_det->id}}" id="locationcheckbox{{ $companybranch->id }}" class="locationcheckbox" name="addgroup">
+                                    </td>
                                     <td>{{ $companybranch->uniq_id }}</td>
                                     <td><span class="strong text-info">{{ $companybranch->name }}</span><br>{{ ($companybranch->addressdata)?$companybranch->addressdata->addressline1:'NA' }}</td>
 
@@ -88,6 +99,13 @@
                                             @endif
                                         @endforeach
                                     @endif
+                                    <td class="grouplabels{{ $companybranch->id }}">
+                                        @if(isset($companybranch->group) && count($companybranch->group))
+                                            @foreach($companybranch->group as $gr)
+                                                <label data-group="{{$gr->id}}"  data-category="{{$gr->category_id}}" data-location="{{$companybranch->id}}" class="custom-label" style="background:{{$gr->colorcode}}">{{$gr->groupcategory->name}} || {{$gr->name}} <span class="remove"> <i class="fa fa-trash"></i> </span></label>
+                                            @endforeach  
+                                        @endif
+                                    </td>
                                     <td><input class="form-control" name="normalization" value="{{$companybranch->normalization_fact}}" onKeyUp="saveNormalisationData($(this).val(),{{$companybranch->id}})" type="number"></td>
                                     <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
                 
@@ -140,25 +158,51 @@
             }
             saveGroupLocations(location, type);
         });
+
+        $('body').on('click', '.custom-label > .remove', function () {
+            var location = $(this).parent().data('location');
+            var cat = $(this).parent().data('category');
+            var type= "remove";
+            saveGroupLocations(location, type, cat);
+            $(this).closest('tr').find('.locationcheckbox').prop('checked',false);
+        });
+
     });
-    function saveGroupLocations(location_id, type) {
+    function saveGroupLocations(location_id, type, cat='') {
         var group = {{ $group_det->id }};
+        var groupname = '{{ $group_det->name }}';
+        var group_cat = {{ $group_det->category_id }};
+        if (cat) {
+            group_cat =  cat;
+        }
+        var group_cat_name = '{{ $group_det->groupcategory->name }}';
         var colorcode = '{{ $group_det->colorcode }}';
         $('#cover-spin').show(0);
         $.ajax({
             url:"{{route('groupings.save-locations', $group_det->id)}}",
             method:"post",
             dataType:'json',
-            data: JSON.stringify({location_id: location_id, type:type}),
+            data: JSON.stringify({location_id: location_id, type:type, category_id: group_cat}),
             processData:false,
             contentType:'application/json',
             success:function(data)
             {
                 $('#cover-spin').hide(0);
                 if(type == 'add') {
-                    $('#locationcheckbox'+location_id ).closest('tr').css('background',colorcode);
+                    $('#locationcheckbox'+location_id ).closest('tr').find('label').each(function(e, elem){
+                        var catid = $(elem).data('category');
+                        if (catid == group_cat) {
+                            $(elem).remove();
+                        }
+                    });
+                    $('.grouplabels' + location_id).append('<label data-group="'+group+'"  data-category="'+group_cat+'" data-location="'+location_id+'" class="custom-label" style="background:'+colorcode+'">'+group_cat_name + ' || ' +groupname+' <span class="remove"> <i class="fa fa-trash"></i> </span></label>');
                 } else {
-                    $('#locationcheckbox'+location_id ).closest('tr').css('background','#fff');
+                    $('#locationcheckbox'+location_id ).closest('tr').find('label').each(function(e, elem){
+                        var catid = $(elem).data('category');
+                        if (catid == group_cat) {
+                            $(elem).remove();
+                        }
+                    });
                 }
                 
             }, 

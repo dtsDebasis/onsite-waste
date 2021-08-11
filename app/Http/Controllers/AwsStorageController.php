@@ -25,7 +25,7 @@ class AwsStorageController extends Controller
     {
         $this->initIndex();
         $search = $request->all();
-        $credentials = new Aws\Credentials\Credentials(env("AWS_ACCESS_KEY_ID"), env("AWS_SECRET_ACCESS_KEY"));
+        $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
 
         $s3 = new Aws\S3\S3Client([
             'version'     => 'latest',
@@ -34,7 +34,7 @@ class AwsStorageController extends Controller
         ]);
         
         $listoptions = [
-            'Bucket' => env("AWS_BUCKET"),
+            'Bucket' => \Config::get('services.ses.bucket'),
             // 'Delimiter'=>'abc/',
             "Prefix" => isset($search['browse'])?$search['browse']:''
         ];
@@ -108,7 +108,7 @@ class AwsStorageController extends Controller
         $input = $request->all();
         $key=$input['key'];
 
-        $credentials = new Aws\Credentials\Credentials(env("AWS_ACCESS_KEY_ID"), env("AWS_SECRET_ACCESS_KEY"));
+        $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
         $s3 = new Aws\S3\S3Client([
             'version'     => 'latest',
             'region'      => 'us-west-2',
@@ -117,7 +117,7 @@ class AwsStorageController extends Controller
 
         // Get the object.
         $result = $s3->getObject([
-            'Bucket' => env("AWS_BUCKET"),
+            'Bucket' => \Config::get('services.ses.bucket'),
             'Key'    => $key
         ]);
         $obj = explode('/', $key);
@@ -138,7 +138,7 @@ class AwsStorageController extends Controller
         if($location!='-') {
             $fullpath = $location.$file;
         }
-        $credentials = new Aws\Credentials\Credentials(env("AWS_ACCESS_KEY_ID"), env("AWS_SECRET_ACCESS_KEY"));
+        $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
         $s3 = new Aws\S3\S3Client([
             'version'     => 'latest',
             'region'      => 'us-west-2',
@@ -146,7 +146,7 @@ class AwsStorageController extends Controller
         ]);
         
         $listoptions = [
-            'Bucket' => env("AWS_BUCKET"),
+            'Bucket' => \Config::get('services.ses.bucket'),
             "Prefix" => $fullpath
         ];
         $results = $s3->listObjects($listoptions);

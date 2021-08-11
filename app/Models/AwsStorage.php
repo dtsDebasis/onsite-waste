@@ -12,7 +12,7 @@ class AwsStorage extends Model
     use HasFactory;
 
     public function uploadFile($filepath='', $key='') {
-        $credentials = new Aws\Credentials\Credentials(env("AWS_ACCESS_KEY_ID"), env("AWS_SECRET_ACCESS_KEY"));
+        $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
 
         $s3 = new Aws\S3\S3Client([
             'version'     => 'latest',
@@ -22,7 +22,7 @@ class AwsStorage extends Model
         $source = fopen($filepath, 'rb');
         $uploader = new Aws\S3\ObjectUploader(
             $s3,
-            env("AWS_BUCKET"),
+            \Config::get('services.ses.bucket'),
             $key,
             $source
         );
@@ -43,28 +43,28 @@ class AwsStorage extends Model
         fclose($source);
     }
     public function createFolder($key='') {
-        $credentials = new Aws\Credentials\Credentials(env("AWS_ACCESS_KEY_ID"), env("AWS_SECRET_ACCESS_KEY"));
+        $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
         $s3 = new Aws\S3\S3Client([
             'version'     => 'latest',
             'region'      => 'us-west-2',
             'credentials' => $credentials
         ]);
         return $s3->putObject(array( 
-            'Bucket' => env("AWS_BUCKET"),
+            'Bucket' => \Config::get('services.ses.bucket'),
             'Key'    => $key,
             'Body'   => "",
         ));
     }
 
     public function deleteobj($key=''){
-        $credentials = new Aws\Credentials\Credentials(env("AWS_ACCESS_KEY_ID"), env("AWS_SECRET_ACCESS_KEY"));
+        $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
         $s3 = new Aws\S3\S3Client([
             'version'     => 'latest',
             'region'      => 'us-west-2',
             'credentials' => $credentials
         ]);
         $result = $s3->deleteObject([
-            'Bucket' => env("AWS_BUCKET"),
+            'Bucket' => \Config::get('services.ses.bucket'),
             'Key' => $key,
         ]);
         return $result;

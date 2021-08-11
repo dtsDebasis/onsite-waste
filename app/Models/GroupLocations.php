@@ -15,6 +15,7 @@ class GroupLocations extends Model
     protected $fillable = [
         'location_id',
         'group_id',
+        'category_id',
     ];
 
     protected $hidden = [

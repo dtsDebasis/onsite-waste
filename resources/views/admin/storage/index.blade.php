@@ -13,6 +13,7 @@
         <div>
         <a data-toggle="modal" data-target="#add-folder-modal" class="btn btn-warning w-md"><i class="fa fa-folder-open"></i> New Folder</a>
         <a data-toggle="modal" data-target="#add-file-modal" class="btn btn-primary w-md"><i class="fa fa-file"></i> Add File</a>
+        <a data-toggle="modal" data-target="#add-manifest-modal" class="btn btn-info w-md"><i class="fa fa-id-card"></i> Add Manifests</a>
         </div>
     </div>
     <div class="tab-content mt-3 text-muted">

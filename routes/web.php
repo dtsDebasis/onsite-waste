@@ -257,16 +257,32 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::post('savecsv', 'App\Http\Controllers\ManifestUploadController@savecsv')->name('manifests.savecsv');
 	});
 
+	Route::group(['prefix' => 'groupcategory'], function () {
+		Route::get('', 'App\Http\Controllers\GroupCategoryController@index')->name('groupcategory.index');
+		Route::get('create', 'App\Http\Controllers\GroupCategoryController@create')->name('groupcategory.create');
+		Route::get('edit/{id}', 'App\Http\Controllers\GroupCategoryController@edit')->name('groupcategory.edit');
+		Route::post('store', 'App\Http\Controllers\GroupCategoryController@store')->name('groupcategory.store');
+		Route::patch('update/{id}', 'App\Http\Controllers\GroupCategoryController@update')->name('groupcategory.update');
+		Route::delete('destroy/{id}', 'App\Http\Controllers\GroupCategoryController@destroy')->name('groupcategory.destroy');
+	});
+
 	Route::group(['prefix' => 'groupings'], function () {
-		Route::get('', 'App\Http\Controllers\GroupingsController@index')->name('groupings.index');
-		Route::get('create', 'App\Http\Controllers\GroupingsController@create')->name('groupings.create');
+		/***** Group ******/
+		Route::get('list/{catid}', 'App\Http\Controllers\GroupingsController@index')->name('groupings.index');
+		Route::get('create/{catid}', 'App\Http\Controllers\GroupingsController@create')->name('groupings.create');
 		Route::get('edit/{id}', 'App\Http\Controllers\GroupingsController@edit')->name('groupings.edit');
 		Route::post('store', 'App\Http\Controllers\GroupingsController@store')->name('groupings.store');
 		Route::patch('update/{id}', 'App\Http\Controllers\GroupingsController@update')->name('groupings.update');
 		Route::delete('destroy/{id}', 'App\Http\Controllers\GroupingsController@destroy')->name('groupings.destroy');
+		/***** Location ******/
 		Route::get('add-locations/{group_id}', 'App\Http\Controllers\GroupingsController@add_locations')->name('groupings.add-locations');
 		Route::post('save-locations/{group_id}', 'App\Http\Controllers\GroupingsController@save_locations')->name('groupings.save-locations');
 		Route::post('save_normalization', 'App\Http\Controllers\GroupingsController@save_normalization')->name('groupings.save_normalization');
+	});
+
+	Route::group(['prefix' => 'analytics'], function () {
+		Route::get('companylist', 'App\Http\Controllers\AnalyticsController@companylist')->name('analytics.companylist');
+		Route::get('companydata/{company_id}', 'App\Http\Controllers\AnalyticsController@companydata')->name('analytics.companydata');
 	});
 
 	// Ajax URLs

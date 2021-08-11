@@ -74,8 +74,8 @@ function buildAddressLine($locality = null,$state = null,$country = null)
         array_push($addressArray, $country);
     }
 
-    if (count($addressArray)) {
-        return null;
-    }
+    // if (count($addressArray)) {
+    //     return null;
+    // }
     return implode(',',$addressArray);
 }
