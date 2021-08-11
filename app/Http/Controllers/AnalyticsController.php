@@ -61,6 +61,10 @@ class AnalyticsController extends Controller
         $groups = LocationGroup::with(['normalization_details','grouplocationmap'])->where('company_id', $company_id)->where('category_id',$category_id)->get();
 
         $this->_data["groups"] = $groups;
+        $this->_data['pageHeading'] = 'Zone wise analytics';
+        $this->_data['breadcrumb'][route('analytics.companylist')] = 'Customer listings';
+		$this->_data['breadcrumb']['#']      = 'analytics';
+
 
 		return view('admin.analytics.companydata',$this->_data);
     }

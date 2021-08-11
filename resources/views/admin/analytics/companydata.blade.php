@@ -98,6 +98,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Date</th>
+                                        <th scope="col">Location</th>
                                         <th scope="col">Trips</th>
                                         <th scope="col">Boxes</th>
                                         <th scope="col">Weight</th>
@@ -111,6 +112,7 @@
                                     <tr>
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>{{date('M,Y', strtotime(date($data->date)))}}</td>
+                                        <td>{{$data->branch->name}}</td>
                                         <td>{{$data->trips}}</td>
                                         <td>{{$data->boxes}}</td>
                                         <td>{{$data->weight}}</td>

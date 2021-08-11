@@ -25,6 +25,11 @@ class Analytics extends Model
         'cycles'
     ];
 
+    public function branch(Type $var = null)
+    {
+        return $this->hasOne('App\Models\CompanyBranch', 'id','branch_id');
+    }
+
     public static function processAnalytics($start_date,$end_date,$branch_id,$type)
     {
         $branch = $branch_id == 0 ? null : $branch_id;
