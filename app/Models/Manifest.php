@@ -20,6 +20,7 @@ class Manifest extends Model
         'items_weight',
         'branch_address',
         'status',
+        'file_path',
         'created_at'
     ];
     protected $hidden = ['manifest_doc'];

@@ -248,6 +248,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::get('download', 'App\Http\Controllers\AwsStorageController@downloadobject')->name('storage.download');
 		Route::post('createfolder', 'App\Http\Controllers\AwsStorageController@createfolder')->name('storage.createfolder');
 		Route::post('uploadfile', 'App\Http\Controllers\AwsStorageController@uploadfile')->name('storage.uploadfile');
+		Route::post('uploadmanifest', 'App\Http\Controllers\AwsStorageController@uploadmanifest')->name('storage.uploadmanifest');
 		Route::delete('destroy', 'App\Http\Controllers\AwsStorageController@destroy')->name('storage.destroy');
 	});
 

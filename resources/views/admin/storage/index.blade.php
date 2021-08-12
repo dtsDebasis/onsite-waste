@@ -89,7 +89,9 @@
                 </table>
             </div>  
         </div>  
-    </div>   
+    </div>  
+    
+<div class="bottom-bar"><i class="fa fa-hourglass-end" style="margin-right:5px"></i> Uploaded <span class="font-weight-bold text-black" id="upload-progress">0</span> out of <span  class="font-weight-bold text-black" id="upload-total">0</span> files, failed <span class="font-weight-bold text-black" id="upload-failed">0</span> <span class="close-uploader text-black" style="cursor:pointer; margin-left:5px"><i class="fa fa-times-circle"></i></span></div>    
 </div>
 <div class="modal fade" id="add-file-modal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-info modal-md">
@@ -152,12 +154,118 @@
     <!-- /.modal-dialog -->
 </div>
 
+<!-- Manifest modal -->
+<div class="modal fade" id="add-manifest-modal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-info modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="manifest_mod_title">Upload Manifests Pdf</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="fileBody">
+                <form id="uploadmanifestform" type="multipart/formdata" action="" method="post">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" required class="custom-file-input" multiple="true" accept="application/pdf" name="manifestfile[]" id="inputGroupManifest"
+                            aria-describedby="inputGroupManifest">
+                            <label class="custom-file-label overme" id="label-inputGroupManifest" for="inputGroupManifest">Choose Manifests</label>
+                            <!-- <input type="file" required class="custom-file-input" name="inputfile" id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label overme" id="label-inputGroupFile01" for="inputGroupFile01">Choose file</label> -->
+                        </div>
+                    </div>
+                    <div class="input-group mt-3" id="manifestfilelist"></div>
+                    <div class="input-group mt-3">
+                        <button type="submit" class="btn btn-primary btn-md">Upload</button>
+                        <button type="button" style="display:none" id="clearmanifests" class="btn btn-danger btn-md ml-2"> <i class="fa fa-trash"></i> Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 @push('pagejs')
 <script>
     $('#inputGroupFile01').on('change', function(event) {
         var filename = $(this).val().split('\\').pop();
         $('#label-inputGroupFile01').text(filename);
     });
+    $('#inputGroupManifest').on('change', function(event) {
+        var files = $('#inputGroupManifest').prop("files");
+        var names = $.map(files, function(val) { return val.name; });
+        var html='';
+        if (names.length > 0) {
+            $.map(names, function(val) { 
+                html+='<label class="custom-label" style="background:#ccc">'+val+' </label>';
+            });
+            $('#label-inputGroupManifest').text(names.length + ' Files Chosen');
+            $('#manifestfilelist').html(html);
+            $('#clearmanifests').show();
+        } else {
+            $('#label-inputGroupManifest').text('Choose Manifest');
+            $('#clearmanifests').hide();
+            $('#manifestfilelist').html('');
+        } 
+    });
+    $('#clearmanifests').on('click', function(event) {
+        $('#uploadmanifestform').trigger("reset");
+        $('#label-inputGroupManifest').text('Choose Manifest');
+        $('#clearmanifests').hide();
+        $('#manifestfilelist').html('');
+    });
+
+    $('#uploadmanifestform').on('submit', function(event){
+        event.preventDefault();
+        var files = $('#inputGroupManifest').prop("files");
+        var total = files.length;
+        $('#upload-total').text(total);
+        $('.bottom-bar').show();
+        var initial = 0;
+        var failed = 0;
+        var totaluploaded = 0;
+        $('#upload-progress').text(initial);
+        $('#upload-failed').text(failed);
+        $('#add-manifest-modal').modal('hide');
+        $.map(files, function(val) { 
+            var data = new FormData();
+            data.append('manifestfileinput', val); 
+            $.ajax({
+                url:"{{route('storage.uploadmanifest')}}",
+                method:"POST",
+                data:data,
+                dataType:'json',
+                contentType:false,
+                cache:false, 
+                processData:false,
+                success:function(result)
+                    {
+                        totaluploaded+=1;
+                        if(result.data.uploaded == true) {
+                            initial+=1;
+                            $('#upload-progress').text(initial);
+                        } else {
+                            failed+=1;
+                            $('#upload-failed').text(failed);
+                        }
+                        console.log(total,totaluploaded);
+                        if (total == totaluploaded) {
+                            $('#uploadmanifestform').trigger("reset");
+                            $('#label-inputGroupManifest').text('Choose Manifest');
+                            $('#clearmanifests').hide();
+                            $('#manifestfilelist').html('');   
+                        }
+                    }
+            });
+        });
+    });
+    $('.close-uploader').click(function(){
+        $('.bottom-bar').hide();
+    })
+
     $('#createfileform').on('submit', function(event){
         event.preventDefault();
         $('#cover-spin').show(0);

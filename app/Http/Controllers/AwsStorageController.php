@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AwsStorage;
+use App\Models\Manifest;
+use App\Models\CompanyBranch;
 use App\Helpers\Helper;
 use Aws;
 date_default_timezone_set("Asia/Kolkata");
@@ -156,6 +158,33 @@ class AwsStorageController extends Controller
         return redirect()
                 ->route($this->_routePrefix . '.index',['browse'=>($location!='-')?$location:''])
                 ->with('success', $this->_message. ' Deleted object - '. $file );
+    }
+
+
+    public function uploadmanifest(Request $request)
+    {
+        $input = $request->all();
+        $filelocation = 'manifest-pdf-files/';
+        if(!empty($_FILES['manifestfileinput']['name']))
+        {
+            $manifestid = explode('.', $_FILES['manifestfileinput']['name'])[0];
+            $manifestmodel = new Manifest();
+            $locationmodel = new CompanyBranch();
+            $exists = $manifestmodel->getListing(['uniq_id'=>$manifestid, 'with'=>['hauling_details']]);
+            if (count($exists) != 0 ) {
+                $manifest = $exists[0];
+                $location_det = $locationmodel->getListing(['id'=>$manifest->hauling_details->branch_id,'with'=>['company']]);
+                $filelocation = $filelocation.$location_det->company->company_number.'/'.$location_det->uniq_id.'/';
+            } else {
+                return Helper::rj($this->_message, $this->_successStatus, ['uploaded'=>false]);
+            }
+            $file_data = fopen($_FILES['manifestfileinput']['tmp_name'], 'r');
+            $res = $this->_model->uploadFile($_FILES['manifestfileinput']['tmp_name'], $filelocation.$_FILES['manifestfileinput']['name'], 'public-read');
+            $manifest->file_path = $res;
+            $manifest->save();
+        }
+        
+        return Helper::rj($this->_message, $this->_successStatus, ['uploaded'=>true]);
     }
 
     private function getPreviousFolder($current='') {

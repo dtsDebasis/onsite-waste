@@ -11,7 +11,7 @@ class AwsStorage extends Model
 {
     use HasFactory;
 
-    public function uploadFile($filepath='', $key='') {
+    public function uploadFile($filepath='', $key='', $acl = 'private') {
         $credentials = new Aws\Credentials\Credentials(\Config::get('services.ses.key'), \Config::get('services.ses.secret'));
 
         $s3 = new Aws\S3\S3Client([
@@ -24,7 +24,8 @@ class AwsStorage extends Model
             $s3,
             \Config::get('services.ses.bucket'),
             $key,
-            $source
+            $source,
+            $acl
         );
         do {
             try {
