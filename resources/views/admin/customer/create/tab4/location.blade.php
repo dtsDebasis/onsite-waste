@@ -198,7 +198,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                                         <td>{{($companybranch->created_at)?\App\Helpers\Helper::showdate($companybranch->created_at):'NA'}}</td>
                                         @php($onsitePartners = \App\Helpers\Helper::getOnsitePartners($companybranch->company_id,$companybranch->id))
                                         <td> {{($onsitePartners)?implode(',',$onsitePartners):'NA'}}</td>
-                                        <td>{{ $companybranch->phone  ?? '' }}</td>
+                                        <td>{{ $companybranch->phone  ?? 'NA' }}</td>
                                         <td>{{ $companybranch->addressdata->addressline1  ?? '' }}</td>
 
 

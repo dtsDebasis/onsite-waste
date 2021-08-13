@@ -87,7 +87,7 @@
                                         </td>
                                         @php($onsitePartners = \App\Helpers\Helper::getOnsitePartners($company->id))
                                         <td> {{($onsitePartners)?implode(',',$onsitePartners):'NA'}}</td>
-                                        <td><a href="tel:{{$company->phone}}">{{$company->phone}}</a></td>
+                                        <td><a href="tel:{{$company->phone}}">{{$company->phone ?? 'NA'}}</a></td>
                                         <td> {{(isset($company->addressdata->addressline1) && $company->addressdata->addressline1)?$company->addressdata->addressline1:'NA'}}
                                         </td>
                                         @php($comSpecialt = [])
