@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Analytics;
 use App\Models\CompanyBranch;
 use App\Models\CompanyHauling;
@@ -9,9 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\Jobs\Analytics\ImportTripAnalytics;
 use App\Jobs\Analytics\ImportBoxesAnalytics;
 use App\Jobs\Analytics\ImportSpendAnalytics;
+use App\Jobs\Analytics\ImportCyclesAnalytics;
 use App\Jobs\Analytics\ImportWeightAnalytics;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 
 class Analytics extends Model
 {
@@ -52,18 +53,23 @@ class Analytics extends Model
                     break;
                 case 'spend':
                     $data->spend = 0;
+                case 'cycles':
+                    $data->sb_cycles = 0;
+                    $data->rb_cycles = 0;
                     break;
                 case 'all':
                     $data->trips = 0;
                     $data->boxes = 0;
                     $data->weight = 0;
                     $data->spend = 0;
+                    $data->sb_cycles = 0;
+                    $data->rb_cycles = 0;
                     break;
             }
             $data->save();
         }
         $haulingIds = self::getHaulingIds($branch);
-        
+
         foreach ($haulingIds as $hauling_id => $branch_id) {
            self::addAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
         }
@@ -89,14 +95,15 @@ class Analytics extends Model
                 //self::addSpendAnalytics($branch_id,$start_date,$end_date,$type);
                 break;
             case 'cycles':
-                //TODO::Move to job
-                self::addCycleAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
+                ImportCyclesAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
+                //self::addCycleAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
                 break;
             case 'all':
                 ImportTripAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
                 ImportBoxesAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
                 ImportWeightAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
                 ImportSpendAnalytics::dispatch($branch_id,$start_date,$end_date,$type);
+                ImportCyclesAnalytics::dispatch($hauling_id,$branch_id,$start_date,$end_date,$type);
 
                 break;
         }
@@ -179,7 +186,25 @@ class Analytics extends Model
 
     public static function addCycleAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type)
     {
-        //TODO::Dependency on client
+        $branch = CompanyBranch::select('uniq_id')->find($branch_id);
+        if ($branch) {
+            $location_id = $branch->uniq_id;
+            //$location_id = 2685160229; //Sample
+            $url = 'locations/'.$location_id.'/cycleHistory' ;
+            $data = \App\Helpers\Helper::callAPI('GET',$url,['groupBy' => 'month']);
+            $result = json_decode($data)->results;
+            if (count($result)) {
+                foreach ($result as $key => $data) {
+                    if ($data->waste_type == 'SB') {
+                        $analytics = self::getAnalytics($branch_id,$data->timePeriodStart,'sb_cycles');
+                        $analytics->increment('sb_cycles',$data->count);
+                    } else {
+                        $analytics = self::getAnalytics($branch_id,$data->timePeriodStart,'rb_cycles');
+                        $analytics->increment('rb_cycles',$data->count);
+                    }
+                }
+            }
+        }
     }
 
     public static function getHaulingIds($branch)
@@ -220,12 +245,15 @@ class Analytics extends Model
                 case 'spend':
                     $analytics->spend = 0;
                     break;
-                case 'cycles':
-                    $analytics->cycles = 0;
+                case 'sb_cycles':
+                    $analytics->sb_cycles = 0;
+                    break;
+                case 'rb_cycles':
+                    $analytics->rb_cycles = 0;
                     break;
             }
         }
-        
+
         $analytics->save();
 
         return $analytics;

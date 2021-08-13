@@ -61,8 +61,9 @@
                                     <tr>
                                         <th>Company ID</th>
                                         <th>Company Name / Address</th>
-                                        <th>Specialty</th>
                                         <th>Categories</th>
+                                        <th>Specialty</th>
+
                                         {{-- <th>Groups</th>
                                         <th>Locations</th>
                                         <th>Action</th> --}}
@@ -86,7 +87,6 @@
                                         @endif
                                         @endforeach
                                         @endif
-                                        <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
                                         <td class="text-justify">
                                           @foreach ($company->categories as $category)
                                           <a class="badge badge-primary tag_font_size" href="{{ route('analytics.companydata', ['company_id' => $company->id,'category_id' => $category->id  ] ) }}">{{$category->name}}</a>
@@ -94,6 +94,8 @@
                                           @endforeach
 
                                         </td>
+                                        <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
+
                                         {{-- <td>5</td>
                                         <td>10</td>
                                         <td>
