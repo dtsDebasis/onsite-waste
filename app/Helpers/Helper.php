@@ -627,7 +627,7 @@ class Helper
 						$query->where('branch_users.companybranch_id',$branch_id);
 					}
 		$data = $query->where('users.company_relationship',$onsite_role_id->id)->pluck('name')->toArray();
-		
+
 		return array_unique($data);
 	}
 	public static function getSpecialities(){
@@ -840,12 +840,12 @@ class Helper
 			//return $user->customer_type;
 			if($setings){
 
-				
+
 				if(($setings->customer_type == 1 || $setings->customer_type == 0)){
-				
+                    $status = $setings->customer_type;
 					if ($setings->customer_type == 0) {
 						$user_roles = $user->roles->pluck('slug')->toArray();
-						
+
 						if ($setings->locations && $user->customer_type == 1) {
 							$all_branch_id = self::getUserAllBranchId($user);
 							$locations = explode(',',$setings->locations);
@@ -869,7 +869,7 @@ class Helper
 							$status = 0;
 						}
 					}
-					
+
 				} elseif ($setings->customer_type == 2){
 					if ($user->customer_type == 1) {
 						$status = 0;
