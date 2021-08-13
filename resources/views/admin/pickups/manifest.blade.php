@@ -18,7 +18,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         @php($person_name = isset($manifest->person_name)?$manifest->person_name:((isset($haulingDetails->driver_name) && $haulingDetails->driver_name)?$haulingDetails->driver_name:null))
-                        {!! Form::label('person_name', 'Provider Name <span class="span-req">*</span>:',array('class'=>'','for'=>'driver_name'),false) !!}
+                        {!! Form::label('person_name', 'Driver Name <span class="span-req">*</span>:',array('class'=>'','for'=>'driver_name'),false) !!}
                         {!! Form::text('person_name',$person_name,['class'=>'form-control','placeholder'=>'Enter name','id'=>'driver_name','required'=>'required']) !!}
                         @if ($errors->has('person_name'))
                             <span class="help-block">{{ $errors->first('person_name') }}</span>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <div class="form-group">
                     @php($branch_address = isset($manifest->branch_address)?$manifest->branch_address:((isset($haulingDetails->branch_details->addressdata) && $haulingDetails->branch_details->addressdata)?$haulingDetails->branch_details->addressdata->addressline1:null))
                         {!! Form::label('branch_address', 'Branch Address <span class="span-req">*</span>:',array('class'=>'','for'=>'branch_address'),false) !!}
@@ -64,20 +64,32 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="col-md-3">                    
+                    <div class="form-group">
+                        @php($uniq_id = isset($manifest->uniq_id)? $manifest->uniq_id : $uniq_id)
+                        {!! Form::label('uniq_id', 'Manifest Id <span class="span-req">*</span>:',array('class'=>'','for'=>'uniq_id'),false) !!}
+                        {!! Form::number('uniq_id',$uniq_id,['class'=>'form-control','placeholder'=>'Unique Id','id'=>'uniq_id','required' => 'required']) !!}
+                        @if ($errors->has('uniq_id'))
+                            <span class="help-block">{{ $errors->first('uniq_id') }}</span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="col-md-4">                    
                     <div class="form-group">
                         {!! Form::label('manifest_doc', 'Upload proof of pick up :',array('class'=>'','for'=>'manifest_doc'),false) !!}
                         
-                        <input type="file" name="manifest_doc[]" class="form-control" id="manifest_doc" multiple>
+                        <input type="file" name="manifest_doc" class="form-control" id="manifest_doc">
                     </div>
                 </div>
-                @if(isset($manifest->manifest_doc) && count($manifest->manifest_doc))
+                
+                @if(isset($manifest->file_path) && $manifest->file_path!='')
                 <div class="col-md-4">                    
                     <div class="form-group">
-                        {!! Form::label('manifest_document', 'Uploaded proof of pick up :',array('class'=>'','for'=>'manifest_document'),false) !!}
-                        @foreach($manifest->manifest_document as $mkey => $mval)
-                            <a href="{{$mval['original']}}" target="_blank">{{ $mval['file_name_original'] }}</a>
-                        @endforeach
+                        <label class="">Download PDF File</label>
+                        <br>
+                        <a class="btn btn-info btn-small" href="{{$manifest->file_path}}" target="_blank"><i class="fa fa-download"></i></a>
                     </div>
                 </div>
                 @endif

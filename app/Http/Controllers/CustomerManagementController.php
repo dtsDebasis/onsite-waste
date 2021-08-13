@@ -866,13 +866,24 @@ class CustomerManagementController extends Controller {
 			$input = $request->all();
 			$id = (isset($input['id']) && $input['id']) ? $input['id'] : 0;
 			$input['uniq_id'] = \App\Helpers\Helper::getOnlyIntegerValue($input['uniq_id']);
-			$validator = Validator::make($input, [
-				'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id',
-			],[
-				'uniq_id.required' => 'The Branch Code field is required',
-				'uniq_id.numeric' => 'The Branch Code field must be numeric',
-				'uniq_id.unique' => 'The Branch Code has already been taken'
-			]);
+			
+			if ($id == 0) {
+				$validator = Validator::make($input, [
+					'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id',
+				],[
+					'uniq_id.required' => 'The Branch Code field is required',
+					'uniq_id.numeric' => 'The Branch Code field must be numeric',
+					'uniq_id.unique' => 'The Branch Code has already been taken'
+				]);
+			} else {
+				$validator = Validator::make($input, [
+					'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id,company_id,'.$company_id,
+				],[
+					'uniq_id.required' => 'The Branch Code field is required',
+					'uniq_id.numeric' => 'The Branch Code field must be numeric',
+					'uniq_id.unique' => 'The Branch Code has already been taken'
+				]);
+			}
 			if ($validator->fails()) {
 				return redirect()->back()
 							->withErrors($validator)

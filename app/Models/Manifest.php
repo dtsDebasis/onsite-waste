@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 Use App\Models\File;
+use App\Models\AwsStorage;
+
 class Manifest extends Model
 {
     use HasFactory;
@@ -113,15 +115,29 @@ class Manifest extends Model
 
     public function uploadManifestDoc($data = [], $request=[])
 	{
-		$avatar = $data->manifest_doc;
-        //dd($request->file('manifest_doc'));
-		$file 	= \App\Models\File::upload($request, 'manifest_doc', 'manifest_document', $data->id);
-        //dd($file);
-        if($file && $avatar){
-            foreach($avatar as $val){
-                \App\Models\File::deleteFile($val, true);
-            }
-		}
+		// $avatar = $data->manifest_doc;
+		// $file 	= \App\Models\File::upload($request, 'manifest_doc', 'manifest_document', $data->id);
+        // if($file && $avatar){
+        //     foreach($avatar as $val){
+        //         \App\Models\File::deleteFile($val, true);
+        //     }
+		// }
+        $locationmodel = new CompanyBranch();
+        $manifest = $this->getListing(['id'=>$data->id, 'with'=>['hauling_details']]);
+        $filelocation = 'manifest-pdf-files/';
+        $location_det = $locationmodel->getListing(['id'=>$manifest->hauling_details->branch_id,'with'=>['company']]);
+        $filelocation = $filelocation.$location_det->company->company_number.'/'.$location_det->uniq_id.'/';
+        $awsmodel = new AwsStorage();
+        $file = $request->file('manifest_doc');
+        $fileExt          = $file->getClientOriginalExtension();
+		$fileNameOriginal = $file->getClientOriginalName();
+		$fileSize         = $file->getSize();
+		$fileMime         = $file->getMimeType();
+		$fileTempname        = $file->getPathName();
+        // dd($filelocation.$manifest->uniq_id.'.'.$fileExt);    
+        $res = $awsmodel->uploadFile($fileTempname, $filelocation.$manifest->uniq_id.'.'.$fileExt, 'public-read');
+        $manifest->file_path = $res;
+        $manifest->save();
 		return \App\Helpers\Helper::resp('Changes has been successfully saved.', 200, $file);
 	}
 

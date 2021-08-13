@@ -49,6 +49,17 @@ class AwsStorageController extends Controller
             $browse_length = count($browse_content) - 1;
         }
         // dd($results['Contents']);
+        if (!isset($results['Contents']) || count($results['Contents'])==0) {
+            $browseloc = explode('/',$search['browse']);
+            array_pop($browseloc);
+            array_pop($browseloc);
+            if (count($browseloc)) {
+                $loc = implode('/',$browseloc).'/';
+            } else {
+                $loc = '';
+            }
+            return redirect()->route($this->_routePrefix . '.index',['browse'=>$loc]);
+        }
         foreach($results['Contents'] as $content) {
             $elem = explode('/', $content['Key']);
             if (count($elem) > ($browse_length + 1 )) {
@@ -153,6 +164,17 @@ class AwsStorageController extends Controller
         ];
         $results = $s3->listObjects($listoptions);
         foreach($results['Contents'] as $content) {
+            if (strpos($content['Key'], 'manifest-pdf-files') !== false) {
+                $keyarr = explode('/', $content['Key']);
+                $fileobj = $keyarr[count($keyarr)-1];
+                if($fileobj!='') {
+                    $manifestid = explode('.',$fileobj)[0];
+                    $exists = $manifestmodel->getListing(['uniq_id'=>$manifestid]);
+                    $exists->file_path = '';
+                    $exists->save();
+                    // dd($manifestid);
+                }
+            }
             $res[] = $this->_model->deleteobj($content['Key']);
         }
         return redirect()

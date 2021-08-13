@@ -41,6 +41,7 @@
         });
     }
     $(document).ready(function () {
+
         $('body').on('click','#add_package',function(){
             getBranchPackageList(0,'form');
         });
@@ -79,6 +80,15 @@
                     });
                 }
             });
+        });
+        $( "#all_package_details" ).on('shown.bs.modal', function(){
+            let value = $('#service_type').val();
+            if(value == 'TE-5000'){
+                $('.service-based-view').addClass('d-none');
+            }
+            else{
+                $('.service-based-view').removeClass('d-none');
+            }
         });
         $('body').on('click','#transaction_details', function(){
             var id = $(this).attr('data-id');

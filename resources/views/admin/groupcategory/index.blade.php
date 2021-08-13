@@ -21,7 +21,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Category Name {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'name', $orderBy) !!}</th>
-                            <th>Customer {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'c__name', $orderBy) !!}</th>
+                            <th>Customer {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'c__company_name', $orderBy) !!}</th>
                             <th>Groups Count</th>
                             <th>Status {!! \App\Helpers\Helper::sort($routePrefix . '.index', 'status', $orderBy) !!}
                             </th>

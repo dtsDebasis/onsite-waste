@@ -295,8 +295,9 @@ class HaulingController extends Controller
             else{
                 $haulingDetails = app('App\Models\CompanyHauling')->getListing(['id'=>$input['hauling_id'],'with' => ['branch_details.addressdata']]);
                 $manifest = app('App\Models\Manifest')->getListing(['hauling_id'=>$input['hauling_id'],'single_record' => true ]);
-
-                $view = view("admin.pickups.manifest",['haulingDetails'=>$haulingDetails,'manifest'=>$manifest])->render();
+                // dd(count($manifest));
+                $uniq_id = \App\Helpers\Helper::generateMasterCode('\App\Models\Manifest','uniq_id');
+                $view = view("admin.pickups.manifest",['haulingDetails'=>$haulingDetails,'manifest'=>$manifest,'uniq_id'=>$uniq_id])->render();
                 return Response::json(['success'=>true,'msg'=>'List generate success fully','html'=>$view]);
             }
         } catch (Exception $e) {
@@ -324,7 +325,7 @@ class HaulingController extends Controller
                     $manifest->update($input);
                 }
                 else{
-                    $input['uniq_id'] = \App\Helpers\Helper::generateMasterCode('\App\Models\Manifest','uniq_id');
+                    // $input['uniq_id'] = \App\Helpers\Helper::generateMasterCode('\App\Models\Manifest','uniq_id');
                     $manifest = \App\Models\Manifest::create($input);
                 }
                 if($manifest){

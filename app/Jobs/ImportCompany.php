@@ -73,24 +73,32 @@ class ImportCompany implements ShouldQueue
                 $ownerId = $findCompanyOwner->id;
             }
 
-            $findLeadSource1 = LeadSource::where('name',$val[3])->first();
+            $findLeadSource1 = LeadSource::where('name',$val[3])->where('lead_type',1)->first();
             if (!$findLeadSource1) {
-                $newLeadSource1 = new LeadSource;
-                $newLeadSource1->name = $val[3];
-                $newLeadSource1->lead_type = 1;
-                $newLeadSource1->save();
-                $leadSource1 = $newLeadSource1->id;
+                if ($val[3]) {
+                    $newLeadSource1 = new LeadSource;
+                    $newLeadSource1->name = $val[3];
+                    $newLeadSource1->lead_type = 1;
+                    $newLeadSource1->save();
+                    $leadSource1 = $newLeadSource1->id;
+                } else {
+                    $leadSource1 = null;
+                }
             }else {
                 $leadSource1 = $findLeadSource1->id;
             }
 
-            $findLeadSource2 = LeadSource::where('name',$val[4])->first();
+            $findLeadSource2 = LeadSource::where('name',$val[4])->where('lead_type',2)->first();
             if (!$findLeadSource2) {
-                $newLeadSource2 = new LeadSource;
-                $newLeadSource2->name = $val[4];
-                $newLeadSource2->lead_type = 2;
-                $newLeadSource2->save();
-                $leadSource2 = $newLeadSource2->id;
+                if ($val[4]) {
+                    $newLeadSource2 = new LeadSource;
+                    $newLeadSource2->name = $val[4];
+                    $newLeadSource2->lead_type = 2;
+                    $newLeadSource2->save();
+                    $leadSource2 = $newLeadSource2->id;
+                } else {
+                    $leadSource2 = null;
+                }
             }else {
                 $leadSource2 = $findLeadSource2->id;
             }
@@ -98,9 +106,15 @@ class ImportCompany implements ShouldQueue
                 $company = Company::where(['company_number' => $val[0]])->first();
 
                 if(!$company){
+                    Log::info("------Company------");
+                    Log::info($val[7]);
+                    Log::info($val[6]);
+                    $addressLineGet = buildAddressLine($val[7],$val[6]);
+                    Log::info($addressLineGet);
+                    Log::info("------Company-----");
                     $addressData = [
                         //'addressline1' => $val[7].', '.$val[6],
-                        'addressline1' => buildAddressLine($val[7],$val[6]),
+                        'addressline1' => buildAddressLine($val[7],$val[6],$val[8]),
                         'locality' => $val[7],
                         'state' => $val[6],
                         'country' => $val[8]
@@ -146,6 +160,13 @@ class ImportCompany implements ShouldQueue
                 }
             }
             if($branch){
+                Log::info("------Branch------");
+                Log::info($val[7]);
+                Log::info($val[6]);
+                Log::info($val[8]);
+                $addressLineGet = buildAddressLine($val[7],$val[6],$val[8]);
+                Log::info($addressLineGet);
+                Log::info("------Branch End-----");
 
                 $addressData = [
                     'addressline1' => buildAddressLine($val[7],$val[6],$val[8]),
@@ -170,16 +191,20 @@ class ImportCompany implements ShouldQueue
 
 
                 $findBranch = CompanyBranch::where('uniq_id',$branchHubId)->first();
-                if ($findBranch) {
-                    $findBranch->delete();
+                if (!$findBranch) {
+                    //$findBranch->delete();
+                    $companyBranch = CompanyBranch::create($company_data);
+                    $companyBranch->sh_container_type = $val[15];
+                    $companyBranch->sh_rop = $val[14];
+                    $companyBranch->rb_container_type = $val[12];
+                    $companyBranch->rb_rop = $val[11];
+                    $companyBranch->save();
+                } else {
+                    $companyBranch =$findBranch;
+                    $companyBranch->uniq_id = $branchHubId;
+                    $companyBranch->save();
                 }
-                $companyBranch = CompanyBranch::create($company_data);
-                $companyBranch->sh_container_type = $val[15];
-                $companyBranch->sh_rop = $val[14];
-                $companyBranch->rb_container_type = $val[12];
-                $companyBranch->rb_rop = $val[11];
-                $companyBranch->save();
-
+                
                 $findComp = Company::where('company_number', $associate_id)->first();
                 self::createDefaultTranctionalPackage($findComp->id,$companyBranch->id);
                 $specialities = explode(',',trim($val[9]));

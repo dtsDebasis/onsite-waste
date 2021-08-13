@@ -66,9 +66,9 @@ class GroupCategory extends Model
     {
             $listing = self::select(
                 $this->table . ".*",
-                'c.name as compname'
+                'c.company_name as compname'
             )
-            ->join("company_branch AS c", function($join){
+            ->join("company AS c", function($join){
                 $join->on('c.id', $this->table . '.company_id')
                     ->whereNull('c.deleted_at');
             })
@@ -100,7 +100,7 @@ class GroupCategory extends Model
                 $listing->orderBy($key, $value);
             }
         } else {
-            $listing->orderBy('c.name', 'ASC');
+            $listing->orderBy('c.company_name', 'ASC');
         }
 
         if($offset){
