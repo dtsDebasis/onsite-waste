@@ -617,16 +617,18 @@ class Helper
 	}
 	public static function getOnsitePartners($company_id = null, $branch_id = null){
 		$onsite_role_id = \App\Models\RelationshipRole::select('id')->whereRaw('LOWER(`name`) LIKE ?', strtolower('OnSite Partner'))->first();
-		$query = \App\Models\BranchUser::select('branch_users.company_id','branch_users.companybranch_id','branch_users.user_id',\DB::raw("CONCAT(users.first_name, ' ', users.last_name) AS name"))
+		$query = \App\Models\BranchUser::select('users.company_relationship','branch_users.company_id','branch_users.companybranch_id','branch_users.user_id',\DB::raw("CONCAT(users.first_name, ' ', users.last_name) AS name"))
 					->join('users','users.id','=','branch_users.user_id');
 					if($company_id && !$branch_id){
-						$query->where('branch_users.company_id',$company_id)->whereNull('companybranch_id');
+						$query->where('branch_users.company_id',$company_id);
+						//$query->where('branch_users.company_id',$company_id)->whereNull('companybranch_id');
 					}
 					if($branch_id){
 						$query->where('branch_users.companybranch_id',$branch_id);
 					}
-		return $data = $query->where('users.company_relationship',$onsite_role_id->id)->pluck('name')->toArray();
-
+		$data = $query->where('users.company_relationship',$onsite_role_id->id)->pluck('name')->toArray();
+		
+		return array_unique($data);
 	}
 	public static function getSpecialities(){
 		return $data = \App\Models\Speciality::where('status',1)->pluck('name','id')->toArray();

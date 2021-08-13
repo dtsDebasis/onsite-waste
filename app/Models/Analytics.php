@@ -11,6 +11,7 @@ use App\Jobs\Analytics\ImportBoxesAnalytics;
 use App\Jobs\Analytics\ImportSpendAnalytics;
 use App\Jobs\Analytics\ImportWeightAnalytics;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Analytics extends Model
 {
@@ -33,7 +34,36 @@ class Analytics extends Model
     public static function processAnalytics($start_date,$end_date,$branch_id,$type)
     {
         $branch = $branch_id == 0 ? null : $branch_id;
+        if ($branch) {
+            $analytics = Analytics::where('branch_id',$branch)->where('date',$start_date)->get();
+        } else {
+            $analytics = Analytics::where('date',$start_date)->get();
+        }
+        foreach ($analytics as $key => $data) {
+            switch ($type) {
+                case 'trips':
+                    $data->trips = 0;
+                    break;
+                case 'boxes':
+                    $data->boxes = 0;
+                    break;
+                case 'weight':
+                    $data->weight = 0;
+                    break;
+                case 'spend':
+                    $data->spend = 0;
+                    break;
+                case 'all':
+                    $data->trips = 0;
+                    $data->boxes = 0;
+                    $data->weight = 0;
+                    $data->spend = 0;
+                    break;
+            }
+            $data->save();
+        }
         $haulingIds = self::getHaulingIds($branch);
+        
         foreach ($haulingIds as $hauling_id => $branch_id) {
            self::addAnalytics($hauling_id,$branch_id,$start_date,$end_date,$type);
         }
@@ -174,25 +204,28 @@ class Analytics extends Model
             $analytics->branch_id = $branch_id;
             $analytics->date = $start_date;
         }
-
-        switch ($type) {
-            case 'trips':
-                $analytics->trips = 0;
-                break;
-            case 'boxes':
-                $analytics->boxes = 0;
-                break;
-            case 'weight':
-                $analytics->weight = 0;
-                break;
-            case 'spend':
-                $analytics->spend = 0;
-                break;
-            case 'cycles':
-                $analytics->cycles = 0;
-                break;
+        $findYodaysAnalytics = Analytics::where('branch_id',$branch_id)
+        ->where('date',$start_date)->whereDate('updated_at', '<=', Carbon::now()->subMinutes(50)->toDateTimeString())->first();
+        if (!$findYodaysAnalytics) {
+            switch ($type) {
+                case 'trips':
+                    $analytics->trips = 0;
+                    break;
+                case 'boxes':
+                    $analytics->boxes = 0;
+                    break;
+                case 'weight':
+                    $analytics->weight = 0;
+                    break;
+                case 'spend':
+                    $analytics->spend = 0;
+                    break;
+                case 'cycles':
+                    $analytics->cycles = 0;
+                    break;
+            }
         }
-
+        
         $analytics->save();
 
         return $analytics;
