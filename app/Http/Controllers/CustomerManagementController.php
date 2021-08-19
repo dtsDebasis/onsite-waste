@@ -41,6 +41,40 @@ class CustomerManagementController extends Controller {
 
 
 	public function index(Request $request){
+		// $third_party = [
+        //     "branch_name" => "Hubspot Test",
+        //     "branch_email" => null,
+        //     "branch_phone" => "(909) 224 - 2673",
+        //     "branch_uniq_id" => "2610735942",
+        //     "branch_address" => "Kolkata Airport Road, International Airport, Dum Dum, Kolkata, West Bengal, India",
+        //     "branch_state" => "WB",
+        //     "branch_city" => "Kolkata",
+        //     "branch_postcode" => "700052",
+        //     "branch_country" => "India",
+        //     "company_name" => "Onsite Waste Management",
+        //     "company_phone" => "(909) 224 - 2673",
+        //     "company_email" => "arijitcompany@yopmail.com",
+        //     "company_id" => "6641382112",
+        //     "red_bag_reserve" => "3",
+        //     "sharps_reserve" => "2",
+        //     "rb_container_type" => "Rocker",
+        //     "sh_container_type" => "Rocker",
+        //     "branch_billing_address" => "Kolkata Airport Road, International Airport, Dum Dum, Kolkata, West Bengal, India",
+        //     "branch_billing_state" => "WB",
+        //     "branch_billing_city" => "Kolkata",
+        //     "branch_billing_postcode" => "700052",
+        //     "branch_billing_country" => "India",
+        //     "contact_firstname" => "Arijit",
+        //     "contact_lastname" => "Naskar",
+        //     "contact_phone" => "(909) 224 - 2673",
+        //     "contact_email" => "paul@traverse.com",
+        //     "contact_role" => "Corporate",
+        //     "contact_id" => 7
+        // ];
+		// $hubspotRes = \App\Helpers\HubSpot::createUser($third_party);
+		//$zendeskRes = \App\Helpers\ZenDesk::createUser($third_party);
+		// $recurlyRes = \App\Helpers\Recurly::createUser($third_party);
+		// dd();
 		$this->initIndex();
 		$srch_params             = $request->all();
 		$srch_params['with'] = ['addressdata','speciality.speciality'];
@@ -615,7 +649,7 @@ class CustomerManagementController extends Controller {
 		if($company){
 			$addressdata = $companybranch = null;
 			$companyBrancObject = new CompanyBranch();
-			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','billingaddress','branchusers.user','branchspecialty.speciality_details']]);
+			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','billingaddress','branchusers.user','branchspecialty.speciality_details','package_details']]);
 
 			$this->_data['branch_code'] = \App\Helpers\Helper::generateMasterCode('\App\Models\CompanyBranch','uniq_id',10);
 			$this->_data['company'] = $company;
@@ -666,10 +700,10 @@ class CustomerManagementController extends Controller {
 		if($company){
 			$this->_data['company'] = $company;
 			$companyBrancObject = new CompanyBranch();
-			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','branchusers.user','branchspecialty.speciality_details']]);
+			$this->_data["companybranch_list"] = $companyBrancObject->getListing(['company_id'=>$id,'with'=>['addressdata','branchusers.user','branchspecialty.speciality_details','package_details']]);
 			$this->_data['includePage'] = 'admin.' .$this->_routePrefix . '.branch-lists';
 			$viewPage = '';
-			$this->_data['pageHeading'] = 'LOCATIONS LISTING';
+			$this->_data['pageHeading'] = 'LOCATION LISTING';
 			return view('admin.components.general' . $viewPage, $this->_data);
 
 		}
@@ -827,13 +861,10 @@ class CustomerManagementController extends Controller {
 			//\App\Helpers\Helper::messageSendToSlack('text');
 			// $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/cycles.json';
 			$url = 'locations/'.$input['location_id'].'/cycles';
+			// $url = 'locations/'.$input['location_id'].'/devices/'.$input['device_id'].'/cycleHistory';
 			// .$input['imie_no'].'/cycleHistory'
 			$te5000 = \App\Helpers\Helper::callAPI('GET',$url,['imei'=>$input['imie_no']]);
 			$te5000 = json_decode($te5000, true);
-			// echo "<pre>";
-			// print_r(count($te5000['results']));
-			// echo "</pre>";
-			// dd();
 			$last_result = count($te5000['results'])-1;
 			$data = isset($te5000['results']) ? $te5000['results'][$last_result] : [];
 			if(isset($data['startDateTime'])){
@@ -859,7 +890,8 @@ class CustomerManagementController extends Controller {
 		}
 	}
 	public function branchStoreUpdate(Request $request,$company_id){
-		$company = Company::where('id', '=', $company_id)->first();
+		$company = Company::where('id', '=', $company_id)->with(['leadsourceone', 'leadsourcetwo'])->first();
+		
 		$new_account = false;
 		if($company){
 			$msg = 'Branch created successfully';
@@ -988,6 +1020,8 @@ class CustomerManagementController extends Controller {
 					$third_party['branch_city'] = $addressdata->locality;
 					$third_party['branch_postcode'] = $addressdata->postcode;
 					$third_party['branch_country'] = $addressdata->country;
+					$third_party['lead_source_1'] = isset($company->leadsourceone)? $company->leadsourceone->name: 'Marketing';
+					$third_party['lead_source_2'] = isset($company->leadsourcetwo)? $company->leadsourcetwo->name: 'Facebook';
 					$third_party['company_name'] = $company->company_name;
 					$third_party['company_phone'] = $company->phone;
 					$third_party['company_email'] = $company->email;
@@ -1180,7 +1214,8 @@ class CustomerManagementController extends Controller {
 					$query2['single_record'] = true;
 					$packages = $packageModel->getListing($query2);
 					if($packages){
-						$view = view("admin.customer.create.tab4.package-edit",['package'=>$packages,'input' => $input])->render();
+						$packagename = \App\Helpers\Helper::getPackageNameDropdown();
+						$view = view("admin.customer.create.tab4.package-edit",['package'=>$packages,'input' => $input, 'packagenames' => $packagename])->render();
 						return Response::json(['success'=>true,'msg'=>'Details fetch successfully','html'=>$view,'mod_head_content'=>'Package Details']);
 					}
 					else if($input['page_type'] == "create_edit"){

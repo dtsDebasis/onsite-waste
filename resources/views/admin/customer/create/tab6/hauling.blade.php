@@ -13,7 +13,7 @@
             {!! Form::model($hauling, [
             'method' => 'PATCH',
             'route' => ['customers.hauling-store-upadte',$company->id],
-            'class' => 'form-horizontal ',
+            'class' => 'form-horizontal checkediting',
             'id'=>'branch-hauling-form',
             'enctype'=>'multipart/form-data'
             ]) !!}

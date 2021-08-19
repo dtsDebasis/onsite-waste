@@ -56,7 +56,7 @@
                                         <th>Boxes</th>
                                         <th>Weight</th>
                                         <th>Spend</th>
-                                        <th>SB Cycles</th>
+                                        <th>SH Cycles</th>
                                         <th>RB Cycles</th>
                                         <th>Details</th>
                                     </tr>
@@ -103,7 +103,7 @@
                                         <th scope="col">Boxes</th>
                                         <th scope="col">Weight</th>
                                         <th scope="col">Spend</th>
-                                        <th scope="col">SB Cycles</th>
+                                        <th scope="col">SH Cycles</th>
                                         <th scope="col">RB Cycles</th>
                                     </tr>
                                 </thead>

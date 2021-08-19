@@ -502,6 +502,7 @@ class Helper
 					$url = sprintf("%s?%s", $url, http_build_query($data));
 				}
 		}
+		// dd($url);
 		// OPTIONS:
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
@@ -616,7 +617,7 @@ class Helper
 		return $data = \App\Models\RelationshipRole::whereNull('deleted_at')->where('status',1)->pluck('name','id')->toArray();
 	}
 	public static function getOnsitePartners($company_id = null, $branch_id = null){
-		$onsite_role_id = \App\Models\RelationshipRole::select('id')->whereRaw('LOWER(`name`) LIKE ?', strtolower('OnSite Partner'))->first();
+		$onsite_role_id = \App\Models\RelationshipRole::select('id')->whereRaw('LOWER(`name`) LIKE ?', strtolower('On-Site Partner'))->first();
 		$query = \App\Models\BranchUser::select('users.company_relationship','branch_users.company_id','branch_users.companybranch_id','branch_users.user_id',\DB::raw("CONCAT(users.first_name, ' ', users.last_name) AS name"))
 					->join('users','users.id','=','branch_users.user_id');
 					if($company_id && !$branch_id){
@@ -842,8 +843,9 @@ class Helper
 
 
 				if(($setings->customer_type == 1 || $setings->customer_type == 0)){
-                    $status = $setings->customer_type;
 					if ($setings->customer_type == 0) {
+						$status = $setings->customer_type;
+
 						$user_roles = $user->roles->pluck('slug')->toArray();
 
 						if ($setings->locations && $user->customer_type == 1) {
@@ -867,6 +869,12 @@ class Helper
 						}
 						else{
 							$status = 0;
+						}
+					} else {
+						if ($setings->customer_type == 1) {
+							if ($user->customer_type == $setings->customer_type) {
+								$status = 1;
+							}
 						}
 					}
 

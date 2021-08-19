@@ -32,7 +32,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                 {!! Form::model($companybranch, [
                 'method' => 'PATCH',
                 'route' => ['customers.create.branch-store-update',[$id,'brnch'=>$companybranch->id]],
-                'class' => 'form-horizontal ',
+                'class' => 'form-horizontal checkediting',
                 'id'=>'branch-form',
                 'enctype'=>'multipart/form-data'
                 ]) !!}
@@ -64,7 +64,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                     <div class="col-md-2">
                         <div class="form-group">
                             {!! Form::label('phone', 'Phone :',array('class'=>'','for'=>'phone'),false) !!}
-                            {!! Form::number('phone',null,['class'=>'form-control','id' => 'phone','min'=>0]) !!}
+                            {!! Form::text('phone',null,['class'=>'form-control','id' => 'phone','min'=>0]) !!}
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -81,8 +81,8 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            {!! Form::label('sh_container_type', 'SH Container Type :',array('class'=>'','for'=>'sh_container_type'),false) !!}
-                            {!! Form::select('sh_container_type',$sh_container_type,null,['class'=>'form-control','id' => 'sh_container_type','placeholder' => 'Choose ...']) !!}
+                            {!! Form::label('sh_container_type', 'SH Container Type* :',array('class'=>'','for'=>'sh_container_type'),false) !!}
+                            {!! Form::select('sh_container_type',$sh_container_type,null,['class'=>'form-control','id' => 'sh_container_type','placeholder' => 'Choose ...','required' => 'required']) !!}
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -93,14 +93,14 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            {!! Form::label('rb_container_type', 'RB Container Type :',array('class'=>'','for'=>'rb_container_type'),false) !!}
-                            {!! Form::select('rb_container_type',$rb_container_type,null,['class'=>'form-control','id' => 'rb_container_type','placeholder' => 'Choose ...']) !!}
+                            {!! Form::label('rb_container_type', 'RB Container Type* :',array('class'=>'','for'=>'rb_container_type'),false) !!}
+                            {!! Form::select('rb_container_type',$rb_container_type,null,['class'=>'form-control','id' => 'rb_container_type','placeholder' => 'Choose ...','required' => 'required']) !!}
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('status', 'Status *:',array('class'=>'','for'=>'loc_status'),false) !!}
-                            {!! Form::select('status',['1' => 'Active','0' => 'Inactive'],null,['class'=>'form-control','id' => 'loc_status','required' => 'required']) !!}
+                            {!! Form::select('status',['1' => 'Active','0' => 'Inactive'],null,['class'=>'form-control','id' => 'loc_status','required' => 'required','required' => 'required']) !!}
                         </div>
                     </div>
                     <input type="hidden" name="package_price" id="form_package_price" value="">
@@ -115,7 +115,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                                     @php($includedContact_ids[] = $contact->user->id)
                                     <div class="col-md-4 bg-gradient appended_contact appendafter-{{$contact->user->id}}" id="appended_contact_{{$contact->user->id}}">
                                         <input type="hidden" name="branch_users[]"  value="{{$contact->user->id}}" >
-                                        <div class="card">
+                                        <div class="card contact-card">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center ">
                                                     <div class="avatar-xs mr-3">
@@ -131,7 +131,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                                                 </div>
                                                 <div class="text-muted">
                                                     <div class="d-flex">
-                                                        <span class="ml-2 text-truncate">Role: {{$contact->user->designation}}</span>
+                                                        <span class="ml-2 text-truncate">Designation: {{$contact->user->designation}}</span>
                                                     </div>
                                                     <div class="d-flex">
                                                         <span class="ml-2 text-truncate">Email: {{$contact->user->email}}</span>
@@ -183,6 +183,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                                     <th>Phone No.</th>
                                     <th>Address</th>
                                     <th>Specialty</th>
+                                    <th>ServiceType</th>
                                     <th>Contacts</th>
                                     <th>Pricing</th>
                                     <th>Package</th>
@@ -212,6 +213,13 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                                             @endforeach
                                         @endif
                                         <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
+                                        <td>
+                                            @if(isset($companybranch->package_details))
+                                                {{$companybranch->package_details->service_type}}
+                                            @else
+                                                NA    
+                                            @endif
+                                        </td>
                                         @php($branchUsers = [])
                                         @if(isset($companybranch->branchusers) && count($companybranch->branchusers))
                                             @foreach($companybranch->branchusers as $sp)
@@ -268,7 +276,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                             <tr>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Role</th>
+                                <th>Designation</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
                                 <th>Assign Site/Branch</th>
@@ -315,7 +323,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                             <tr>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Role</th>
+                                <th>Designation</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
                                 <th>Assign Site/Branch</th>

@@ -34,8 +34,8 @@
             
             <div class="col-md-3">
                 <div class="form-group">
-                    {!! Form::label('name', 'Package Name <span class="span-req">*</span>:',array('class'=>'','for'=>'name'),false) !!}
-                    {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Enter name','id'=>'name','required'=>'required']) !!}
+                {!! Form::label('name', 'Package Name <span class="span-req">*</span>:',array('class'=>'','for'=>'name'),false) !!}
+                            {!! Form::select('name',$packagenames,null,['class'=>'form-control select2','placeholder'=>'Choose ...','id'=>'name','required'=>'required']) !!}
                     @if ($errors->has('name'))
                         <span class="help-block">{{ $errors->first('name') }}</span>
                     @endif

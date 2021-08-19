@@ -250,7 +250,7 @@
             $('#contact_list_append').append(`
                 <div class="col-md-4 bg-gradient appended_contact appendafter-${user_id}" id="appended_contact_${user_id}">
                     <input type="hidden" name="branch_users[]"  value="${user_id}" >
-                    <div class="card">
+                    <div class="card contact-card">
                         <div class="card-body">
                             <div class="d-flex align-items-center ">
                                 <div class="avatar-xs mr-3">
@@ -266,7 +266,7 @@
                             </div>
                             <div class="text-muted">
                                 <div class="d-flex">
-                                    <span class="ml-2 text-truncate">Role: ${user_designation}</span>
+                                    <span class="ml-2 text-truncate">Designation: ${user_designation}</span>
                                 </div>
                                 <div class="d-flex">
                                     <span class="ml-2 text-truncate">Email: ${user_email}</span>
@@ -414,7 +414,7 @@
                 $('#package_list_append').html(`
                     <div class="col-md-4 bg-gradient appended_package appendafter-${packageid}" id="appended_package_${packageid}">
                         <input type="hidden" name="package_id"  value="${packageid}" >
-                        <div class="card">
+                        <div class="card contact-card">
                             <div class="card-body">
                                 <div class="d-flex align-items-center ">
                                     <div class="avatar-xs mr-3">

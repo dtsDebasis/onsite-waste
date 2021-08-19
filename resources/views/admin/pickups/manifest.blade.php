@@ -3,7 +3,7 @@
     {!! Form::model($manifest, [
         'method' => 'PATCH',
         'url' => 'javascript:;', 
-        'class' => 'form-horizontal ',
+        'class' => 'form-horizontal checkediting',
         'id'=>'manifest-form',
         'enctype'=>'multipart/form-data'
         ]) 

@@ -17,8 +17,8 @@ class Recurly {
             "email" => $input['branch_email'],
             "shipping_addresses" => [
                 [
-                    "first_name" => $input['contact_firstname'],
-                    "last_name" => $input['contact_lastname'],
+                    "first_name" => $input['contact_firstname']?$input['contact_firstname']:$input['branch_name'],
+                    "last_name" => $input['contact_lastname']?$input['contact_lastname']:'Shipping',
                     "street1" => $input['branch_address'],
                     "city" => $input['branch_city'],
                     "postal_code" => $input['branch_postcode'],
@@ -28,23 +28,25 @@ class Recurly {
         ];
     
         $response = $client->createAccount($account_create);
+        $account_id = $response->getId();
 
         /****billing info not needed */
-        if ($input['branch_billing_address']) {
-            $binfo_update = [
-                "first_name" => $input['contact_firstname'],
-                "last_name" => $input['contact_lastname'],
-                "street1" => $input['branch_billing_address'],
-                "city" => $input['branch_billing_city'],
-                "postal_code" => $input['branch_billing_postcode'],
-                "country" => $input['branch_billing_country']
-            ];
-            $binfo = $client->updateBillingInfo($account_id, $binfo_update);
-        }
+        // if ($input['branch_billing_address']) {
+        //     $binfo_update = [
+        //         "first_name" => $input['contact_firstname'],
+        //         "last_name" => $input['contact_lastname'],
+        //         "address" =>[
+        //             "street1" => substr($input['branch_billing_address'], 0 , 50),
+        //             "city" => $input['branch_billing_city'],
+        //             "postal_code" => $input['branch_billing_postcode'],
+        //             "country" => $input['branch_billing_country']
+        //         ]
+        //     ];
+        //     $binfo = $client->updateBillingInfo($account_id, $binfo_update);
+        // }
         
         
         /****billing info not needed */   
-        // return $account_create;
         return array( 'company_id'=>$response->getId());
     }
 }

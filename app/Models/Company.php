@@ -38,6 +38,14 @@ class Company extends Model
         return  $this->hasMany('App\Models\CompanySpeciality', 'company_id','id');
     }
 
+    public function leadsourceone(){
+        return  $this->hasOne('App\Models\LeadSource','id', 'lead_source');
+    }
+
+    public function leadsourcetwo(){
+        return  $this->hasOne('App\Models\LeadSource','id', 'leadsource_2');
+    }
+
     public function getListing($srch_params = [], $offset = ''){
         $with_det = [];
         if(isset($srch_params['with'])){
@@ -48,7 +56,9 @@ class Company extends Model
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
         }
         $listing = self::select($select)->with($with_det)//->where($this->table .'.deleted_at',NULL)
-
+            ->when(isset($srch_params['whereHas']), function($q) use($srch_params){
+                return $q->whereHas($srch_params['whereHas']);
+            })
             ->when(isset($srch_params['addressdata_id']), function($q) use($srch_params){
                 return $q->where($this->table.".addressdata_id", "=", $srch_params['addressdata_id']);
             })

@@ -15,7 +15,7 @@ select.select2{
             {!! Form::model($data, [
             'method' => 'PATCH',
             'route' => ['pickups.update',$id],
-            'class' => 'form-horizontal ',
+            'class' => 'form-horizontal checkediting',
             'id'=>'branch-hauling-form',
             'enctype'=>'multipart/form-data'
             ]) !!}

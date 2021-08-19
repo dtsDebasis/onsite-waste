@@ -32,6 +32,7 @@ class AnalyticsController extends Controller
     public function companylist(Request $request){
 		$srch_params             = $request->all();
 		$srch_params['with'] = ['addressdata','speciality.speciality','categories'];
+		$srch_params['whereHas'] = 'categories';
         $companyModel = new Company();
 		$this->_data["companies"] = $companyModel->getListing($srch_params, $this->_offset)->appends($request->input());
 		$this->_data['pageHeading'] = 'CUSTOMER LISTING';
@@ -57,7 +58,7 @@ class AnalyticsController extends Controller
         $this->_data["start_date"] = $start_date;
         $this->_data["start_date_filter"] = date($start_date.'-01');
         $this->_data["end_date"] = $end_date;
-        $this->_data["end_date_filter"] = date($end_date.'-31');
+        $this->_data["end_date_filter"] = date($end_date.'-28');
 
         $groups = LocationGroup::with(['normalization_details','grouplocationmap'])->where('company_id', $company_id)->where('category_id',$category_id)->get();
 

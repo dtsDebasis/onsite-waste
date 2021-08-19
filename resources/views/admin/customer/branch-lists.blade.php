@@ -33,6 +33,7 @@
                         <th>Phone No.</th>
                         <th>Address</th>
                         <th>Specialty</th>
+                        <th>Service Type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -58,6 +59,7 @@
                                     @endforeach
                                 @endif
                                 <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
+                                <td>{{ ($companybranch->package_details)?$companybranch->package_details->service_type:'NA' }}</td>
                                 <td><a href="{{route('customers.branche-info-details',[$id,$companybranch->id])}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Details"><i class="fa fa-eye"></i></td>
                             </tr>
                         @endforeach

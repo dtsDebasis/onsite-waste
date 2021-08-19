@@ -109,12 +109,12 @@ class ImportCompany implements ShouldQueue
                     Log::info("------Company------");
                     Log::info($val[7]);
                     Log::info($val[6]);
-                    $addressLineGet = buildAddressLine($val[7],$val[6]);
+                    $addressLineGet = self::buildAddressLine($val[7],$val[6]);
                     Log::info($addressLineGet);
                     Log::info("------Company-----");
                     $addressData = [
                         //'addressline1' => $val[7].', '.$val[6],
-                        'addressline1' => buildAddressLine($val[7],$val[6],$val[8]),
+                        'addressline1' => self::buildAddressLine($val[7],$val[6],$val[8]),
                         'locality' => $val[7],
                         'state' => $val[6],
                         'country' => $val[8]
@@ -164,12 +164,12 @@ class ImportCompany implements ShouldQueue
                 Log::info($val[7]);
                 Log::info($val[6]);
                 Log::info($val[8]);
-                $addressLineGet = buildAddressLine($val[7],$val[6],$val[8]);
+                $addressLineGet = self::buildAddressLine($val[7],$val[6],$val[8]);
                 Log::info($addressLineGet);
                 Log::info("------Branch End-----");
 
                 $addressData = [
-                    'addressline1' => buildAddressLine($val[7],$val[6],$val[8]),
+                    'addressline1' => self::buildAddressLine($val[7],$val[6],$val[8]),
                     'locality' => $val[7],
                     'state' => $val[6],
                     'country' => $val[8]
@@ -246,6 +246,25 @@ class ImportCompany implements ShouldQueue
             Log::info("Error");
             Log::info($e);
         }
+    }
+
+    public static function buildAddressLine($locality = null,$state = null,$country = null)
+    {
+        $addressArray = [];
+        if ($locality) {
+            array_push($addressArray, $locality);
+        }
+        if ($state) {
+            array_push($addressArray, $state);
+        }
+        if ($country) {
+            array_push($addressArray, $country);
+        }
+
+        // if (count($addressArray)) {
+        //     return null;
+        // }
+        return implode(',',$addressArray);
     }
 
     public static function createDefaultTranctionalPackage($company_id, $branch_id=0){

@@ -15,7 +15,7 @@ class SpecialtyController extends Controller
         $this->_module      = 'Specialities';
         $this->_routePrefix = 'master.specialty';
         $this->_model       = new Speciality();
-        $this->_offset = 10;
+        $this->_offset = 15;
     }
 
     /**

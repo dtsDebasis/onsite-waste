@@ -11,7 +11,7 @@
             {!! Form::model($transactionalpackages, [
             'method' => 'PATCH',
             'url' => 'javascript:;', 
-            'class' => 'form-horizontal ',
+            'class' => 'form-horizontal checkediting',
             'id'=>'transactional-form',
             'enctype'=>'multipart/form-data'
             ]) !!}

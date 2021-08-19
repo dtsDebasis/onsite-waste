@@ -416,6 +416,7 @@
                                                 @if(count($te5000))
                                                     @foreach($te5000['results'] as $key => $val)
                                                         <tr>
+                                                            
                                                             <td>{{isset($val['imei']) ? $val['imei'] : 'NA'}}</td>
                                                             <td>{{isset($val['serialNumber']) ? $val['serialNumber'] : 'NA'}}</td>
                                                             <td>{{isset($val['currentFirmwareVersion']) ? $val['currentFirmwareVersion'] : 'NA'}}</td>
@@ -423,7 +424,7 @@
                                                             <td>{{isset($val['lastAnnounceDateTime']) ? \App\Helpers\Helper::showdate($val['lastAnnounceDateTime'],true,'m-d-Y h:i A') : 'NA'}}</td>
 
                                                             <td>
-                                                                <button type="button" class="btn btn-sm btn-outline-primary waves-effect waves-light last_run_info" data-location_id="{{isset($val['locationId']) ? $val['locationId'] : ''}}" data-imie_no="{{isset($val['imei']) ? $val['imei'] : ''}}">Last Run Info</button>
+                                                                <button type="button" class="btn btn-sm btn-outline-primary waves-effect waves-light last_run_info" data-location_id="{{isset($val['locationId']) ? $val['locationId'] : ''}}" data-imie_no="{{isset($val['imei']) ? $val['imei'] : ''}}" data-device_id="{{isset($val['serialNumber']) ? $val['serialNumber'] : ''}}">Last Run Info</button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -506,12 +507,12 @@
                                                     @php($inventory_details = (array_key_exists("locationId",$containerInventory))?$containerInventory: array())
                                                     <td><input class="form-control" type="number" name="sh_inventory[]" id="sh_inventory_{{$uniq_id}}" value="{{isset($inventory_details['sharps']['containersAtHand'])?$inventory_details['sharps']['containersAtHand']:0}}"> </td>
                                                     <td><input class="form-control" type="number" name="sh_rop[]" id="sh_rop_{{$uniq_id}}" value="{{isset($inventory_details['sharps']['reorderPoint'])?$inventory_details['sharps']['reorderPoint']:0}}"> </td>
-                                                    <!-- <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],isset($inventory_details['sharps']['canisterType'])?$inventory_details['sharps']['canisterType']:null,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td> -->
-                                                    <td>{{($companybranch->sh_container_type)?$companybranch->sh_container_type:'NA'}}</td>
+                                                    <td>{!! Form::select('sh_container_type',['Spinner'=>'Spinner','Rocker'=>'Rocker'],$companybranch->sh_container_type,['class'=>'form-control select2','id'=>'sh_container_type','placeholder'=>'Choose ...']) !!}</td>
+                                                    <!-- <td>{{($companybranch->sh_container_type)?$companybranch->sh_container_type:'NA'}}</td> -->
                                                     <td><input class="form-control" type="number" name="rb_inventory[]" id="rb_inventory_{{$uniq_id}}" value="{{isset($inventory_details['redbag']['containersAtHand'])?$inventory_details['redbag']['containersAtHand']:0}}"> </td>
                                                     <td><input class="form-control" type="number" name="rb_rop[]" id="rb_rop_{{$uniq_id}}" value="{{isset($inventory_details['redbag']['reorderPoint'])?$inventory_details['redbag']['reorderPoint']:0}}"> </td>
-                                                    <td>{{($companybranch->rb_container_type)?$companybranch->rb_container_type:'NA'}}</td>
-                                                    <!-- <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],isset($inventory_details['redbag']['canisterType'])?$inventory_details['redbag']['canisterType']:null,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td> -->
+                                                    <!-- <td>{{($companybranch->rb_container_type)?$companybranch->rb_container_type:'NA'}}</td> -->
+                                                    <td>{!! Form::select('rb_container_type',['Rocker'=>'Rocker','Open'=>'Open'],$companybranch->rb_container_type,['class'=>'form-control select2','id'=>'rb_container_type','placeholder'=>'Choose ...']) !!}</td>
                                                     <td>
                                                     @if (can('Inventory Update'))
                                                         <a href="javascript:;" data-toggle="tooltip" data-id="{{$companybranch->uniq_id}}" data-placement="top" title="" data-original-title="Update" type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light update-inventory-info">
@@ -1002,11 +1003,12 @@ $(document).ready(function () {
     });
     $('body').on('click','.last_run_info',function(){
         let imie_no = $(this).attr('data-imie_no');
+        let device_id = $(this).attr('data-device_id');
         let location_id = $(this).attr('data-location_id');
         $.ajax({
             url: '{{url("admin/customers/ajax-get-last-run-info")}}',
             type: 'GET',
-            data: {imie_no:imie_no,location_id:location_id},
+            data: {imie_no:imie_no, location_id:location_id, device_id:device_id},
             beforeSend: function () {
                 $('.loader').show();
             },

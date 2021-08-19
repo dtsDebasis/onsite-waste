@@ -60,10 +60,9 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Company ID</th>
-                                        <th>Company Name / Address</th>
+                                        <th>Company Name / Address</th> 
                                         <th>Categories</th>
                                         <th>Specialty</th>
-
                                         {{-- <th>Groups</th>
                                         <th>Locations</th>
                                         <th>Action</th> --}}
@@ -79,6 +78,14 @@
                                             <br>
                                             {{(isset($company->addressdata->addressline1) && $company->addressdata->addressline1)?$company->addressdata->addressline1:'NA'}}
                                         </td>
+                                        
+                                        <td class="text-justify">
+                                          @foreach ($company->categories as $category)
+                                          <a class="badge badge-primary tag_font_size" href="{{ route('analytics.companydata', ['company_id' => $company->id,'category_id' => $category->id  ] ) }}">{{$category->name}}</a>
+
+                                          @endforeach
+
+                                        </td>
                                         @php($comSpecialt = [])
                                         @if(isset($company->speciality) && count($company->speciality))
                                         @foreach($company->speciality as $sp)
@@ -87,13 +94,7 @@
                                         @endif
                                         @endforeach
                                         @endif
-                                        <td class="text-justify">
-                                          @foreach ($company->categories as $category)
-                                          <a class="badge badge-primary tag_font_size" href="{{ route('analytics.companydata', ['company_id' => $company->id,'category_id' => $category->id  ] ) }}">{{$category->name}}</a>
-
-                                          @endforeach
-
-                                        </td>
+                                       
                                         <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
 
                                         {{-- <td>5</td>

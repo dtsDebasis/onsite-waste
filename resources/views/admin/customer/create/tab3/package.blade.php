@@ -153,7 +153,7 @@
                 {!! Form::model($editPackage, [
                 'method' => 'PATCH',
                 'route' => ['cutomers.update-package',[$id,$editPackage->id]],
-                'class' => 'form-horizontal ',
+                'class' => 'form-horizontal  checkediting',
                 'id'=>'package-form',
                 'enctype'=>'multipart/form-data'
                 ]) !!}

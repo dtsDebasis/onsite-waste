@@ -16,7 +16,7 @@
             </ul>
         </div>
         @endif
-        <form method="post" action="{{route('customers.create', ['id'=> $id  ])}}">
+        <form method="post" class="checkediting" action="{{route('customers.create', ['id'=> $id  ])}}">
             {{csrf_field()}}
             <div class="card-body mb-4">
                 <div class="row">

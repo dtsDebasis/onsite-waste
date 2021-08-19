@@ -17,13 +17,15 @@ class HubSpot {
             'state' => $input['branch_state'],
             'city' => $input['branch_city'],
             'country' => $input['branch_country'],
-            'lead_source_1' => 'Marketing',
-            'lead_source_2' => 'Facebook',
+            // 'lead_source_1' => 'Marketing',
+            // 'lead_source_2' => 'Facebook',
+            'lead_source_1' => $input['lead_source_1'],
+            'lead_source_2' => $input['lead_source_2'],
             'shipping_address' => $input['branch_address'],
             'red_bag_reserve' => $input['red_bag_reserve'],
             'rb_container_type' => $input['rb_container_type'],
             'sharps_reserve' => $input['sharps_reserve'],
-            'sh_container_type' => $input['sh_container_type'],
+            'sh_container_type' => ($input['sh_container_type']=='Spinner')?'Spinner 2.0':$input['sh_container_type'],
             'wastetech_company_id' => $input['branch_uniq_id']
         ];
         $companyInput = new \HubSpot\Client\Crm\Companies\Model\SimplePublicObjectInput();
@@ -95,7 +97,7 @@ class HubSpot {
         $searchRequest = new \HubSpot\Client\Crm\Companies\Model\PublicObjectSearchRequest();
         $searchRequest->setFilterGroups([$filterGroup]);
         $companyPage = $hubSpot->crm()->companies()->searchApi()->doSearch($searchRequest);
-        print_r($companyPage);
+
         foreach ($companyPage->getResults() as $company) {
             $company_id = $company->getId();
         }

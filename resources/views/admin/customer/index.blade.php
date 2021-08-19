@@ -70,7 +70,6 @@
                                         <th>Phone No.</th>
                                         <th>Address</th>
                                         <th>Specialty</th>
-                                        <th>Service Type</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -99,7 +98,6 @@
                                         @endforeach
                                         @endif
                                         <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
-                                        <td>NA</td>
                                         <td>
                                             @if (can('Customer Edit'))
                                                 <a class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"

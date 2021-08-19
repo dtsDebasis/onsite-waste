@@ -19,6 +19,7 @@
 <script src="{{ asset('/administrator/assets/libs/bootbox/bootbox.all.min.js') }}"></script>
 <script src="{{asset('/assets/libs/select2/js/select2.min.js')}}"></script>
 <script src="{{asset('/assets/js/app.js')}}"></script>
+<script src="{{asset('/assets/js/custom.js')}}"></script>
 <script src="{{ asset('/administrator/admin-form-plugins/app.js')}}"></script>
 <script src="{{ asset('/administrator/admin-form-plugins/form-controls.js')}}"></script>
 <script src="{{ asset('/administrator/assets/js/pages/bootstrap-tagsinput.min.js')}}"></script>
