@@ -60,7 +60,10 @@ class AnalyticsController extends Controller
         $this->_data["end_date"] = $end_date;
         $this->_data["end_date_filter"] = date($end_date.'-28');
 
-        $groups = LocationGroup::with(['normalization_details','grouplocationmap'])->where('company_id', $company_id)->where('category_id',$category_id)->get();
+        $groups = LocationGroup::with(['normalization_details','grouplocationmap'])
+        ->where('company_id', $company_id)
+        ->where('category_id',$category_id)
+        ->get();
 
         $this->_data["groups"] = $groups;
         $this->_data['pageHeading'] = 'Zone wise analytics';

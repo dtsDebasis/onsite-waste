@@ -179,6 +179,45 @@ class LocationGroup extends Model
         ->sum($type);
     }
 
+    public static function getAnalyticsDataByMultiLocation($locations,$type,$start_date,$end_date)
+    {
+        $locationIds = [];
+        if ($locations) {
+            $locationIds = $locations->pluck('location_id');
+        }
+        $select = [];
+        if ($type == 'all') {
+            $select = ['branch_id','date','trips','boxes','weight','spend','sb_cycles','rb_cycles'];
+        } else {
+            $select = ['branch_id','date', $type];
+        }
+
+        return Analytics::whereIn('branch_id',$locationIds)
+        ->whereBetween('date', [$start_date, $end_date])
+        ->select($select)->get()->groupBy('branch.uniq_id');
+    }
+
+    public static function analyticsCountBySingleLocation($locationId,$type,$start_date,$end_date)
+    {
+        return Analytics::where('branch_id',$locationId)
+        ->whereBetween('date', [$start_date, $end_date])
+        ->sum($type);
+    }
+
+    public static function getAnaliticsDataByDate($locationId,$type,$start_date,$end_date)
+    {
+        $select = [];
+        if ($type == 'all') {
+            $select = ['branch_id','date','trips','boxes','weight','spend','sb_cycles','rb_cycles'];
+        } else {
+            $select = ['branch_id','date', $type];
+        }
+        return  Analytics::where('branch_id',$locationId)
+        ->whereBetween('date', [$start_date, $end_date])
+        ->select($select)->get()->groupBy('branch.uniq_id');
+
+    }
+
     public static function analyticsData($locations,$start_date,$end_date)
     {
         $locationIds = [];

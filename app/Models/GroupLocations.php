@@ -21,4 +21,14 @@ class GroupLocations extends Model
     protected $hidden = [
     	'updated_at',
     ];
+
+    public function category()
+    {
+        return $this->hasOne('App\Models\GroupCategory','id','category_id');
+    }
+
+    public function location()
+    {
+        return $this->hasOne('App\Models\CompanyBranch','id','location_id');
+    }
 }

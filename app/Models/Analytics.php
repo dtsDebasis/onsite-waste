@@ -24,8 +24,54 @@ class Analytics extends Model
         'boxes',
         'weight',
         'spend',
-        'cycles'
+        'sb_cycles',
+        'rb_cycles'
     ];
+
+    protected $appends = [
+        'normalized_trips',
+        'normalized_boxes',
+        'normalized_weight',
+        'normalized_spend',
+        'normalized_sb_cycles',
+        'normalized_rb_cycles',
+    ];
+
+    public function getNormalizedTripsAttribute()
+    {
+        $normalization_fact = $this->branch->normalization_fact ?? 1;
+        return round($this->trips / $normalization_fact);
+    }
+
+    public function getNormalizedBoxesAttribute()
+    {
+        $normalization_fact = $this->branch->normalization_fact ?? 1;
+        return round($this->boxes / $normalization_fact);
+    }
+
+    public function getNormalizedWeightAttribute()
+    {
+        $normalization_fact = $this->branch->normalization_fact ?? 1;
+        return round($this->weight / $normalization_fact);
+    }
+
+    public function getNormalizedSpendAttribute()
+    {
+        $normalization_fact = $this->branch->normalization_fact ?? 1;
+        return round($this->spend / $normalization_fact);
+    }
+
+    public function getNormalizedSbCyclesAttribute()
+    {
+        $normalization_fact = $this->branch->normalization_fact ?? 1;
+        return round($this->sb_cycles / $normalization_fact);
+    }
+
+    public function getNormalizedRbCyclesAttribute()
+    {
+        $normalization_fact = $this->branch->normalization_fact ?? 1;
+        return round($this->rb_cycles / $normalization_fact);
+    }
 
     public function branch(Type $var = null)
     {
