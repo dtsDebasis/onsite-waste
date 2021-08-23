@@ -42,36 +42,38 @@ class CustomerManagementController extends Controller {
 
 	public function index(Request $request){
 		// $third_party = [
-        //     "branch_name" => "Hubspot Test",
-        //     "branch_email" => null,
-        //     "branch_phone" => "(909) 224 - 2673",
-        //     "branch_uniq_id" => "2610735942",
-        //     "branch_address" => "Kolkata Airport Road, International Airport, Dum Dum, Kolkata, West Bengal, India",
-        //     "branch_state" => "WB",
-        //     "branch_city" => "Kolkata",
-        //     "branch_postcode" => "700052",
-        //     "branch_country" => "India",
-        //     "company_name" => "Onsite Waste Management",
-        //     "company_phone" => "(909) 224 - 2673",
-        //     "company_email" => "arijitcompany@yopmail.com",
-        //     "company_id" => "6641382112",
-        //     "red_bag_reserve" => "3",
-        //     "sharps_reserve" => "2",
-        //     "rb_container_type" => "Rocker",
-        //     "sh_container_type" => "Rocker",
-        //     "branch_billing_address" => "Kolkata Airport Road, International Airport, Dum Dum, Kolkata, West Bengal, India",
-        //     "branch_billing_state" => "WB",
-        //     "branch_billing_city" => "Kolkata",
-        //     "branch_billing_postcode" => "700052",
-        //     "branch_billing_country" => "India",
-        //     "contact_firstname" => "Arijit",
-        //     "contact_lastname" => "Naskar",
-        //     "contact_phone" => "(909) 224 - 2673",
-        //     "contact_email" => "paul@traverse.com",
-        //     "contact_role" => "Corporate",
-        //     "contact_id" => 7
-        // ];
-		// $hubspotRes = \App\Helpers\HubSpot::createUser($third_party);
+		// 	'branch_name' => 'Test Child 6 DZT3',
+		// 	'branch_email' => '',
+		// 	'branch_phone' => 2182371,
+		// 	'branch_uniq_id' => '4410982356',
+		// 	'branch_address' => '7888 Westminster Boulevard, Westminster, CA, USA',
+		// 	'branch_state' => 'CA',
+		// 	'branch_city' => 'Westminster',
+		// 	'branch_postcode' => 92683,
+		// 	'branch_country' => 'United States',
+		// 	'lead_source_1' => 'Channel',
+		// 	'lead_source_2' => 'Direct Supply',
+		// 	'company_name' => 'Joseph Test',
+		// 	'company_phone' => '111-222-3333',
+		// 	'company_email' => '',
+		// 	'company_id' => '3330166296',
+		// 	'red_bag_reserve' => 4,
+		// 	'sharps_reserve' => 4,
+		// 	'rb_container_type' => 'Rocker',
+		// 	'sh_container_type' => 'Spinner',
+		// 	'branch_billing_address' => '7888 Westminster Boulevard, Westminster, CA, USA',
+		// 	'branch_billing_state' => 'CA',
+		// 	'branch_billing_city' => 'Westminster',
+		// 	'branch_billing_postcode' => '92683',
+		// 	'branch_billing_country' => 'United States',
+		// 	'contact_firstname' => '',
+		// 	'contact_lastname' =>'',
+		// 	'contact_phone' => '',
+		// 	'contact_email' => '',
+		// 	'contact_role' => '',
+		// 	'contact_id' => '',
+		// ];
+		//$hubspotRes = \App\Helpers\HubSpot::createUser($third_party);
 		//$zendeskRes = \App\Helpers\ZenDesk::createUser($third_party);
 		// $recurlyRes = \App\Helpers\Recurly::createUser($third_party);
 		// dd();
@@ -859,9 +861,8 @@ class CustomerManagementController extends Controller {
 		try{
 			$input = $request->all();
 			//\App\Helpers\Helper::messageSendToSlack('text');
-			// $url = 'https://wastetech-dev.s3-us-west-2.amazonaws.com/api/mock/cycles.json';
-			$url = 'locations/'.$input['location_id'].'/cycles';
-			// $url = 'locations/'.$input['location_id'].'/devices/'.$input['device_id'].'/cycleHistory';
+			// $url = 'locations/'.$input['location_id'].'/cycles';
+			$url = 'locations/'.$input['location_id'].'/devices/'.$input['imie_no'].'/cycles';
 			// .$input['imie_no'].'/cycleHistory'
 			$te5000 = \App\Helpers\Helper::callAPI('GET',$url,['imei'=>$input['imie_no']]);
 			$te5000 = json_decode($te5000, true);
@@ -1046,7 +1047,6 @@ class CustomerManagementController extends Controller {
 					$third_party['contact_email'] = ($userDetails) ? $userDetails->email : null;
 					$third_party['contact_role'] = ($userDetails) ? $role->name : null;
 					$third_party['contact_id'] = ($userDetails) ? $userDetails->id : null;
-
 
 					/**
 					 * Call Api
