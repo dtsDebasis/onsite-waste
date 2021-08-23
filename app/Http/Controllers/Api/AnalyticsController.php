@@ -7,7 +7,9 @@ use stdClass;
 use Exception;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
+use App\Models\GroupCategory;
 use App\Models\LocationGroup;
+use App\Models\GroupLocations;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -284,6 +286,53 @@ class AnalyticsController extends Controller
 
         return $quarters;
 
+    }
+
+    public function category(Request $request)
+    {
+        try {
+            $current_user = auth()->user();
+            $company_id = $current_user ? $current_user->company_id : 0;
+            $groupCategory = GroupCategory::with('locationgroup')->where('company_id',$company_id)->get();
+            return Helper::rj($this->message, $this->successStatus, $groupCategory);
+        } catch (Exception $e) {
+            return Helper::rj($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function searchLocation(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $rules = array(
+                //'categories' => 'required',
+                'groups' => 'required',
+                'search_text' => 'required|min:3'
+            );
+            $validator = \Validator::make($input, $rules);
+
+            if ($validator->fails()) {
+                throw new Exception($validator->errors()->first(), 400);
+            }
+            $categories = explode(',', $request->categories);
+            $groups = explode(',', $request->groups);
+            $search_text = $request->search_text;
+            $findLocations = GroupLocations::with('location')
+            ->whereHas('location', function ($query) use ($search_text) {
+                $query->where('name', 'like', '%' . $search_text . '%');
+            })->whereIn('group_id',$groups)->get();
+
+            $locations = [];
+            foreach ($findLocations as $key => $location) {
+                if ($location->location) {
+                    $locations[] = $location->location;
+                }
+            }
+            return Helper::rj($this->message, $this->successStatus, $locations);
+
+        } catch (Exception $e) {
+            return Helper::rj($e->getMessage(), $e->getCode());
+        }
     }
 
 }

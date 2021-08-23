@@ -26,6 +26,9 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['api']], function () {
 	Route::post('update-te-5000-information', 'App\Http\Controllers\Api\ExternalInfoApiController@updateTE500Information');
 	Route::post('contact-request','App\Http\Controllers\Api\ExternalInfoApiController@createContact');
 	Route::get('analytics','App\Http\Controllers\Api\AnalyticsController@index');
+    Route::get('category', 'App\Http\Controllers\Api\AnalyticsController@category');
+    Route::get('search/location', 'App\Http\Controllers\Api\AnalyticsController@searchLocation');
+
 });
 
 Route::group(['prefix' => 'v1/', 'middleware' => ['auth:api']], function () {
