@@ -101,7 +101,7 @@ class CustomerManagementController extends Controller {
 		$validationRules = [
 			'import_file' =>'required|mimes:csv,txt',
 		];
-		$validator = \Validator::make($request->all(), $validationRules);
+		$validator = \Validator		::make($request->all(), $validationRules);
 		if ($validator->fails()) {
 			return redirect()->back()->with('error',$validator->errors()->first());
 		}
@@ -913,7 +913,7 @@ class CustomerManagementController extends Controller {
 					'uniq_id' => 'required|numeric|unique:company_branch,uniq_id,' . $id . ',id,company_id,'.$company_id,
 				],[
 					'uniq_id.required' => 'The Branch Code field is required',
-					'uniq_id.numeric' => 'The Branch Code field must be numeric',
+					'uniq_id.numeric' => 'The Branch C		ode field must be numeric',
 					'uniq_id.unique' => 'The Branch Code has already been taken'
 				]);
 			}
@@ -923,7 +923,7 @@ class CustomerManagementController extends Controller {
 							->withInput();
 			}
 			$input['company_id'] = $company->id;
-			$addressdata = null;
+						$addressdata = null;
 			$billingaddress = null;
 			if($id){
 				$companyBrancObject = new CompanyBranch();
@@ -1208,7 +1208,7 @@ class CustomerManagementController extends Controller {
 					'company_id' => $input['company_id'],
 					'branch_id'  => 0
 				];
-				if(isset($input['branch_id']) && !empty($input['branch_id']) && isset($input['purpose']) && $input['purpose'] != 'list'){
+				if(isset($input['branch_id']) && !empty($input['branch_id'])){
 					$query2['company_id'] = $input['company_id'];
 					$query2['branch_id'] = $input['branch_id'];
 					$query2['single_record'] = true;
@@ -1220,15 +1220,8 @@ class CustomerManagementController extends Controller {
 					}
 					else if($input['page_type'] == "create_edit"){
 						$packages = $packageModel->getListing($query);
-                        $query3 = [
-                            'company_id' => $input['company_id'],
-                            'branch_id'  => $input['branch_id'] ?? 0,
-                            'single_record'  => true
-                        ];
-						$branchPackage = $packageModel->getListing($query3);
-
 						if(count($packages)){
-							$view = view("admin.customer.create.tab4.package-listing",['packages'=>$packages,'input' => $input, 'branchPackage' => $branchPackage])->render();
+							$view = view("admin.customer.create.tab4.package-listing",['packages'=>$packages,'input' => $input])->render();
 							return Response::json(['success'=>true,'msg'=>'Details fetched successfully','html'=>$view,'mod_head_content'=>'Package List']);
 
 						}
@@ -1239,15 +1232,8 @@ class CustomerManagementController extends Controller {
 				}
 				else{
 					$packages = $packageModel->getListing($query);
-                    $query3 = [
-                        'company_id' => $input['company_id'],
-                        'branch_id'  => $input['branch_id'] ?? 0,
-                        'single_record'  => true
-                    ];
-                    $branchPackage = $packageModel->getListing($query3);
-
 					if(count($packages)){
-						$view = view("admin.customer.create.tab4.package-listing",['packages'=>$packages,'input' => $input, 'branchPackage' => $branchPackage])->render();
+						$view = view("admin.customer.create.tab4.package-listing",['packages'=>$packages,'input' => $input])->render();
 						return Response::json(['success'=>true,'msg'=>'Details fetched successfully','html'=>$view,'mod_head_content'=>'Package List']);
 
 					}

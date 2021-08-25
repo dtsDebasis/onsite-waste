@@ -166,8 +166,7 @@
         });
         $('body').on('click','#package_listing',function(){
             var id = $(this).attr('data-id');
-            //getBranchPackageList(id);
-            getBranchPackageList(id,'list');
+            getBranchPackageList(id);
         });
         $('body').on('click','#contact_details',function(){
             $('.existing-assign-contact').html('Assign');
