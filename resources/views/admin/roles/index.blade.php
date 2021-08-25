@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="card-body card mb-4">
-<form method="get" action="{{route('roles.index')}}">
+<form class="checkediting" method="get" action="{{route('roles.index')}}">
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="input-group mw-30">
             <input name="search" value="{{$search}}" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
@@ -31,21 +31,21 @@
                         <td>{{ $value->title }}</td>
 
                         <td>
-                           
+
                            <a href="{{ route('permissions.manage_role',$value->id) }}">
                            <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
                                 <i class="far fa-eye"></i>
                             </button>
                             </a>
-                           
-                            
+
+
                             <a href="{{ route($routePrefix . '.edit',$value->id) }}">
                               <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
                                   <i class="bx bx-edit-alt"></i>
                               </button>
                             </a>
-                           
-                            
+
+
                             <a  data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
               document.getElementById('delete-form-{{$value->id}}').submit();" data-original-title="Delete">
                               <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light">
@@ -63,7 +63,7 @@
                           {!! Form::close() !!}
 
 
-                           
+
                         </td>
                     </tr>
                     @endforeach
@@ -75,7 +75,7 @@
             </div>
             <div style="margin-top: 15px;">
               {{$data->links()}}
-            </div>                  
+            </div>
         </div>
     </div>
 </div>

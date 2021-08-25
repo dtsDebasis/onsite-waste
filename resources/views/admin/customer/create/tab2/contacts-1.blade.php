@@ -103,7 +103,7 @@
                     <div class="">
                         <h3 class="custom-heading">Contact List</h3>
                     </div>
-                    <form class="form-inline mb-4" method="GET" action="{{url('admin/customers/create/contact/'.$id)}}">
+                    <form class="form-inline checkediting mb-4" method="GET" action="{{url('admin/customers/create/contact/'.$id)}}">
 
                             <input type="text" class="form-control mr-2" value="{{request()->get('srch_params')}}" name="srch_params" placeholder="Search by name,email and phone">
                             <button type="submit" class="btn btn-primary mr-2">Filter</button>
@@ -239,7 +239,7 @@
 
 
             <!-- <form id="modal-frm" > -->
-            <form id="modal-frm" method="post" action="{{route('customers.create.contact', ['id'=> $id  ])}}">
+            <form class="checkediting" id="modal-frm" method="post" action="{{route('customers.create.contact', ['id'=> $id  ])}}">
                 {{csrf_field()}}
 
                 <input type="hidden" class="user_id" name="user_id" value="" >

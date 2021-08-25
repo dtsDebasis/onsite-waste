@@ -5,7 +5,7 @@
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
         @if (can('Banner Search'))
-        <form class="form-inline" method="get" action="{{route('banners.index')}}">
+        <form class="form-inline checkeditingall_package_details" method="get" action="{{route('banners.index')}}">
             <div class="input-group mw-30">
                 <input value="{{$search}}" name="title" type="text" class="form-control" placeholder="Search"
                     aria-label="Search" aria-describedby="button-addon2">

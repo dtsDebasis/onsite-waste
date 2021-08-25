@@ -11,7 +11,7 @@
                 </ul>
             </div>
         @endif
-    <form method="post" action="{{route('user_update')}}">
+    <form class="checkediting" method="post" action="{{route('user_update')}}">
         {{csrf_field()}}
         <input name="id" type="hidden" value="{{$id}}"/>
         <div class="row">

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="card-body card mb-4">
-<form method="get" action="{{route('permissions.index')}}">
+<form class="checkediting" method="get" action="{{route('permissions.index')}}">
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="input-group mw-30">
             <input type="text" name="search" value="{{$search}}" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
@@ -61,7 +61,7 @@
             </div>
             <div style="margin-top: 15px;">
               {{$data->links()}}
-            </div>              
+            </div>
         </div>
     </div>
 </div>

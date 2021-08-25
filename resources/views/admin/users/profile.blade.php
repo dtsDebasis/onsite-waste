@@ -11,7 +11,7 @@
                 </ul>
             </div>
         @endif
-    <form method="post" action="{{route('user_update')}}">
+    <form class="checkediting" method="post" action="{{route('user_update')}}">
         {{csrf_field()}}
         <div class="row">
             <div class="col-md-4">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        
+
         <h4>Update Password</h4>
         <hr>
         <div class="row">

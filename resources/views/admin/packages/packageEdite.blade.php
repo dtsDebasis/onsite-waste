@@ -31,13 +31,13 @@
 
 
 
-            <form method="post" action="{{route('package.editpackage', ['id'=> $id ] )}}">
+            <form class="checkediting" method="post" action="{{route('package.editpackage', ['id'=> $id ] )}}">
                     {{csrf_field()}}
                     <div class="row">
                         <div class="col-sm-12">
                             <h3 class="custom-heading">Package</h3>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Package Name*</label>
@@ -68,7 +68,7 @@
                                 <input name="frequency_number" type="number"  min="1" class="form-control" value="{{ $package->frequency_number ?? '' }}" >
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Box Included</label>
@@ -89,13 +89,13 @@
                         </div>
 
 
-                        
-                        
+
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="container_type"> Container Type</label>
                                 <input name="container_type" type="text" class="form-control" value="{{ $package->container_type ?? '' }}"  >
-                               
+
                             </div>
                         </div>
 
@@ -109,18 +109,18 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="te_monthly_rate"> Monthly Rate</label>
-                                <input name="te_monthly_rate" type="number"  min="1" class="form-control" value="{{ $package->te_monthly_rate ?? '' }}"  > 
+                                <input name="te_monthly_rate" type="number"  min="1" class="form-control" value="{{ $package->te_monthly_rate ?? '' }}"  >
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="container_monthly_rate"> Container Monthly Rate</label>
-                                <input name="container_monthly_rate" type="number"  min="1" class="form-control"  value="{{ $package->container_monthly_rate  ?? '' }}"  > 
+                                <input name="container_monthly_rate" type="number"  min="1" class="form-control"  value="{{ $package->container_monthly_rate  ?? '' }}"  >
                             </div>
                         </div>
 
@@ -147,7 +147,7 @@
                         </div>
 
 
-                        
+
 
                     </div>
 

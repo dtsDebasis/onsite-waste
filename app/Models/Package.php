@@ -19,7 +19,7 @@ class Package extends Model
         'boxes_included',
         'compliance',
         'frequency_type',
-        'frequency_number',        
+        'frequency_number',
         'company_id',
         'branch_id',
         'last_hauling_date',
@@ -41,7 +41,7 @@ class Package extends Model
         $with_det = [];
         if(isset($srch_params['with'])){
             $with_det = $srch_params['with'];
-        } 
+        }
         $select = '*';
         if(isset($srch_params['select'])){
             $select = $srch_params['select'];//implode(',',$srch_params['select']);
@@ -64,7 +64,7 @@ class Package extends Model
                             ->orWhere($this->table.".branch_id", "=", 0);
                 });
             });
-            
+
             if(isset($srch_params['id'])){
                 return $listing->where($this->table .'.id', '=', $srch_params['id'])
                                 ->first();
@@ -74,7 +74,7 @@ class Package extends Model
             }
             if(isset($srch_params['count'])){
                 return $listing->count();
-            }                        
+            }
             if($offset){
                 $listing = $listing->orderBy($this->table .'.id', 'Asc')
                                 ->paginate($offset);
@@ -82,12 +82,12 @@ class Package extends Model
             else{
                 $listing = $listing->orderBy($this->table .'.id', 'ASC')
                                 ->get();
-                                
+
             }
-            
-        
+
+
         return $listing;
-            
+
     }
 }
 

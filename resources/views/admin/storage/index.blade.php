@@ -33,17 +33,17 @@
                         @if ($location)
                             <tr><td colspan="5">
                                 <a href="{{route('storage.index',['browse'=>$prevlocation])}}"><i style="font-size:16px" class="fa fa-angle-double-left"></i> Previous...</a>
-                            </td></tr> 
+                            </td></tr>
                         @endif
-                        @foreach ($objects as $key => $val)  
+                        @foreach ($objects as $key => $val)
                             <tr>
                                 <td>
                                     @if ($val['type']=='folder')
                                         <i class="fa fa-folder text-warning" style="font-size:20px"></i>
                                     @else
-                                        <i class="fa fa-file text-info" style="font-size:20px"></i>   
+                                        <i class="fa fa-file text-info" style="font-size:20px"></i>
                                     @endif
-                                    
+
                                 </td>
                                 <td>
                                     @if ($val['type']=='folder')
@@ -51,7 +51,7 @@
                                     @else
                                         <span class="text-danger">{{$val['object']}}</span>
                                     @endif
-                                    
+
                                 </td>
                                 <td>{{$val['createdate']}}</td>
                                 <td>
@@ -67,7 +67,7 @@
                                     @else
                                         <a href="{{route('storage.download',['key'=>$location.$val['object']])}}" target="_blank" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-original-title="Download"><i class="fa fa-download"></i></a>
                                     @endif
-                                    
+
                                     <a class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="event.preventDefault();
                                 document.getElementById('delete-form-{{$val['object']}}').submit();" data-original-title="Delete">{!! \Config::get('settings.icon_delete') !!}</a>
                                 {!! Form::open([
@@ -85,13 +85,13 @@
                             </tr>
                         @endforeach
                     </tbody>
-                    
+
                 </table>
-            </div>  
-        </div>  
-    </div>  
-    
-<div class="bottom-bar"><i class="fa fa-hourglass-end" style="margin-right:5px"></i> Uploaded <span class="font-weight-bold text-black" id="upload-progress">0</span> out of <span  class="font-weight-bold text-black" id="upload-total">0</span> files, failed <span class="font-weight-bold text-black" id="upload-failed">0</span> <span class="close-uploader text-black" style="cursor:pointer; margin-left:5px"><i class="fa fa-times-circle"></i></span></div>    
+            </div>
+        </div>
+    </div>
+
+<div class="bottom-bar"><i class="fa fa-hourglass-end" style="margin-right:5px"></i> Uploaded <span class="font-weight-bold text-black" id="upload-progress">0</span> out of <span  class="font-weight-bold text-black" id="upload-total">0</span> files, failed <span class="font-weight-bold text-black" id="upload-failed">0</span> <span class="close-uploader text-black" style="cursor:pointer; margin-left:5px"><i class="fa fa-times-circle"></i></span></div>
 </div>
 <div class="modal fade" id="add-file-modal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-info modal-md">
@@ -103,7 +103,7 @@
                 </button>
             </div>
             <div class="modal-body" id="fileBody">
-                <form id="createfileform" type="multipart/formdata" action="" method="post">
+                <form class="checkediting" id="createfileform" type="multipart/formdata" action="" method="post">
                     <input type="hidden" name="filelocationpath" value="{{$location}}"/>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -135,7 +135,7 @@
                 </button>
             </div>
             <div class="modal-body" id="folderBody">
-                <form id="createfolderform" action="" method="post">
+                <form class="checkediting" id="createfolderform" action="" method="post">
                     <input type="hidden" name="locationpath" value="{{$location}}"/>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -165,7 +165,7 @@
                 </button>
             </div>
             <div class="modal-body" id="fileBody">
-                <form id="uploadmanifestform" type="multipart/formdata" action="" method="post">
+                <form class="checkediting" id="uploadmanifestform" type="multipart/formdata" action="" method="post">
                     <div class="input-group">
                         <div class="custom-file">
                             <input type="file" required class="custom-file-input" multiple="true" accept="application/pdf" name="manifestfile[]" id="inputGroupManifest"
@@ -199,7 +199,7 @@
         var names = $.map(files, function(val) { return val.name; });
         var html='';
         if (names.length > 0) {
-            $.map(names, function(val) { 
+            $.map(names, function(val) {
                 html+='<label class="custom-label" style="background:#ccc">'+val+' </label>';
             });
             $('#label-inputGroupManifest').text(names.length + ' Files Chosen');
@@ -209,7 +209,7 @@
             $('#label-inputGroupManifest').text('Choose Manifest');
             $('#clearmanifests').hide();
             $('#manifestfilelist').html('');
-        } 
+        }
     });
     $('#clearmanifests').on('click', function(event) {
         $('#uploadmanifestform').trigger("reset");
@@ -230,16 +230,16 @@
         $('#upload-progress').text(initial);
         $('#upload-failed').text(failed);
         $('#add-manifest-modal').modal('hide');
-        $.map(files, function(val) { 
+        $.map(files, function(val) {
             var data = new FormData();
-            data.append('manifestfileinput', val); 
+            data.append('manifestfileinput', val);
             $.ajax({
                 url:"{{route('storage.uploadmanifest')}}",
                 method:"POST",
                 data:data,
                 dataType:'json',
                 contentType:false,
-                cache:false, 
+                cache:false,
                 processData:false,
                 success:function(result)
                     {
@@ -256,7 +256,7 @@
                             $('#uploadmanifestform').trigger("reset");
                             $('#label-inputGroupManifest').text('Choose Manifest');
                             $('#clearmanifests').hide();
-                            $('#manifestfilelist').html('');   
+                            $('#manifestfilelist').html('');
                         }
                     }
             });

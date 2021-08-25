@@ -67,6 +67,12 @@ class Manifest extends Model
             ->when(isset($srch_params['date']), function($q) use($srch_params){
                 return $q->whereDate($this->table.".date", "=", $srch_params['date']);
             })
+
+            ->when(isset($srch_params['start_date']) && isset($srch_params['end_date']), function($q) use($srch_params){
+                $range = [$srch_params['start_date'], $srch_params['end_date']];
+                return $q->whereBetween($this->table.".date", $range);
+                //return $q->whereDate($this->table.".date", "=", $srch_params['date']);
+            })
             ->when(isset($srch_params['branch_address']), function($q) use($srch_params){
                 return $q->where($this->table.".branch_address", "LIKE", "%{$srch_params['branch_address']}%");
             })
@@ -134,7 +140,7 @@ class Manifest extends Model
 		$fileSize         = $file->getSize();
 		$fileMime         = $file->getMimeType();
 		$fileTempname        = $file->getPathName();
-        // dd($filelocation.$manifest->uniq_id.'.'.$fileExt);    
+        // dd($filelocation.$manifest->uniq_id.'.'.$fileExt);
         $res = $awsmodel->uploadFile($fileTempname, $filelocation.$manifest->uniq_id.'.'.$fileExt, 'public-read');
         $manifest->file_path = $res;
         $manifest->save();

@@ -20,7 +20,7 @@
             <div class="card-body">
                 <div class="d-flex flex-column flex-md-row justify-content-between">
                     @if (can('Knowledge Category Search'))
-                    <form class="form-inline" method="get" action="{{route('knowledgecategories.index')}}">
+                    <form class="form-inline checkediting" method="get" action="{{route('knowledgecategories.index')}}">
                         <div class="input-group mw-30">
                             <input value="{{$search}}" name="title" type="text" class="form-control"
                                 placeholder="Search" aria-label="Search" aria-describedby="button-addon2">

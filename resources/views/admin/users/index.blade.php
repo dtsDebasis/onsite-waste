@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 @if (can('Employee Search'))
-                <form method="get" action="{{route('users.index')}}">
+                <form class="checkediting" method="get" action="{{route('users.index')}}">
 
                     <div class="d-flex flex-column flex-md-row justify-content-between">
                         <div class="input-group mw-30">

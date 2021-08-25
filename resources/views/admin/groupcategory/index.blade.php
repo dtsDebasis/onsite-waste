@@ -4,7 +4,7 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-        <form class="form-inline" method="get" action="{{route('groupcategory.index')}}">
+        <form class="form-inline checkediting" method="get" action="{{route('groupcategory.index')}}">
             <div class="input-group mw-30">
                 <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search"
                     aria-label="Search" aria-describedby="button-addon2">
@@ -32,7 +32,7 @@
                         @if(count($data) != 0)
                         @foreach ($data as $key => $val)
                         <tr>
-                            
+
                             <td>{{ $val->name }}</td>
                             <td>{{(isset($val->customer_details) && $val->customer_details)?$val->customer_details->company_name:'NA'}}</td>
                             <td>{{ count($val->locationgroup) }}</td>

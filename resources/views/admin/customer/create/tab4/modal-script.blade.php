@@ -18,15 +18,15 @@
                 $('.loader').hide();
                 if (data.success) {
                     $('#package_modal_head').html(data.mod_head_content);
-                    $('#package_modal_body').html(data.html);                
+                    $('#package_modal_body').html(data.html);
                     $('#all_package_details').modal('toggle');
-                
-                } 
+
+                }
                 else {
                     bootbox.alert({
                         title:"Package List",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             },
@@ -35,7 +35,7 @@
                     bootbox.alert({
                     title:"Package List",
                     message: data.msg ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
         });
@@ -62,12 +62,12 @@
                         $('#package_modal_head').html('Contact List');
                         $('#package_modal_body').html(data.html);
                         $('#all_package_details').modal('show');
-                    } 
+                    }
                     else {
                         bootbox.alert({
                             title:"Contact List",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
                     }
                 },
@@ -76,7 +76,7 @@
                         bootbox.alert({
                         title:"Contact List",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             });
@@ -108,12 +108,12 @@
                         $('#package_modal_head').html('Pricing Details');
                         $('#package_modal_body').html(data.html);
                         $('#all_package_details').modal('show');
-                    } 
+                    }
                     else {
                         bootbox.alert({
                             title:"Package List",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
                     }
                 },
@@ -122,7 +122,7 @@
                         bootbox.alert({
                         title:"Package List",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             });
@@ -143,14 +143,14 @@
                         bootbox.alert({
                             title:"Price Details",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
-                    } 
+                    }
                     else {
                         bootbox.alert({
                             title:"Price Details",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
                     }
                 },
@@ -159,21 +159,22 @@
                         bootbox.alert({
                         title:"Contact Assign",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             });
         });
         $('body').on('click','#package_listing',function(){
             var id = $(this).attr('data-id');
-            getBranchPackageList(id);
+            //getBranchPackageList(id);
+            getBranchPackageList(id,'list');
         });
         $('body').on('click','#contact_details',function(){
             $('.existing-assign-contact').html('Assign');
             $('.existing-assign-contact').removeClass('new_assigned');
             var branch_id = $(this).attr('data-id');
             var existing_assigned = $(this).attr('data-add_contacts');
-            
+
             $('#branch-assign-to-contact-form').find('#selected_branch_id').val(branch_id);
             $('#branch-assign-to-contact-form').find('#assign_user_ids').val(existing_assigned);
             var existing_arr = existing_assigned.split(',');
@@ -205,10 +206,10 @@
                 bootbox.alert({
                     title:"Contact Assign",
                     message: 'Please select contact person.' ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
-            else{      
+            else{
                 bootbox.confirm({
                     message: "Are You Sure? Do you want to continue this action?",
                     buttons: {
@@ -229,7 +230,7 @@
                 });
             }
         });
-            
+
         $("body").on('click', '.add_contact_delete_item', function() {
             let user_id = $(this).attr('data-user_id');
             $('#contact_list_td_'+user_id).text('Assign');
@@ -289,7 +290,7 @@
                 bootbox.alert({
                     title:"Package Remove",
                     message: 'Details Not Found' ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
             else{
@@ -319,19 +320,19 @@
                                 },
                                 success: function(data) {
                                     $('.loader').hide();
-                                    if (data.success) { 
-                                        $("#all_package_details .close").click();   
+                                    if (data.success) {
+                                        $("#all_package_details .close").click();
                                         bootbox.alert({
                                             title:"Package Removed",
                                             message: data.msg ,
-                                            type:"error"                   
+                                            type:"error"
                                         });
-                                    } 
-                                    else {                                        
+                                    }
+                                    else {
                                         bootbox.alert({
                                             title:"Package Removed",
                                             message: data.msg ,
-                                            type:"error"                   
+                                            type:"error"
                                         });
                                     }
                                 },
@@ -340,7 +341,7 @@
                                     bootbox.alert({
                                         title:"Package Removed",
                                         message: data.msg ,
-                                        type:"error"                   
+                                        type:"error"
                                     });
                                 }
                             });
@@ -348,7 +349,7 @@
                     }
                 });
             }
-            
+
         });
         $('body').on('click','#brnch_pck_update', function(e){
             e.preventDefault();
@@ -367,14 +368,14 @@
                         bootbox.alert({
                             title:"Package Details",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
-                    } 
+                    }
                     else {
                         bootbox.alert({
                             title:"Package Details",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
                     }
                 },
@@ -383,7 +384,7 @@
                         bootbox.alert({
                         title:"Package Details",
                         message: data.msg ,
-                        type:"error"                   
+                        type:"error"
                     });
                 }
             });
@@ -400,7 +401,7 @@
             let packageid = $(this).attr('packageid');
             $('.clone-package').removeClass('branch-package-assigned');
             $('.clone-package').text('Assign');
-            
+
             $(this).addClass('branch-package-assigned');
             $(this).html('<i class="fa fa-check"></i> Assigned');
             let purpose = $(this).attr('data-purpose');
@@ -434,7 +435,7 @@
                                     </div>
                                     <div class="d-flex">
                                         <span class="ml-2 text-truncate">Box Included: ${box_included}</span>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -442,7 +443,7 @@
                 `);
             }
         });
-        $('body').on("click","#cloned_submit",function (e) {  
+        $('body').on("click","#cloned_submit",function (e) {
             e.preventDefault();
             let ids = [];
             let package_price = [];
@@ -452,15 +453,15 @@
                 let package_id = $(this).attr('packageid');
                 ids.push($(this).attr('packageid'));
                 package_price.push($('#package_price_'+package_id).val());
-            });            
+            });
             if(ids == null || ids == undefined || ids == ''){
                 bootbox.alert({
                     title:"Add Package",
                     message: 'Please select packages.' ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
-            else{      
+            else{
                 bootbox.confirm({
                     message: "Are You Sure? Do you want to continue this action?",
                     buttons: {
@@ -487,19 +488,19 @@
                                 },
                                 success: function(data) {
                                     $('.loader').hide();
-                                    if (data.success) { 
-                                        $("#all_package_details .close").click();  
+                                    if (data.success) {
+                                        $("#all_package_details .close").click();
                                         bootbox.alert({
                                             title:"Package Assign",
                                             message: data.msg ,
-                                            type:"error"                   
+                                            type:"error"
                                         });
-                                    } 
-                                    else {                                        
+                                    }
+                                    else {
                                         bootbox.alert({
                                             title:"Package Assign",
                                             message: data.msg ,
-                                            type:"error"                   
+                                            type:"error"
                                         });
                                     }
                                 },
@@ -508,7 +509,7 @@
                                     bootbox.alert({
                                         title:"Package Assign",
                                         message: data.msg ,
-                                        type:"error"                   
+                                        type:"error"
                                     });
                                 }
                             });
@@ -517,7 +518,7 @@
                 });
             }
         });
-        
+
         $('body').on('click','.edit-branch-package',function(e){
             e.preventDefault();
             var id= $(this).attr('data-id');
@@ -527,10 +528,10 @@
                 bootbox.alert({
                     title:"Package Remove",
                     message: 'Details Not Found' ,
-                    type:"error"                   
+                    type:"error"
                 });
             }
-            else{                
+            else{
                 $.ajax({
                     url: '{{url("admin/customers/ajax-get-branch-package-details")}}',
                     data: {
@@ -543,17 +544,17 @@
                     },
                     success: function(data) {
                         $('.loader').hide();
-                        if (data.success) { 
-                            $("#all_package_details .close").click();                                     
+                        if (data.success) {
+                            $("#all_package_details .close").click();
                             //getBranchPackageList(branch_id);
                             $('#edit_package_modal_body').html(data.html);
                             $('#edit_package_details').modal('show');
-                        } 
-                        else {                                        
+                        }
+                        else {
                             bootbox.alert({
                                 title:"Package Removed",
                                 message: data.msg ,
-                                type:"error"                   
+                                type:"error"
                             });
                         }
                     },
@@ -562,12 +563,12 @@
                         bootbox.alert({
                             title:"Package Removed",
                             message: data.msg ,
-                            type:"error"                   
+                            type:"error"
                         });
                     }
                 });
             }
-            
+
         });
 
     });

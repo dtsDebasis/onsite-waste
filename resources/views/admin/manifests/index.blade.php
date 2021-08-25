@@ -4,9 +4,9 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-       
+
         <div>
-        <form class="form-inline" id="csv-preview" type="multipart/form-data" method="post" action="{{route('manifests.processcsv')}}">
+        <form class="form-inline checkediting" id="csv-preview" type="multipart/form-data" method="post" action="{{route('manifests.processcsv')}}">
             <input value="" name="start-date" type="date" class="form-control" placeholder="Start Date" aria-label="Search" aria-describedby="button-addon2">
             <input onchange="$(this).parent('form').submit()" style="opacity:0;width:1px" type="file" id="manifest-csv" name="manifestdata" accept=".csv">
             <a onclick="$('#manifest-csv').click()" class="btn btn-primary w-md"><i class="fa fa-upload"></i> Upload File</a>
@@ -18,9 +18,9 @@
         <div class="tab-pane active" id="home1" role="tabpanel">
             <div class="table-responsive" id="csv-preview-table">
 
-            </div>  
-        </div>  
-    </div>   
+            </div>
+        </div>
+    </div>
 </div>
 @push('pagejs')
 <script>
@@ -67,7 +67,7 @@
                         } else {
                             html += '<tr style="background:#ff8a80">';
                         }
-                        
+
                         html += '<td class="locationid" contenteditable>'+data.row_data[count].locationid+'</td>';
                         html += '<td class="internalid" style="background:#eff2f7 !important;">'+data.row_data[count].internalid+'</td>';
                         html += '<td class="date" contenteditable>'+data.row_data[count].date+'</td>';
@@ -88,7 +88,7 @@
                         html += '<td class="waste_subtype" contenteditable>'+data.row_data[count].waste_subtype+'</td>';
                         html += '</tr>';
                     }
-                }   
+                }
                 html += '</table>';
                 if (data.row_data.length)
                 {
@@ -218,7 +218,7 @@
                 var htmldata = '<div class="alert alert-success">'+ data.data.rowcount + ' rows were added to queue for processing</div>';
                 $('#csv-preview').trigger('reset');
                 $('#csv-preview-table').html(htmldata);
-            }, 
+            },
             error: function (textStatus, errorThrown) {
                 $('#cover-spin').hide(0);
                 var htmldata = '<div class="alert alert-danger">Something went wrong..Try again</div>';

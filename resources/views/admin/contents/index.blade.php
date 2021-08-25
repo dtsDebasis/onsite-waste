@@ -7,7 +7,7 @@
     <div class="d-flex flex-column flex-md-row justify-content-between">
         <div class="input-group mw-30">
           @if (can('Site Content Search'))
-              <form class="form-inline">
+              <form class="form-inline checkediting">
             <input name="search" type="text" value="{{Request::get('search')?Request::get('search'):null}}" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
             <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
           </form>

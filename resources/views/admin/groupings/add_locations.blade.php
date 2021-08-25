@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="card-body card mb-4">
-    
+
 
     <div class="tab-content mt-3 text-muted">
         <div class="tab-pane active" id="home1" role="tabpanel">
@@ -35,30 +35,30 @@
                     </tr>
                 </tbody>
             </table>
-        </div>    
-        <h4 class="text-primary">CUSTOMER LOCATIONS</h4> 
+        </div>
+        <h4 class="text-primary">CUSTOMER LOCATIONS</h4>
         <div class="row">
             <div class="col-9">
-            <form class="form-inline mb-3" method="get" action="{{route('groupings.add-locations', $group_det->id)}}">
+            <form class="form-inline checkediting mb-3" method="get" action="{{route('groupings.add-locations', $group_det->id)}}">
             <div class="form-group mx-sm-1">
                 <input value="{{isset($searchParams['name'])?$searchParams['name']:''}}" name="name" type="text" class="form-control" placeholder="Location Name"
                     aria-label="Search" aria-describedby="button-addon2">
-            </div>    
+            </div>
             <div class="form-group mx-sm-1">
                 <input value="{{isset($searchParams['unique_code'])?$searchParams['unique_code']:''}}" name="unique_code" type="text" class="form-control" placeholder="Unique Code"
-                    aria-label="Search" aria-describedby="button-addon2">    
-            </div> 
-            <div class="form-group mx-sm-1">   
+                    aria-label="Search" aria-describedby="button-addon2">
+            </div>
+            <div class="form-group mx-sm-1">
                 <button class="btn btn-primary" type="sybmit" id="button-addon2">Search</button>
-            </div> 
+            </div>
             </form>
             </div>
             <!-- <div class="col-3">
-                <button class="btn btn-warning float-right" type="button" id="button-addon2">Update Locations</button>                  
+                <button class="btn btn-warning float-right" type="button" id="button-addon2">Update Locations</button>
             </div> -->
         </div>
         <div class="table-responsive">
-            <form method="post" id="updatelocations">
+            <form class="checkediting" method="post" id="updatelocations">
                 <table class="table table-centered table-condensed table-striped table-nowrap mb-0">
                     <thead class="thead-light">
                         <tr>
@@ -73,7 +73,7 @@
                     <tbody>
                         @if(count($companybranch_list))
                             @foreach($companybranch_list as $companybranch )
-                                <tr 
+                                <tr
                                     @if(isset($companybranch->group)))
                                     style = "background: "
                                     @endif
@@ -103,12 +103,12 @@
                                         @if(isset($companybranch->group) && count($companybranch->group))
                                             @foreach($companybranch->group as $gr)
                                                 <label data-group="{{$gr->id}}"  data-category="{{$gr->category_id}}" data-location="{{$companybranch->id}}" class="custom-label" style="background:{{$gr->colorcode}}">{{$gr->groupcategory->name}} || {{$gr->name}} <span class="remove"> <i class="fa fa-trash"></i> </span></label>
-                                            @endforeach  
+                                            @endforeach
                                         @endif
                                     </td>
                                     <td><input class="form-control" name="normalization" value="{{$companybranch->normalization_fact}}" onKeyUp="saveNormalisationData($(this).val(),{{$companybranch->id}})" type="number"></td>
                                     <td>{{($comSpecialt)?implode(',',$comSpecialt):'NA'}}</td>
-                
+
                                 </tr>
                             @endforeach
                         @else
@@ -152,9 +152,9 @@
         $('body').on('click', '.locationcheckbox', function () {
             var location = $(this).data('location');
             if ($(this).is(':checked')) {
-                var type= "add";   
+                var type= "add";
             } else {
-                var type= "remove";    
+                var type= "remove";
             }
             saveGroupLocations(location, type);
         });
@@ -204,11 +204,11 @@
                         }
                     });
                 }
-                
-            }, 
+
+            },
             error: function (textStatus, errorThrown) {
                 $('#cover-spin').hide(0);
-                
+
             }
         })
     }
@@ -222,11 +222,11 @@
             contentType:'application/json',
             success:function(data)
             {
-                
-                
-            }, 
+
+
+            },
             error: function (textStatus, errorThrown) {
-                
+
             }
         })
     }

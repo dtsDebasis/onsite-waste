@@ -28,7 +28,7 @@
         @endif
         <div class="card">
             <div class="card-body mb-4">
-                <form method="post" action="{{route('package.edittransactionalpackages',['id'=> $id] )}}">
+                <form class="checkediting" method="post" action="{{route('package.edittransactionalpackages',['id'=> $id] )}}">
                 {{csrf_field()}}
                     <div class="row">
 
@@ -42,44 +42,44 @@
                             </div>
                         </div>
 
-                        
 
-                        
+
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Additional Trip Cost</label>
                                 <input name="add_trip_cost" type="number"  min="1" class="form-control" value="{{ $transactionalpackage->add_trip_cost ?? '' }}"  required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Additional Box Cost</label>
                                 <input name="add_box_cost" type="number"  min="1" class="form-control" value="{{ $transactionalpackage->add_box_cost ?? '' }}"  required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Additional Box Cost</label>
                                 <input name="container_rate" type="number"  min="1" class="form-control" value="{{ $transactionalpackage->container_rate ?? '' }}"  required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Shipping Charge</label>
                                 <input name="shipping_charge" type="number"  min="1" class="form-control" value="{{ $transactionalpackage->shipping_charge ?? '' }}"  required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Setup Charge</label>
                                 <input name="setup_charge" type="number"  min="1" class="form-control" value="{{ $transactionalpackage->setup_charge ?? '' }}"  required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>complaince_training</label>
@@ -106,7 +106,7 @@
                                     <label class="custom-control-label" for="customRadioInline1">Red Bag</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input 
+                                    <input
                                         type="radio"
                                         id="customRadioInline2"
                                         name="waste_type"
@@ -150,7 +150,7 @@
                     </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary w-md">Save</button>
-                    </div> 
+                    </div>
 
                 </form>
 

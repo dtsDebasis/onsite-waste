@@ -1,7 +1,7 @@
 @if(isset($filters) && !empty($filters))
 @php ($floatOff = ['select', 'multiselect', 'file', 'radio', 'checkbox', 'editor', 'date', 'custom', 'switch'])
 @php ($dateTimePicker = 0)
-	<form method="get">
+	<form class="checkediting" method="get">
 		<div class="card p-t-15">
 			<div class="card-body">
 				<div class="row">

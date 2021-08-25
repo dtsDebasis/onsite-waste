@@ -11,7 +11,7 @@
                 </ul>
             </div>
         @endif
-    <form method="post" action="{{route('users.store')}}">
+    <form class="checkediting" method="post" action="{{route('users.store')}}">
         {{csrf_field()}}
         <div class="row">
             <div class="col-md-4">

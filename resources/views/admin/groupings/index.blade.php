@@ -4,7 +4,7 @@
 @section('content')
 <div class="card-body card mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between">
-        <form class="form-inline" method="get" action="{{route('groupings.index', $catid)}}">
+        <form class="form-inline checkediting" method="get" action="{{route('groupings.index', $catid)}}">
             <div class="input-group mw-30">
                 <input value="{{$search}}" name="name" type="text" class="form-control" placeholder="Search"
                     aria-label="Search" aria-describedby="button-addon2">
