@@ -40,10 +40,39 @@
             }
         });
     }
+
+    function setServiceType(packagenames, selectedPackage){
+        $.each( packagenames, function( key, value ) {
+            if(value.name == selectedPackage){
+               console.log( value );
+               $('#service_type').val(value.service_type);
+               $('#monthly_rate').val(value.monthly_rate);
+               $('#compliance').val(value.compliance);
+
+               if(value.service_type == 'TE-5000'){
+                    $('#frequency_number').val(null);
+                    $('#frequency_type').val(null);
+                    $('#boxes_included').val(null);
+                    $('.service-based-view').addClass('d-none');
+                }
+                else{
+                    $('#frequency_number').val(value.frequency_number);
+                    $('#frequency_type').val(value.frequency_type);
+                    $('#boxes_included').val(value.boxes_included);
+                    $('.service-based-view').removeClass('d-none');
+                }
+            }
+        });
+    }
     $(document).ready(function () {
 
         $('body').on('click','#add_package',function(){
             getBranchPackageList(0,'form');
+        });
+        $('body').on('change','#choose_branch_package',function(){
+            var selectedPackage = $(this).val();
+            var packagenames = JSON.parse($(this).attr('packagenames'));
+            setServiceType(packagenames, selectedPackage);
         });
         $('body').on('click','#assigned_contact_list', function(){
             var id = $(this).attr('data-id');

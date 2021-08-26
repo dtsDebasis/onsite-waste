@@ -1214,7 +1214,8 @@ class CustomerManagementController extends Controller {
 					$query2['single_record'] = true;
 					$packages = $packageModel->getListing($query2);
 					if($packages){
-						$packagename = \App\Helpers\Helper::getPackageNameDropdown();
+						//$packagename = \App\Helpers\Helper::getPackageNameDropdown();
+						$packagename = Package::with(['companybranch'])->where(['company_id' => $input['company_id'],'branch_id' => 0, 'deleted_at' => NULL])->get();
 						$view = view("admin.customer.create.tab4.package-edit",['package'=>$packages,'input' => $input, 'packagenames' => $packagename])->render();
 						return Response::json(['success'=>true,'msg'=>'Details fetch successfully','html'=>$view,'mod_head_content'=>'Package Details']);
 					}
