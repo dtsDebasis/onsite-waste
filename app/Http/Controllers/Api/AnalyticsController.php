@@ -320,7 +320,9 @@ class AnalyticsController extends Controller
             $findLocations = GroupLocations::with('location')
             ->whereHas('location', function ($query) use ($search_text) {
                 $query->where('name', 'like', '%' . $search_text . '%');
-            })->whereIn('group_id',$groups)->get();
+            })->when(!empty($groups), function ($query, $groups) {
+                return $query->whereIn('group_id',$groups);
+            })->get();
 
             $locations = [];
             foreach ($findLocations as $key => $location) {
