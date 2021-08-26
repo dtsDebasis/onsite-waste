@@ -306,7 +306,7 @@ class AnalyticsController extends Controller
             $input = $request->all();
             $rules = array(
                 //'categories' => 'required',
-                'groups' => 'required',
+                //'groups' => 'required',
                 'search_text' => 'required|min:3'
             );
             $validator = \Validator::make($input, $rules);
