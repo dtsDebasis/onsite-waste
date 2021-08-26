@@ -11,18 +11,18 @@
         <div class="card">
             <div class="card-body bg-soft-success">
                 <div class="d-flex align-items-center mb-2">
-                    <div class="avatar-xs mr-3">
+                    {{-- <div class="avatar-xs mr-3">
                         <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-20">
                             <i class="bx bx-bookmark"></i>
                         </span>
-                    </div>
+                    </div> --}}
                     <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Customers Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{$customers}}</h4>
-                    <div class="d-flex">
+                    {{-- <div class="d-flex">
                         <span class="text-truncate">Total Number of Customers</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -31,18 +31,18 @@
         <div class="card">
             <div class="card-body bg-soft-primary">
                 <div class="d-flex align-items-center mb-2">
-                    <div class="avatar-xs mr-3">
+                    {{-- <div class="avatar-xs mr-3">
                         <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-20">
                             <i class="bx bx-bookmark"></i>
                         </span>
-                    </div>
+                    </div> --}}
                     <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Locations Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{ $locations }}</h4>
-                    <div class="d-flex">
+                    {{-- <div class="d-flex">
                         <span class="text-truncate">Total Number of Locations</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -51,18 +51,18 @@
         <div class="card">
             <div class="card-body bg-soft-success">
                 <div class="d-flex align-items-center mb-2">
-                    <div class="avatar-xs mr-3">
+                    {{-- <div class="avatar-xs mr-3">
                         <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-20">
                             <i class="bx bx-bookmark"></i>
                         </span>
-                    </div>
+                    </div> --}}
                     <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Active Locations Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{ $active_locations }}</h4>
-                    <div class="d-flex">
+                    {{-- <div class="d-flex">
                         <span class="text-truncate">Total Number of Active Locations</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -71,18 +71,18 @@
         <div class="card">
             <div class="card-body bg-soft-primary">
                 <div class="d-flex align-items-center mb-2">
-                    <div class="avatar-xs mr-3">
+                    {{-- <div class="avatar-xs mr-3">
                         <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-20">
                             <i class="bx bx-bookmark"></i>
                         </span>
-                    </div>
+                    </div> --}}
                     <a href="{{route('customers.index')}}"><h5 class="font-size-16 text-info mb-0">Booked Locations Count</h5></a>
                 </div>
                 <div class="text-muted mt-2">
                     <h4>{{ $booked_locations }}</h4>
-                    <div class="d-flex">
+                    {{-- <div class="d-flex">
                         <span class="text-truncate">Total Number of Booked Locations</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

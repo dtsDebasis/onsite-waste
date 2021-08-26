@@ -152,7 +152,7 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                             <a href="javascript:void(0);" class="btn btn-outline-secondary waves-effect" data-toggle="modal" data-target=".add-contact-site-branch-bs-center"><i class="fa fa-plus"></i> Add Contact</a>
                         </div>
                     </div>
-                    {{-- @if(!isset($companybranch->id)) --}}
+                    @if(!isset($companybranch->id))
                     <div class="col-md-4"></div>
                     <div class="row col-md-12" id="package_list_append">
                     </div>
@@ -161,7 +161,17 @@ if ($rb_container && !in_array($rb_container, $rb_container_type))
                             <a href="javascript:void(0);" class="btn btn-outline-secondary waves-effect" id="add_package"><i class="fa fa-plus"></i> Add Package</a>
                         </div>
                     </div>
-                    {{-- @endif --}}
+                    @endif
+                    @if(isset($companybranch->id))
+                    <div class="col-md-4"></div>
+                    <div class="row col-md-12" id="package_list_append">
+                    </div>
+                    <div class="col-md-12 mt-3 ">
+                        <div class="form-group">
+                            <a href="javascript:void(0);" class="btn btn-outline-secondary waves-effect" id="update_package" data-id="{{$companybranch->id}}"><i class="fa fa-plus"></i> Update Package</a>
+                        </div>
+                    </div>
+                    @endif
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary w-md"> Save </button>

@@ -1050,7 +1050,8 @@ class CustomerManagementController extends Controller {
 
 					/**
 					 * Call Api
-					 * */
+					 *
+                     * */
 
 					try {
 						$hubspotRes = \App\Helpers\HubSpot::createUser($third_party);

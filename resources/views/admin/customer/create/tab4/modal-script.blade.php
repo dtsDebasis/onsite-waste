@@ -193,6 +193,10 @@
                 }
             });
         });
+        $('body').on('click','#update_package',function(){
+            var id = $(this).attr('data-id');
+            getBranchPackageList(id);
+        });
         $('body').on('click','#package_listing',function(){
             var id = $(this).attr('data-id');
             getBranchPackageList(id);

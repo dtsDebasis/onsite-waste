@@ -2,6 +2,10 @@
 .pointer-none{
     pointer-events: none;
 }
+select[readonly]
+{
+    pointer-events: none;
+}
 </style>
 @php($page_type = isset($input['page_type'])?$input['page_type']:'create_edit')
 @php($pointNone = ($page_type == "create_edit")?'':'pointer-none')
