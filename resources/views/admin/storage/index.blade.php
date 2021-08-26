@@ -165,7 +165,15 @@
                 </button>
             </div>
             <div class="modal-body" id="fileBody">
-                <form class="checkediting" id="uploadmanifestform" type="multipart/formdata" action="" method="post">
+                <form id="uploadmanifestform" type="multipart/formdata" action="" method="post">
+                    <div class="row mb-2">
+                        <div class="col-6">
+                        {!! Form::select('type',$manifesttype,null,['class'=>'form-control select','id'=>'manifest_type','placeholder'=>'Manifest Type','required'=>'required']) !!}           
+                        </div>
+                        <div class="col-6">
+                        {!! Form::select('sub_type',$subtypes,null,['class'=>'form-control select','id'=>'manifest_sub_type','placeholder'=>'Sub Type','required'=>'required']) !!}
+                        </div>
+                    </div>
                     <div class="input-group">
                         <div class="custom-file">
                             <input type="file" required class="custom-file-input" multiple="true" accept="application/pdf" name="manifestfile[]" id="inputGroupManifest"
@@ -230,9 +238,13 @@
         $('#upload-progress').text(initial);
         $('#upload-failed').text(failed);
         $('#add-manifest-modal').modal('hide');
-        $.map(files, function(val) {
+        var type = $('#manifest_type').val();
+        var subtype = $('#manifest_sub_type').val();
+        $.map(files, function(val) { 
             var data = new FormData();
-            data.append('manifestfileinput', val);
+            data.append('manifestfileinput', val); 
+            data.append('manifesttype', type); 
+            data.append('manifestsubtype', subtype); 
             $.ajax({
                 url:"{{route('storage.uploadmanifest')}}",
                 method:"POST",
