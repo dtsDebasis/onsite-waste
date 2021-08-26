@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AwsStorage;
-use App\Models\Manifest;
-use App\Models\ManifestType;
-use App\Models\CompanyBranch;
-use App\Helpers\Helper;
 use Aws;
+use Exception;
+use App\Models\User;
+use App\Helpers\Helper;
+use App\Models\Manifest;
+use App\Models\AwsStorage;
+use App\Models\ManifestType;
+use Illuminate\Http\Request;
+use App\Models\CompanyBranch;
+use App\Http\Controllers\Controller;
 date_default_timezone_set("Asia/Kolkata");
 
 class AwsStorageController extends Controller
 {
     public function __construct($parameters = array())
     {
-        parent::__construct($parameters);       
+        parent::__construct($parameters);
         $this->_module      = 'Aws File Storage';
         $this->_routePrefix = 'storage';
         $this->_model       = new AwsStorage();
@@ -35,7 +37,7 @@ class AwsStorageController extends Controller
             'region'      => 'us-west-2',
             'credentials' => $credentials
         ]);
-        
+
         $listoptions = [
             'Bucket' => \Config::get('services.ses.bucket'),
             // 'Delimiter'=>'abc/',
@@ -80,9 +82,9 @@ class AwsStorageController extends Controller
                         'size' => $content['Size'],
                     );
                 }
-                
+
             }
-            
+
         }
         $manifesttypemodel = new ManifestType();
         $manifesttype = $manifesttypemodel->getListing(['type'=>1, 'status'=>1])->pluck('name');
@@ -126,7 +128,7 @@ class AwsStorageController extends Controller
             $file_data = fopen($_FILES['inputfile']['tmp_name'], 'r');
             $res = $this->_model->uploadFile($_FILES['inputfile']['tmp_name'], $location.$_FILES['inputfile']['name']);
         }
-        
+
         return Helper::rj($this->_message, $this->_successStatus, $res);
     }
     public function downloadobject(Request $request)
@@ -170,7 +172,7 @@ class AwsStorageController extends Controller
             'region'      => 'us-west-2',
             'credentials' => $credentials
         ]);
-        
+
         $listoptions = [
             'Bucket' => \Config::get('services.ses.bucket'),
             "Prefix" => $fullpath
@@ -189,7 +191,7 @@ class AwsStorageController extends Controller
                         $manifest->file_path = '';
                         $manifest->save();
                     }
-                    
+
                     // dd($manifestid);
                 }
             }
@@ -228,8 +230,34 @@ class AwsStorageController extends Controller
                 $filelocation = 'queueitems'.'/'.$additional_path;
                 $res = $this->_model->uploadFile($_FILES['manifestfileinput']['tmp_name'], $filelocation.$_FILES['manifestfileinput']['name'], 'public-read');
                 return Helper::rj($this->_message, $this->_successStatus, ['uploaded'=>false]);
-            }        
-            
+            }
+
+        }
+    }
+
+    public function uploadManifestApi(Request $request)
+    {
+
+        $input = $request->all();
+        $rules = array(
+            'manifesttype' => 'required',
+            'manifestsubtype' => 'required',
+            'token' => 'required',
+            'manifestfileinput' => 'required',
+        );
+        $messages = [
+        ];
+        $validator = \Validator::make($input, $rules,$messages);
+        if ($validator->fails()) {
+            return Helper::rj($validator->errors()->first(), 400);
+        }
+
+        $token = $request->token;
+        $findToken = User::where('api_token',$token)->first();
+        if ($token && $findToken) {
+            return $this->uploadmanifest($request);
+        } else {
+            return Helper::rj("Not A valid token", 400, ['uploaded'=>false]);
         }
     }
 

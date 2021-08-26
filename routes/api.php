@@ -28,6 +28,7 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['api']], function () {
 	Route::get('analytics','App\Http\Controllers\Api\AnalyticsController@index');
     Route::get('category', 'App\Http\Controllers\Api\AnalyticsController@category');
     Route::get('search/location', 'App\Http\Controllers\Api\AnalyticsController@searchLocation');
+    Route::post('upload_file', 'App\Http\Controllers\AwsStorageController@uploadManifestApi');
 
 });
 
