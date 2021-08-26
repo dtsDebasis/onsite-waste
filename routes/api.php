@@ -25,9 +25,9 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['api']], function () {
 	Route::post('store-last-cycling-information', 'App\Http\Controllers\Api\ExternalInfoApiController@storeLastCyclingInfo');
 	Route::post('update-te-5000-information', 'App\Http\Controllers\Api\ExternalInfoApiController@updateTE500Information');
 	Route::post('contact-request','App\Http\Controllers\Api\ExternalInfoApiController@createContact');
-	Route::get('analytics','App\Http\Controllers\Api\AnalyticsController@index');
-    Route::get('category', 'App\Http\Controllers\Api\AnalyticsController@category');
-    Route::get('search/location', 'App\Http\Controllers\Api\AnalyticsController@searchLocation');
+	//Route::get('analytics','App\Http\Controllers\Api\AnalyticsController@index');
+    //Route::get('category', 'App\Http\Controllers\Api\AnalyticsController@category');
+    //Route::get('search/location', 'App\Http\Controllers\Api\AnalyticsController@searchLocation');
     Route::post('upload_file', 'App\Http\Controllers\AwsStorageController@uploadManifestApi');
 
 });
@@ -36,6 +36,10 @@ Route::group(['prefix' => 'v1/', 'middleware' => ['auth:api']], function () {
 	Route::post('auth/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout');
 	Route::get('init', 'App\Http\Controllers\Api\InitController@initialDetails');
 
+
+	Route::get('analytics','App\Http\Controllers\Api\AnalyticsController@index');
+    Route::get('category', 'App\Http\Controllers\Api\AnalyticsController@category');
+    Route::get('search/location', 'App\Http\Controllers\Api\AnalyticsController@searchLocation');
 
 	Route::group(['prefix' => 'users'], function () {
 		Route::post('avatar', 'App\Http\Controllers\Api\UserController@uploadAvatar');

@@ -85,6 +85,7 @@ class User extends Authenticatable
 		'updated_at',
 		'deleted_at',
 		'profile_pic',
+		'api_token',
 	];
 
 	/**
