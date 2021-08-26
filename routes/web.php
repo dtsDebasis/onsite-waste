@@ -103,6 +103,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::resource('companyowners', 'App\Http\Controllers\CompanyOwnersController', ['as' => 'master']);
 		Route::resource('relationships', 'App\Http\Controllers\RelationshipController', ['as' => 'master']);
 		Route::resource('normalizationtype', 'App\Http\Controllers\NormalisationController', ['as' => 'master']);
+		Route::resource('manifesttypes', 'App\Http\Controllers\ManifestTypeController', ['as' => 'master']);
 		// Route::resource('tests', 'App\Http\Controllers\MasterTestController', ['as' => 'master']);
 		// Route::resource('tests.options', 'App\Http\Controllers\MasterTestOptionController', ['as' => 'master']);
 		// Route::resource('fixedquestions', 'App\Http\Controllers\MasterFixedQuestionsController', ['as' => 'master']);
@@ -153,6 +154,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function () {
 		Route::patch('update/{id}', 'App\Http\Controllers\KnowledgeCategoryController@update')->name('knowledgecategories.update');
 		Route::delete('destroy/{kw_category_id}/{id}', 'App\Http\Controllers\KnowledgeCategoryController@destroy')->name('knowledgecategories.destroy');
 	});
+
+	// Route::group(['prefix' => 'manifesttypes'], function () {
+	// 	Route::get('/{parent_id?}', 'App\Http\Controllers\ManifestTypeController@index')->name('manifesttypes.index');
+	// 	Route::get('create/{parent_id}', 'App\Http\Controllers\ManifestTypeController@create')->name('manifesttypes.create');
+	// 	Route::get('edit/{parent_id}/{id}', 'App\Http\Controllers\ManifestTypeController@edit')->name('manifesttypes.edit');
+	// 	Route::post('store', 'App\Http\Controllers\ManifestTypeController@store')->name('manifesttypes.store');
+	// 	Route::patch('update/{id}', 'App\Http\Controllers\ManifestTypeController@update')->name('manifesttypes.update');
+	// 	Route::delete('destroy/{parent_id}/{id}', 'App\Http\Controllers\ManifestTypeController@destroy')->name('manifesttypes.destroy');
+	// });
 
 
 	Route::group(['prefix' => 'knowledgewizard'], function () {
